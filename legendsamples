@@ -1,0 +1,17 @@
+on init        set_ui_height_px(250)     make_perfview    declare ui_menu $Sample1    declare ui_menu $Sample2
+    declare ui_menu $Sample3
+    declare ui_menu $Sample4        declare !sounds[8]    !sounds[0] := "Bolly"    !sounds[1] := "Bolly 1"    !sounds[2] := "Bolly 2"    !sounds[3] := "Trolly"    !sounds[4] := "Trolly 1"    !sounds[5] := "Trolly 2"    !sounds[6] := "Trolly 3"    !sounds[7] := "Trolly 4"        declare $soundsCount    $soundsCount := 0	    while($soundsCount < num_elements(!sounds))        add_menu_item ($Sample1, !sounds[$soundsCount], 1)        inc($soundsCount)    end while    	$soundsCount := 0    while($soundsCount < num_elements(!sounds))        add_menu_item ($Sample2, !sounds[$soundsCount], 1)        inc($soundsCount)    end while
+    
+    $soundsCount := 0
+
+    while($soundsCount < num_elements(!sounds))
+        add_menu_item ($Sample3, !sounds[$soundsCount], 1)
+        inc($soundsCount)
+    end while
+    
+    $soundsCount := 0
+
+    while($soundsCount < num_elements(!sounds))
+        add_menu_item ($Sample4, !sounds[$soundsCount], 1)
+        inc($soundsCount)
+    end while        end on
