@@ -1,0 +1,88 @@
+on init
+    
+    set_ui_height_px(250) 
+    make_perfview
+    declare ui_menu $Sample1
+    declare ui_menu $Sample2
+    declare ui_menu $Sample3
+    declare ui_menu $Sample4
+
+    declare $sampslotnum := 4
+    declare $sampsslotcount := 0
+    
+    declare !sounds[6]
+    !sounds[0] := "Empty"
+    !sounds[1] := "Bolly 1"
+    !sounds[2] := "Bolly 2"
+    !sounds[3] := "Trolly 1"
+    !sounds[4] := "Trolly 2"
+    !sounds[5] := "Trolly 3"
+
+    
+    declare $soundsCount
+    $soundsCount := 0
+	
+
+    while($soundsCount < num_elements(!sounds))
+        add_menu_item ($Sample1, !sounds[$soundsCount], $soundsCount)
+        inc($soundsCount)
+    end while
+    
+	$soundsCount := 0
+
+    while($soundsCount < num_elements(!sounds))
+        add_menu_item ($Sample2, !sounds[$soundsCount], $soundsCount)
+        inc($soundsCount)
+    end while
+    
+    $soundsCount := 0
+
+    while($soundsCount < num_elements(!sounds))
+        add_menu_item ($Sample3, !sounds[$soundsCount], $soundsCount)
+        inc($soundsCount)
+    end while
+    
+    $soundsCount := 0
+
+    while($soundsCount < num_elements(!sounds))
+        add_menu_item ($Sample4, !sounds[$soundsCount], $soundsCount)
+        inc($soundsCount)
+    end while
+    
+    
+end on
+
+on note
+    disallow_group($ALL_GROUPS)
+
+
+    if ($Sample1 > 0)
+        allow_group(1)
+        allow_group(2)
+    end if
+    
+    if ($Sample2 > 0)
+        allow_group(3)
+        allow_group(4)
+    end if
+
+    if ($Sample1 # 0)
+        play_note($EVENT_NOTE,$Sample1,0,-1)
+    else 
+        exit
+    end if
+
+     if ($Sample2 # 0)
+        play_note($EVENT_NOTE,$Sample2,0,-1)
+    else 
+        exit
+    end if
+    
+end on
+
+    function play_correct_note(sample)
+        while ($sampsslotcount < $sampslotnum)
+        end while
+    end function
+
+
