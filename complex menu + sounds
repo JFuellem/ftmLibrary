@@ -1,0 +1,223 @@
+on init 
+	set_ui_height_px(250) 
+	make_perfview 
+
+	Declare_Buttons(sample1, 	Sample 1, 	60,  160, 80, 20, 1)
+	Declare_Buttons(sample2, 	Sample 2, 	160, 160, 80, 20, 1)
+	Declare_Buttons(sample3, 	Sample 3, 	260, 160, 80, 20, 1)
+	Declare_Buttons(menu1, 		Bolly, 		60,  50,  80, 20, 0)
+	Declare_Buttons(menu2, 		Trolly, 	60,  75,  80, 20, 0)
+	Declare_Buttons(submenu1_1, Bolly 1,	145, 50,  80, 20, 0)
+	Declare_Buttons(submenu1_2, Bolly 2,	145, 75,  80, 20, 0)
+	Declare_Buttons(submenu2_1, Trolly 1,	145, 50,  80, 20, 0)
+	Declare_Buttons(submenu2_2, Trolly 2,	145, 75,  80, 20, 0)
+	Declare_Buttons(submenu2_3, Trolly 3, 	145, 100, 80, 20, 0)
+
+	Hide_Buttons(menu1)
+	Hide_Buttons(menu2)
+	Hide_Buttons(submenu1_1)
+	Hide_Buttons(submenu1_2)
+	Hide_Buttons(submenu2_1)
+	Hide_Buttons(submenu2_2)
+	Hide_Buttons(submenu2_3)
+
+	Declare_Knobs(bolly1,  Bolly 1,  60,  190)
+	Declare_Knobs(bolly2,  Bolly 2,  160, 190)
+	Declare_Knobs(trolly1, Trolly 1, 260, 190)
+	Declare_Knobs(trolly2, Trolly 2, 360, 190)
+	Declare_Knobs(trolly3, Trolly 3, 460, 190)
+
+	declare $whichsample := 0
+
+	declare ui_button $reset 
+	$reset := 0
+	set_text ($reset,"RESET")
+	move_control_px($reset, 560, 190)
+	declare $reset_id
+	$reset_id:= get_ui_id ($reset)
+	set_control_par ($reset_id,$CONTROL_PAR_WIDTH,40)
+end on
+
+macro Declare_Buttons(#name#, #label#, #x#, #y#, #width#, #height#, #align#)
+	declare ui_button $button_#name#
+	$button_#name# := 0
+	set_text ($button_#name#,"#label#")
+	move_control_px($button_#name#, #x#, #y#)
+	declare $button_#name#_id
+	$button_#name#_id:= get_ui_id ($button_#name#)
+	set_control_par ($button_#name#_id,$CONTROL_PAR_WIDTH,#width#)
+	set_control_par ($button_#name#_id,$CONTROL_PAR_HEIGHT,#height#)
+	set_control_par ($button_#name#_id,$CONTROL_PAR_TEXT_ALIGNMENT,#align#)
+end macro
+macro Hide_Buttons(#name#)
+	set_control_par($button_#name#_id,$CONTROL_PAR_HIDE,$HIDE_WHOLE_CONTROL)
+end macro
+macro Declare_Knobs(#name#, #label#, #x#, #y#)
+	declare ui_knob $knob_#name# (0, 1000000, 1)
+	$knob_#name# := 0
+	set_text($knob_#name#,"#label#")
+	move_control_px($knob_#name#, #x#, #y#)
+end macro
+macro Execute_Sample_Buttons(#name#, #submenu#, #menu#)
+	if ($button_#name# = 1)
+		$button_#submenu# := 0
+		$button_#menu# := 0
+		set_control_par($button_#menu#_id,$CONTROL_PAR_HIDE,$HIDE_PART_NOTHING)
+		set_control_par($button_#submenu#_id,$CONTROL_PAR_HIDE,$HIDE_WHOLE_CONTROL)
+	else 
+		set_control_par($button_#menu#_id,$CONTROL_PAR_HIDE,$HIDE_WHOLE_CONTROL)
+		set_control_par($button_#submenu#_id,$CONTROL_PAR_HIDE,$HIDE_WHOLE_CONTROL)
+	end if
+end macro
+macro Execute_Menu_Buttons(#name#, #submenu_show#, #submenu_hide#)
+	if ($button_#name# = 1)
+		set_control_par($button_#submenu_show#_id,$CONTROL_PAR_HIDE,$HIDE_PART_NOTHING)
+		set_control_par($button_#submenu_hide#_id,$CONTROL_PAR_HIDE,$HIDE_WHOLE_CONTROL)
+	else 
+		set_control_par($button_#submenu_show#_id,$CONTROL_PAR_HIDE,$HIDE_WHOLE_CONTROL)
+	end if
+end macro
+
+on ui_control ($button_sample1)
+	if ($button_sample1 = 1)
+		$whichsample := 1
+		$button_sample2 := 0
+		$button_sample3 := 0
+	end if
+	Execute_Sample_Buttons(sample1, submenu1_1, menu1)
+	Execute_Sample_Buttons(sample1, submenu1_2, menu2)
+	Execute_Sample_Buttons(sample1, submenu2_1, menu2)
+	Execute_Sample_Buttons(sample1, submenu2_2, menu2)
+	Execute_Sample_Buttons(sample1, submenu2_3, menu2)
+end on
+on ui_control ($button_sample2)
+	if ($button_sample2 = 1)
+		$whichsample := 2
+		$button_sample1 := 0
+		$button_sample3 := 0
+	end if
+	Execute_Sample_Buttons(sample2, submenu1_1, menu1)
+	Execute_Sample_Buttons(sample2, submenu1_2, menu2)
+	Execute_Sample_Buttons(sample2, submenu2_1, menu2)
+	Execute_Sample_Buttons(sample2, submenu2_2, menu2)
+	Execute_Sample_Buttons(sample2, submenu2_3, menu2)
+end on
+on ui_control ($button_sample3)
+	if ($button_sample3 = 1)
+		$whichsample := 3
+		$button_sample1 := 0
+		$button_sample2 := 0
+	end if
+	Execute_Sample_Buttons(sample3, submenu1_1, menu1)
+	Execute_Sample_Buttons(sample3, submenu1_2, menu2)
+	Execute_Sample_Buttons(sample3, submenu2_1, menu2)
+	Execute_Sample_Buttons(sample3, submenu2_2, menu2)
+	Execute_Sample_Buttons(sample3, submenu2_3, menu2)
+end on
+on ui_control ($button_menu1)
+	if ($button_menu1 = 1)
+		$button_menu2 := 0
+	end if
+	Execute_Menu_Buttons(menu1, submenu1_1, submenu2_1)
+	Execute_Menu_Buttons(menu1, submenu1_2, submenu2_2)
+	Execute_Menu_Buttons(menu1, submenu1_2, submenu2_3)
+end on
+on ui_control ($button_menu2)
+	if ($button_menu2 = 1)
+		$button_menu1 := 0
+	end if
+	Execute_Menu_Buttons(menu2, submenu2_1, submenu1_1)
+	Execute_Menu_Buttons(menu2, submenu2_2, submenu1_2)
+	Execute_Menu_Buttons(menu2, submenu2_3, submenu1_2)
+end on
+on ui_control ($button_submenu1_1)
+	if ($button_submenu1_1 = 1) 
+		$button_submenu1_2 := 0
+		Sample_Auswahl(1)
+	else 
+		$knob_bolly1  := 0
+	end if
+end on
+on ui_control ($button_submenu1_2)
+	if ($button_submenu1_2 = 1) 
+		$button_submenu1_1 := 0
+		Sample_Auswahl(2)
+	else 
+		$knob_bolly2  := 0
+	end if
+end on
+on ui_control ($button_submenu2_1)
+	if ($button_submenu2_1 = 1)
+		$button_submenu2_2 := 0
+		$button_submenu2_3 := 0
+		Sample_Auswahl(3)
+	else 
+		$knob_trolly1  := 0
+	end if
+end on
+on ui_control ($button_submenu2_2)
+	if ($button_submenu2_2 = 1)
+		$button_submenu2_1 := 0
+		$button_submenu2_3 := 0
+		Sample_Auswahl(4)
+	else 
+		$knob_trolly2 := 0
+	end if
+end on
+on ui_control ($button_submenu2_3)
+	if ($button_submenu2_3 = 1)
+		$button_submenu2_1 := 0
+		$button_submenu2_2 := 0
+		Sample_Auswahl(5)
+	else 
+		$knob_trolly3  := 0
+	end if
+end on
+on ui_control ($knob_bolly1)
+	set_engine_par($ENGINE_PAR_VOLUME, $knob_bolly1,  0, -1, -1)
+end on
+on ui_control ($knob_bolly2)
+	set_engine_par($ENGINE_PAR_VOLUME, $knob_bolly2,  2, -1, -1)
+end on
+on ui_control ($knob_trolly1)
+	set_engine_par($ENGINE_PAR_VOLUME, $knob_trolly1, 4, -1, -1)
+end on
+on ui_control ($knob_trolly2)
+	set_engine_par($ENGINE_PAR_VOLUME, $knob_trolly2, 6, -1, -1)
+end on
+on ui_control ($knob_trolly3)
+	set_engine_par($ENGINE_PAR_VOLUME, $knob_trolly3, 8, -1, -1)
+end on
+on ui_control ($reset)
+	if ($reset = 1)
+		$reset := 0
+		$knob_bolly1  := 0
+		$knob_bolly2  := 0
+		$knob_trolly1 := 0
+		$knob_trolly2 := 0
+		$knob_trolly3 := 0
+	end if
+end on
+
+function Sample_Auswahl(soundnumber)
+	$knob_bolly1 := 0
+	$knob_bolly2 := 0
+	$knob_trolly1 := 0
+	$knob_trolly2 := 0
+	$knob_trolly3 := 0
+	if soundnumber = 1
+		$knob_bolly1 :=  1000000
+	end if
+	if soundnumber = 2
+		$knob_bolly2 :=  1000000
+	end if
+	if soundnumber = 3
+		$knob_trolly1 := 1000000
+	end if
+	if soundnumber = 4
+		$knob_trolly2 := 1000000
+	end if
+	if soundnumber = 5
+		$knob_trolly3 := 1000000
+	end if
+end function
