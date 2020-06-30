@@ -38,7 +38,7 @@ Twitter: magneto538
 
 }  
 
-//SET_CONDITION(ENABLE_DEBUG)
+SET_CONDITION(ENABLE_DEBUG)
 
 import "Koala/Koala.ksp"
 
@@ -52,8 +52,9 @@ on init
 	create_family(debugknobs, 2)
 
     define NUM_MENUS := 4
+    define NUM_ENTRIES := 6
 
-    declare !sounds[6]
+    declare !sounds[NUM_ENTRIES]
     !sounds[0] := "Empty"
     !sounds[1] := "Bolly 1"
     !sounds[2] := "Bolly 2"
@@ -79,7 +80,7 @@ on init
     macro makeCoolMenu(#n#)
         $menuxval := 60 + 100 * #n#
         $menuyval := 60
-        create_menu(sampleMenu#n#, samplemenus, $menuxval, $menuyval, 50, 20, 0, 6, REGULAR.BLACK, 0, 1, "ori.png")
+        create_menu(sampleMenu#n#, samplemenus, $menuxval, $menuyval, 50, 20, 0, NUM_ENTRIES, REGULAR.BLACK, 0, 1, "ori.png")
     end macro
     
     iterate_macro(makeCoolMenu) := 0 to NUM_MENUS - 1
@@ -96,34 +97,29 @@ on init
         $knobCYval := 200
 
         create_knob(S#n#vclose, debugknobs, $knobCXval, $knobCYval, 0, 631000, 500000, 10, 1, $KNOB_UNIT_DB, "S1 Close")
-        set_knob_label(S#n#vclose, get_engine_par_disp($ENGINE_PAR_VOLUME, 1+#n#,-1,-1))
-        S#n#vclose := get_engine_par($ENGINE_PAR_VOLUME, 2*#n#+1, -1, -1)
-
+   
         $knobFXval := 60 + 100 * #n#
         $knobFYval := 300
 
         create_knob(S#n#vfar, debugknobs, $knobFXval, $knobFYval, 0, 631000, 500000, 10, 1, $KNOB_UNIT_DB, "S1 Far")
-        set_knob_label(S#n#vfar, get_engine_par_disp($ENGINE_PAR_VOLUME,2,-1,-1))
+
+
+        reset_family_values(debugknobs)
+
+        set_engine_par($ENGINE_PAR_VOLUME,S#n#vclose,2*#n#+1,-1,-1)
+        set_engine_par($ENGINE_PAR_VOLUME,S#n#vfar,2*#n#+2,-1,-1)
+        set_knob_label(S#n#vclose, get_engine_par_disp($ENGINE_PAR_VOLUME, 2*#n#+1,-1,-1))
+        set_knob_label(S#n#vfar, get_engine_par_disp($ENGINE_PAR_VOLUME,2*#n#+2,-1,-1))
+        {
+        S#n#vclose := get_engine_par($ENGINE_PAR_VOLUME, 2*#n#+1, -1, -1)
         S#n#vfar := get_engine_par($ENGINE_PAR_VOLUME, 2*#n#+2, -1, -1)
+        }
 
     end macro
 
     iterate_macro(makeDebugKnobs) := 0 to NUM_MENUS - 1
 
 
-    {
-	create_knob(S1vclose, debugknobs, 60, 200, 0, 631000, 500000, 10, 1, $KNOB_UNIT_DB, "S1 Close")
-    set_knob_label(S1vclose, get_engine_par_disp($ENGINE_PAR_VOLUME,1,-1,-1))
-    S1vclose := get_engine_par($ENGINE_PAR_VOLUME, 1, -1, -1)
-
-    create_knob(S1vfar, debugknobs, 60, 300, 0, 631000, 500000, 10, 1, $KNOB_UNIT_DB, "S1 Far")
-    set_knob_label(S1vfar, get_engine_par_disp($ENGINE_PAR_VOLUME,2,-1,-1))
-    S1vfar := get_engine_par($ENGINE_PAR_VOLUME, 2, -1, -1)
-
-}
-
-    
-    
 
     // populating the menus
     declare $soundsCount
@@ -206,8 +202,8 @@ end on
 
     macro checkFarKnobs(#n#)
         on ui_control (S#n#vfar)
-        set_engine_par($ENGINE_PAR_VOLUME,S#n#vfar,2*#n#+1,-1,-1)
-        set_knob_label(S#n#vfar,get_engine_par_disp($ENGINE_PAR_VOLUME,2*#n#+1,-1,-1))
+        set_engine_par($ENGINE_PAR_VOLUME,S#n#vfar,2*#n#+2,-1,-1)
+        set_knob_label(S#n#vfar,get_engine_par_disp($ENGINE_PAR_VOLUME,2*#n#+2,-1,-1))
         end on
     end macro
 
