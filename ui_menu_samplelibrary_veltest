@@ -2,6 +2,7 @@ on init
     
     set_ui_height_px(250) 
     make_perfview
+
     declare ui_menu $Sample1
     declare ui_menu $Sample2
     declare ui_menu $Sample3
@@ -9,6 +10,7 @@ on init
 
     declare $sampslotnum := 4
     declare $sampsslotcount := 0
+
     
     declare !sounds[6]
     !sounds[0] := "Empty"
@@ -18,6 +20,16 @@ on init
     !sounds[4] := "Trolly 2"
     !sounds[5] := "Trolly 3"
 
+
+    Declare_Knobs(Sample1_cl,  S1 Close,  60,   140)
+    Declare_Knobs(Sample2_cl,  S2 Close,  160,  140)
+    Declare_Knobs(Sample3_cl,  S3 Close ,  260,  140)
+    Declare_Knobs(Sample4_cl,  S4 Close,  360,  140)
+
+    Declare_Knobs(Sample1_fr,  S1 Far,  60,   190)
+    Declare_Knobs(Sample2_fr,  S2 Far,  160,  190)
+    Declare_Knobs(Sample3_fr,  S3 Far,  260,  190)
+    Declare_Knobs(Sample4_fr,  S4 Far,  360,  190)
     
     declare $soundsCount
     $soundsCount := 0
@@ -52,6 +64,13 @@ on init
     
 end on
 
+    macro Declare_Knobs(#name#, #label#, #x#, #y#)
+    declare ui_knob $knob_#name# (0, 1000000, 1)
+    $knob_#name# := 0
+    set_text($knob_#name#,"#label#")
+    move_control_px($knob_#name#, #x#, #y#)
+    end macro
+
 on note
     disallow_group($ALL_GROUPS)
 
@@ -80,9 +99,6 @@ on note
     
 end on
 
-    function play_correct_note(sample)
-        while ($sampsslotcount < $sampslotnum)
-        end while
-    end function
+    
 
 

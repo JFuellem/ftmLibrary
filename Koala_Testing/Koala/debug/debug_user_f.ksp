@@ -1,0 +1,359 @@
+{
+
+********* KOALA - AN ADVANCED SCRIPTING LIBRARY FOR KSP DEVELOPERS *********
+
+This file is part of Koala - An advanced scripting library for KSP developers.
+
+Copyright (c) 2016 Davide Magni
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+- Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+- Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer 
+in the documentation and/or other materials provided with the distribution.
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+CONTACTS
+
+koala@davidemagni.com
+www.davidemagni.com
+Skype: magneto538
+Twitter: magneto538
+
+}   
+
+function DEBUG.on_ui_control(name)
+	CTRL_TOUCHED := get_ui_id(name)
+	set_ctrl_cb_id(CTRL_TOUCHED) 
+	
+	USE_CODE_IF(ENABLE_DEBUG)
+		DEBUG.var_name := search(_UI_IDS, CTRL_TOUCHED)
+		DEBUG.ui_type := _UI_TYPE[search(_UI_IDS, CTRL_TOUCHED)]
+		DEBUG.ui_family_name := _UI_FAMILIES[search(_UI_IDS, CTRL_TOUCHED)]
+
+		call DEBUG.ucb_log_line
+		call DEBUG.var_menu_text_update	
+	END_USE_CODE
+end function
+
+function DEBUG.on_note
+	USE_CODE_IF(ENABLE_DEBUG)
+		if DEBUG.midi_mon_freeze_engine = ON
+			ignore_event(ALL_EVENTS)
+			exit
+		end if
+
+		if DEBUG.midi_mon_start = 1 and DEBUG.midi_mon_note_on = ON
+			DEBUG.midi_monitor("Note ON", !NOTE_NAME[EVENT_NOTE], EVENT_NOTE, EVENT_VELOCITY, !DEBUG.source_txt[get_event_par(EVENT_ID, EVENT_PAR_SOURCE)+1], MIDI_CHANNEL)
+		end if
+
+		if DEBUG.logger_start = 1 and DEBUG.logger_show_ncb = 1
+			@_txt := "Key " & EVENT_NOTE & " (" & !NOTE_NAME[EVENT_NOTE] & ") " & "pressed. Velocity: " & EVENT_VELOCITY & ". Slot: " & !DEBUG.source_txt[get_event_par(EVENT_ID, EVENT_PAR_SOURCE)+1] & ". MIDI Channel: " & MIDI_CHANNEL
+			DEBUG.add_log_p( @_txt )
+		end if 
+	END_USE_CODE
+end function
+
+function DEBUG.on_release
+	USE_CODE_IF(ENABLE_DEBUG)
+		if DEBUG.midi_mon_freeze_engine = ON
+			ignore_event(ALL_EVENTS)			
+			exit
+		end if	
+
+		if DEBUG.midi_mon_start = 1 and DEBUG.midi_mon_note_off = ON
+			DEBUG.midi_monitor("Note OFF", !NOTE_NAME[EVENT_NOTE], EVENT_NOTE, EVENT_VELOCITY, !DEBUG.source_txt[get_event_par(EVENT_ID, EVENT_PAR_SOURCE)+1], MIDI_CHANNEL)
+		end if
+
+		if DEBUG.logger_start = 1 and DEBUG.logger_show_rcb = 1
+			@_txt := "Key " & EVENT_NOTE & " (" & !NOTE_NAME[EVENT_NOTE] & ") " & "released. Slot: " & !DEBUG.source_txt[get_event_par(EVENT_ID, EVENT_PAR_SOURCE)+1] & ". MIDI Channel: " & MIDI_CHANNEL
+			DEBUG.add_log_p( @_txt )
+		end if 
+	END_USE_CODE
+end function
+
+function DEBUG.groups_monitor
+	USE_CODE_IF(ENABLE_DEBUG)
+		if get_event_par_arr(EVENT_ID, EVENT_PAR_ALLOW_GROUP, DEBUG.groups_name) = 1
+			DEBUG.set_ctrl_text(get_ui_id(DEBUG.groups_allowed), "Yes")
+		else 
+			DEBUG.set_ctrl_text(get_ui_id(DEBUG.groups_allowed), "No")		
+		end if 
+
+		if get_purge_state(DEBUG.groups_name) = 1
+			DEBUG.set_ctrl_text(get_ui_id(DEBUG.groups_purged), "Yes")
+		else 
+			DEBUG.set_ctrl_text(get_ui_id(DEBUG.groups_purged), "No")		
+		end if 
+
+		DEBUG.set_ctrl_text(get_ui_id(DEBUG.groups_affected), num_elements(GROUPS_AFFECTED))
+
+		if DEBUG.logger_start = 1 and DEBUG.logger_show_grp_mon = 1
+			DEBUG.add_log_p( "Groups affected: " & num_elements(GROUPS_AFFECTED) & ". Voices playing on current instrument: " & PLAYED_VOICES_INST )
+		end if
+	END_USE_CODE
+end function
+
+
+function DEBUG.on_controller
+	USE_CODE_IF(ENABLE_DEBUG)
+		if DEBUG.midi_mon_freeze_engine = ON
+			exit {Quits the function, not the entire callback, so there shouldn't be issues if used here... The on controller will still be executed}
+		end if	
+
+		select CC_NUM
+			case 0 to 119 {Midi CC}
+				if DEBUG.midi_mon_start = 1 and DEBUG.midi_mon_cc = ON			
+					DEBUG.midi_monitor("Controller", !CC_NAME[CC_NUM], CC_NUM, CC[CC_NUM], "-", MIDI_CHANNEL)		
+				end if 
+				if DEBUG.logger_start = 1 and DEBUG.logger_show_ccb = 1	
+					@_txt := "MIDI CC " & CC_NUM & " (" & !CC_NAME[CC_NUM] & ") " & "received. CC Value: " & CC[CC_NUM] & ". MIDI Channel: " & MIDI_CHANNEL
+				end if 
+
+			case 120 to 127 {Mode Msgs}
+				if DEBUG.midi_mon_start = 1 and DEBUG.midi_mon_cc = ON					
+					DEBUG.midi_monitor("Mode Msg", !CC_NAME[CC_NUM], CC_NUM, CC[CC_NUM], "-", MIDI_CHANNEL)											
+				end if 
+				if DEBUG.logger_start = 1 and DEBUG.logger_show_ccb = 1		
+					@_txt := "MIDI CC " & CC_NUM & " (" & !CC_NAME[CC_NUM] & ") " & "received. CC Value: " & CC[CC_NUM] & ". MIDI Channel: " & MIDI_CHANNEL
+				end if 
+
+			case VCC_MONO_AT 
+				if DEBUG.midi_mon_start = 1 and DEBUG.midi_mon_cc = ON			
+					DEBUG.midi_monitor("Controller", "Mono AT", CC_NUM, CC[CC_NUM], "-", MIDI_CHANNEL)		
+				end if 
+				if DEBUG.logger_start = 1 and DEBUG.logger_show_ccb = 1		
+					@_txt := "MIDI Mono AfterTouch received. Value: " & CC[CC_NUM] & ". MIDI Channel: " & MIDI_CHANNEL
+				end if 
+
+		end select				
+
+		if CC_NUM = VCC_PITCH_BEND
+			if DEBUG.midi_mon_start = 1 and DEBUG.midi_mon_pb = ON
+				DEBUG.midi_monitor("Controller", "Pitch Bend", CC_NUM, CC[CC_NUM], "-", MIDI_CHANNEL)		
+			end if 
+
+			if DEBUG.logger_start = 1 and DEBUG.logger_show_ccb = 1	
+				@_txt := "MIDI Pitch Bend received. Value: " & CC[CC_NUM] & ". MIDI Channel: " & MIDI_CHANNEL
+			end if
+		end if
+
+		{Sync testing value edit with modified CC data}
+		if DEBUG.midi_cc_test = CC_NUM
+			DEBUG.set_value(get_ui_id(DEBUG.midi_cc_test_value), CC[DEBUG.midi_cc_test])					
+		end if
+
+		if DEBUG.logger_start = 1 and DEBUG.logger_show_ccb = 1
+			DEBUG.add_log_p( @_txt )
+		end if 
+	END_USE_CODE
+end function
+
+function DEBUG.on_init
+	USE_CODE_IF(ENABLE_DEBUG)
+		declare DEBUG.start_time 
+		
+		declare @print
+		DEBUG.start_time := KSP_TIMER
+		
+		set_timer()
+		@_txt := "Script applied. Instrument loaded " & TIMES_STARTED & " time(s). Engine uptime (ms): " & ENGINE_UPTIME
+		@print := @timer & " --- [" & !DEBUG.logger_cb_types[NI_CALLBACK_TYPE] & "] " & @_txt
+
+		add_text_line(DEBUG.logger_window, @print)
+		print(@timer & @print)
+	END_USE_CODE
+end function
+
+function DEBUG.on_persistence_changed
+	USE_CODE_IF(ENABLE_DEBUG)
+		DEBUG.add_log_p( "'on init' callback was successfully executed in " & KSP_TIMER - DEBUG.start_time & " microseconds" )
+	END_USE_CODE
+end function
+
+function DEBUG.on_listener
+	USE_CODE_IF(ENABLE_DEBUG)
+		declare @DEBUG.txt
+		declare DEBUG.host_transp_status
+
+		if DEBUG.logger_start = 1 and DEBUG.logger_show_lcb = 1 and DEBUG.host_transp_status # NI_TRANSPORT_RUNNING
+			if NI_TRANSPORT_RUNNING = 1
+				@DEBUG.txt := "Host status: PLAY. " 
+			else
+				@DEBUG.txt := "Host status: STOP. "
+			end if
+
+			@DEBUG.txt := @DEBUG.txt & "Song position (960 ppq): " & NI_SONG_POSITION & ". "
+
+			select NI_SIGNAL_TYPE
+				case NI_SIGNAL_TIMER_BEAT
+					@DEBUG.txt := @DEBUG.txt & "Trigger signal: NI_SIGNAL_TIMER_BEAT."
+				case NI_SIGNAL_TIMER_MS
+					@DEBUG.txt := @DEBUG.txt & "Trigger signal: NI_SIGNAL_TIMER_MS."
+				case NI_SIGNAL_TRANSP_START
+					@DEBUG.txt := @DEBUG.txt & "Trigger signal: NI_SIGNAL_TRANSP_START."
+				case NI_SIGNAL_TRANSP_START
+					@DEBUG.txt := @DEBUG.txt & "Trigger signal: NI_SIGNAL_TRANSP_START."
+			end select
+
+			DEBUG.add_log_p( @DEBUG.txt )
+			DEBUG.add_log_p( "Host BPM: " & ( ms_to_ticks(60000000)/960 ) & ". Host time signature: " & SIGNATURE_NUM & "/" & SIGNATURE_DENOM )
+			DEBUG.host_transp_status := NI_TRANSPORT_RUNNING
+		end if 
+	END_USE_CODE
+end function
+
+function DEBUG.on_pgs_changed
+	USE_CODE_IF(ENABLE_DEBUG)
+		if DEBUG.logger_start = 1 and DEBUG.logger_show_pgcb = 1
+			DEBUG.add_log_p( "Callback executed" )
+		end if
+	END_USE_CODE
+end function
+
+function DEBUG.on_poly_at
+	USE_CODE_IF(ENABLE_DEBUG)
+		if DEBUG.logger_start = 1 and DEBUG.logger_show_pacb = 1
+			DEBUG.add_log_p( "Callback triggered by Key " & POLY_AT_NUM & " (" & !NOTE_NAME[POLY_AT_NUM] & "). Value: " & POLY_AT[POLY_AT_NUM] & ". MIDI Channel: " & MIDI_CHANNEL)
+		end if
+	END_USE_CODE
+end function
+
+function DEBUG.on_rpn_nrpn
+	USE_CODE_IF(ENABLE_DEBUG)
+		if DEBUG.logger_start = 1 and DEBUG.logger_show_rncb = 1
+			DEBUG.add_log_p( "Parameter number: " & RPN_ADDRESS & " . Parameter value: " & RPN_VALUE & ". MIDI Channel: " & MIDI_CHANNEL)
+		end if
+	END_USE_CODE
+end function
+
+function DEBUG.on_ui_update
+	USE_CODE_IF(ENABLE_DEBUG)
+
+	END_USE_CODE
+end function
+
+function DEBUG.on_async_complete
+	USE_CODE_IF(ENABLE_DEBUG)
+		if DEBUG.logger_start = 1 and DEBUG.logger_show_acb = 1 and NI_ASYNC_ID # LOGGER_ASYNC_ID
+			DEBUG.add_log_p( "Callback triggered by ID " & NI_ASYNC_ID & ". Exit status: " & NI_ASYNC_EXIT_STATUS )
+		end if		
+	END_USE_CODE
+end function
+
+function DEBUG.add_log(text)
+	USE_CODE_IF(ENABLE_DEBUG)
+		call set_timer 
+		if search(log_filtered_cbs, NI_CALLBACK_TYPE) = -1 or (DEBUG.logger_start = 1 and DEBUG.logger_show_user = 1)
+			add_text_line(DEBUG.logger_window, @timer & " --- " &  "[USER - " & !DEBUG.logger_cb_types[NI_CALLBACK_TYPE] & "] " & text)
+			print(@timer & " --- " & "[USER - " & !DEBUG.logger_cb_types[NI_CALLBACK_TYPE] & "] " & text)
+		end if
+	END_USE_CODE
+end function
+
+macro empty {needed as placeholder for unused arguments in functions}
+end macro
+
+macro DEBUG.show_value(lbl_idx, #var#)
+	USE_CODE_IF(ENABLE_DEBUG)
+		set_control_par(DEBUG.var_name_ids[lbl_idx - 1], CONTROL_PAR_FONT_TYPE, CONSOLE.YELLOW)
+		set_control_par(DEBUG.var_name_ids[lbl_idx - 1], CONTROL_PAR_TEXT_ALIGNMENT, RIGHT)	
+		set_control_par_str(DEBUG.var_name_ids[lbl_idx - 1], CONTROL_PAR_TEXT, "#var#")
+		set_control_par_str(DEBUG.var_value_ids[lbl_idx - 1], CONTROL_PAR_TEXT, #var#)
+	END_USE_CODE
+end macro
+
+macro DEBUG.osc_array(#arr#)
+	USE_CODE_IF(ENABLE_DEBUG)
+		SET_CONDITION(DEBUG.OSC_ARRAY_ENABLED)
+		on ui_control (DEBUG.osc_start_arr)
+			DEBUG.osc_start_value := OFF
+			@DEBUG.osc_arr_name := '#arr#' & "[" & num_elements(#arr#) & "]"
+			DEBUG.push_to_osc(#arr#)
+		end on 
+		on ui_control (DEBUG.osc_refresh)
+			DEBUG.osc_refresh := OFF
+
+			// Refresh disp
+			@DEBUG.osc_arr_name := '#arr#' & "[" & num_elements(#arr#) & "]"
+			DEBUG.osc_disp_value -> text := ''
+			DEBUG.osc_disp_value -> textline := "Content of the array " & @DEBUG.osc_arr_name & ". Click on 'Refresh Disp.' to refresh this view with new data. Click on 'Save Arr' to save the array to disk."
+			DEBUG.osc_disp_value -> textline := ""
+			DEBUG.osc_disp_value -> textline := "--- BEGINNING OF ARRAY ---"			
+			for _j := 0 to num_elements(#arr#)-1
+				DEBUG.osc_disp_value -> textline := _j & ' - ' & #arr#[_j]
+			end for
+			DEBUG.osc_disp_value -> textline := "--- END OF ARRAY ---"
+
+			// Refresh Osc
+			for _j := 0 to 127 	
+				DEBUG.osc_table[_j] := 0
+			end for
+		end on
+		on ui_control (DEBUG.osc_save_arr)
+			DEBUG.osc_save_arr := OFF
+			save_array(#arr#, 1)
+		end on
+	END_USE_CODE
+end macro
+
+function DEBUG.osc_value(vv)
+	USE_CODE_IF(ENABLE_DEBUG)
+		SET_CONDITION(DEBUG.OSC_VALUE_ENABLED)
+		declare j
+		declare start_time
+		DEBUG.osc_value_found := YES
+		if DEBUG.osc_start_value = OFF 
+			start_time := ENGINE_UPTIME
+		else 
+			declare r := r mod DEBUG.osc_res
+			DEBUG.osc_whois -> text := "Value Monitor - Callback: " & !DEBUG.logger_cb_types[NI_CALLBACK_TYPE]
+			DEBUG.osc_whois -> textline := "Monitor uptime (ms): " & ENGINE_UPTIME-start_time			
+			if r = 0
+				j := j mod num_elements(DEBUG.osc_table)
+				DEBUG.osc_table_src[j]	:= vv
+				DEBUG.osc_table[j] 		:= DEBUG.OSC_VALUE(vv)
+				inc(j)
+			end if
+			inc(r)
+		end if
+	END_USE_CODE
+end function
+
+function DEBUG.shift_debugger(x, y)
+	USE_CODE_IF(ENABLE_DEBUG)
+		DEBUG.logger_x_off := x
+		DEBUG.logger_y_off := y
+		DEBUG.shift_family(DEBUG.GENERIC_FAMILY, DEBUG.logger_x_off, DEBUG.logger_y_off)
+		DEBUG.shift_family(DEBUG.LOG_FAMILY, DEBUG.logger_x_off, DEBUG.logger_y_off)
+		DEBUG.shift_family(DEBUG.UI_FAMILY, DEBUG.logger_x_off, DEBUG.logger_y_off)
+		DEBUG.shift_family(DEBUG.EVENT_FAMILY, DEBUG.logger_x_off, DEBUG.logger_y_off)
+		DEBUG.shift_family(DEBUG.GROUPS_FAMILY, DEBUG.logger_x_off, DEBUG.logger_y_off)
+		DEBUG.shift_family(DEBUG.CUSTOM_FAMILY, DEBUG.logger_x_off, DEBUG.logger_y_off)
+	END_USE_CODE
+end function
+
+function set_ctrl_cb_id(ui_id)
+	declare global _CTRL_CB_ID[32768] := (-1)
+	_CTRL_CB_ID[search_ctrl_number(ui_id)] := NI_CALLBACK_ID
+end function
+function get_ctrl_cb_id(ui_id) -> return
+	return := _CTRL_CB_ID[search_ctrl_number(ui_id)]
+end function

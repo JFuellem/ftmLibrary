@@ -1,0 +1,165 @@
+{
+
+********* KOALA - AN ADVANCED SCRIPTING LIBRARY FOR KSP DEVELOPERS *********
+
+This file is part of Koala - An advanced scripting library for KSP developers.
+
+Copyright (c) 2016 Davide Magni
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+- Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+- Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer 
+in the documentation and/or other materials provided with the distribution.
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+CONTACTS
+
+koala@davidemagni.com
+www.davidemagni.com
+Skype: magneto538
+Twitter: magneto538
+
+}   
+
+function DEBUG.panic
+	for _j := 0 to 127
+		note_off(_j)
+	end for
+	set_controller(123, 0) {All Notes Off}
+	fade_out(ALL_EVENTS, 1, 1)
+end function
+
+function DEBUG.midi_monitor(msg, note, byte1, byte2, src, ch)
+	USE_CODE_IF(ENABLE_DEBUG)
+		if DEBUG.event_count < _MAX_KSP_VALUE
+			inc(DEBUG.event_count)
+		else 
+			DEBUG.event_count := 0
+		end if
+
+		if DEBUG.midi_mon_freeze = OFF
+			inc(DEBUG.midi_mon_count)
+			if DEBUG.midi_mon_count = 28
+				DEBUG.midi_mon_count := 0
+				call DEBUG.midi_monitor_reset_view
+			end if
+			add_text_line(DEBUG.midi_event_counter, DEBUG.event_count)
+			add_text_line(DEBUG.midi_msg, msg)
+			add_text_line(DEBUG.midi_event, note)
+			add_text_line(DEBUG.midi_byte1, byte1)
+			add_text_line(DEBUG.midi_byte2, byte2)
+			add_text_line(DEBUG.midi_src, src)
+			add_text_line(DEBUG.midi_ch, ch)
+		end if
+	END_USE_CODE
+end function
+
+function DEBUG.add_log_simple(text)
+	USE_CODE_IF(ENABLE_DEBUG)
+		call set_timer
+		@_txt := @timer
+		@_txt := @_txt & " --- "
+
+		@_txt := @_txt & text
+
+		add_text_line(DEBUG.logger_window, @_txt)
+		print(@_txt)
+	END_USE_CODE
+end function
+
+
+function DEBUG.ucb_log_line
+	USE_CODE_IF(ENABLE_DEBUG)
+		if DEBUG.logger_start = 1 and DEBUG.logger_show_ucb = 1 
+
+			select _UI_TYPE[search(_UI_IDS, CTRL_TOUCHED)]
+
+				case SWITCHES
+					@_txt := "'" & _UI_CTRL_NAMES[search(_UI_IDS, CTRL_TOUCHED)] & "' pressed. Value: " & get_value(CTRL_TOUCHED)
+				case BUTTONS
+					@_txt := "'" & _UI_CTRL_NAMES[search(_UI_IDS, CTRL_TOUCHED)] & "' pressed. Value: " & get_value(CTRL_TOUCHED)
+				case KNOBS
+					@_txt := "'" & _UI_CTRL_NAMES[search(_UI_IDS, CTRL_TOUCHED)] & "' moved. Value: " & get_value(CTRL_TOUCHED)			
+				case MENUS
+					@_txt := "'" & _UI_CTRL_NAMES[search(_UI_IDS, CTRL_TOUCHED)] & "' changed. Selected entry: " & get_value(CTRL_TOUCHED)	
+				case FILE_SELECTOR
+					@_txt := "New file selected on '" & _UI_CTRL_NAMES[search(_UI_IDS, CTRL_TOUCHED)] & ". Selected entry: " & get_value(CTRL_TOUCHED)
+				case VALUE_EDITS
+					@_txt := "'" & _UI_CTRL_NAMES[search(_UI_IDS, CTRL_TOUCHED)] & "' changed. Value: " & get_value(CTRL_TOUCHED)
+				case SLIDERS
+					@_txt := "'" & _UI_CTRL_NAMES[search(_UI_IDS, CTRL_TOUCHED)] & "' moved. Value: " & get_value(CTRL_TOUCHED)			
+				case TABLES
+					@_txt := "'" & _UI_CTRL_NAMES[search(_UI_IDS, CTRL_TOUCHED)] & "' changed. Value: " & get_value(CTRL_TOUCHED)						
+				case TEXT_EDITS
+		
+			end select
+
+			DEBUG.add_log_p( @_txt )
+		end if
+	END_USE_CODE
+end function
+
+function DEBUG.add_log_p(text)
+	USE_CODE_IF(ENABLE_DEBUG)
+		call set_timer
+		add_text_line(DEBUG.logger_window, @timer & " --- [" & !DEBUG.logger_cb_types[NI_CALLBACK_TYPE] & "] " & text)
+		print(@timer & " --- [" & !DEBUG.logger_cb_types[NI_CALLBACK_TYPE] & "] " & text)
+	END_USE_CODE
+end function
+
+define DEBUG.OSC_VALUE(value) 	:= math.clamp(((value * DEBUG.OSC_ZOOM / 100) + DEBUG.osc_offset_v), DEBUG.OSC_TABLE_RANGE, -DEBUG.OSC_TABLE_RANGE)
+define DEBUG.OSC_ZOOM 			:= (DEBUG.osc_zoom_fine + (DEBUG.osc_zoom_gross - 100))
+
+function DEBUG.push_to_osc(arr)
+	USE_CODE_IF(ENABLE_DEBUG)
+		declare j
+		declare start_time := ENGINE_UPTIME
+		declare global @DEBUG.osc_arr_name
+
+		while DEBUG.osc_start_arr = ON
+			DEBUG.osc_whois -> text 	:= "Array Monitor - " & @DEBUG.osc_arr_name
+			DEBUG.osc_whois -> textline := "Monitor uptime (ms): " & ENGINE_UPTIME-start_time
+			declare r := r mod DEBUG.osc_res			
+			if r = 0
+				for j := 0 to 127
+					// According to the info retrieved above, push the correct data to the table
+					DEBUG.osc_table_src[j]	:= arr[(j*(num_elements(arr)-1))/127]
+					DEBUG.osc_table[j] 		:= DEBUG.OSC_VALUE(DEBUG.osc_table_src[j])
+				end for
+			end if 
+			inc(r)
+			wait(DEBUG.OSC_TIME)
+		end while
+	END_USE_CODE
+end function
+
+function DEBUG.osc_generate_table
+	USE_CODE_IF(ENABLE_DEBUG)
+		declare global DEBUG.osc_generate_output[128]
+		DEBUG.osc_start_arr := OFF 
+
+		for _j := 0 to 127
+			DEBUG.osc_generate_output[_j] := (DEBUG.osc_table[_j] / DEBUG.osc_generate_div) * DEBUG.osc_generate_mult
+		end for
+		DEBUG.osc_whois -> text := "Table generated and saved to disk."
+		save_array(DEBUG.osc_generate_output, 1)
+	END_USE_CODE
+end function
