@@ -13,12 +13,12 @@ copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
 
 - Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-- Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer 
+- Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer
 in the documentation and/or other materials provided with the distribution.
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
-	
+
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -36,7 +36,7 @@ www.davidemagni.com
 Skype: magneto538
 Twitter: magneto538
 
-}  
+}
 
 SET_CONDITION(ENABLE_DEBUG)
 // note to myself: if the Debugger is enabled, the instrument height in the create_instrument() function is ignored. Do not worry!
@@ -82,7 +82,7 @@ on init
         %menuCoord[1] := 60
         create_menu(sampleMenu#n#, samplemenus, %menuCoord[0], %menuCoord[1], 50, 20, 0, NUM_ENTRIES, REGULAR.BLACK, 0, 1, "ori.png")
     end macro
-    
+
     iterate_macro(makeCoolMenu) := 0 to NUM_MENUS - 1
 
     // populating the menus
@@ -105,9 +105,9 @@ on init
     macro makeDebugKnobs(#n#)
         %volCloseKnobCoord[0] := 60 + 100 * #n#
         %volCloseKnobCoord[1] := 100
- 
+
         create_slider(vClose#n#, debugknobs, %volCloseKnobCoord[0], %volCloseKnobCoord[1], 100, 50, 0, 631000, 500000, 1, 1000, "")
-   
+
    		%volMidKnobCoord[0] := 60 + 100 * #n#
         %volMidKnobCoord[1] := 150
 
@@ -135,7 +135,7 @@ on init
 
 
 
-end on 
+end on
 
 
 //macros
@@ -174,7 +174,7 @@ end on
 
 
 
-on persistence_changed 
+on persistence_changed
 	DEBUG.on_persistence_changed
 	//reset of families
 	//reset_family_values(samplemenus)
@@ -189,29 +189,29 @@ on persistence_changed
 
 end on
 
-on listener 
+on listener
 	DEBUG.on_listener
 
 	// Your script here
 
 end on
 
-on note 
+on note
 	DEBUG.on_note
 
     // Your script here
-        
+
 	DEBUG.groups_monitor
 end on
 
-on release 
+on release
 	DEBUG.on_release
 
 	// Your script here
 
 end on
 
-on controller 
+on controller
 	DEBUG.on_controller
 
 	// Your script here
@@ -230,9 +230,9 @@ on poly_at
 
 	// Your script here
 
-end on 
+end on
 
-on rpn 
+on rpn
 	DEBUG.on_rpn_nrpn
 
 	// Your script here
@@ -246,7 +246,7 @@ on async_complete
 
 end on
 
-on nrpn 
+on nrpn
 	DEBUG.on_rpn_nrpn
 
 	// Your script here
