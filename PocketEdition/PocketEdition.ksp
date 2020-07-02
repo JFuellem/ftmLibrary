@@ -47,7 +47,13 @@ import "Koala/Koala.ksp"
 on init
 	activate_logger(get_folder(GET_FOLDER_PATCH_DIR) & "/log.nka")
 	Koala.init
-	create_instrument(280, "PocketBackground", "", "PocketEdition")
+	create_instrument(282, "PocketBackground", "", "PocketEdition")
+	declare move_skin
+	move_skin := 1
+	set_skin_offset(350*move_skin)
+
+	// note to myself: the background is 350 px high; offset it by 350*n. 
+	// 				   Possibility to do it in absolute numbers not found yet.
 end on 
 
 
