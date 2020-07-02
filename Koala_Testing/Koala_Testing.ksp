@@ -48,8 +48,8 @@ on init
 	create_instrument(540, "", "", "Koala_Testing")
 
 
-	create_family(samplemenus, 1)
-	create_family(debugknobs, 2)
+	create_family(samplemenus, 0)
+	create_family(debugknobs, 1)
 
     define NUM_MENUS := 4
     define NUM_ENTRIES := 6
@@ -65,14 +65,19 @@ on init
     declare $activeMenus := 0
     declare %menuStates[NUM_MENUS]
     declare $count
+    declare %knobdefaults[NUM_MENUS * 2]
 
     for $count := 0 to NUM_MENUS - 1
         %menuStates[$count] := 0
     end for
 
+    for $count := 0 to NUM_MENUS - 1
+        %knobdefaults[$count * 0] := 500000
+        %knobdefaults[$count * 1] := 500000
+    end for
+
+
     declare %menuVals[NUM_MENUS]
-
-
       
     declare $menuxval
     declare $menuyval
@@ -84,6 +89,8 @@ on init
     end macro
     
     iterate_macro(makeCoolMenu) := 0 to NUM_MENUS - 1
+
+   
 
     declare $knobCXval
     declare $knobCYval 
@@ -104,16 +111,19 @@ on init
         create_knob(S#n#vfar, debugknobs, $knobFXval, $knobFYval, 0, 631000, 500000, 10, 1, $KNOB_UNIT_DB, "S1 Far")
 
 
-        reset_family_values(debugknobs)
+       // reset_family_values(debugknobs)
+        //reset_value(get_ui_id(S#n#vclose))
+        //reset_value(get_ui_id(S#n#vfar))
+
+        //message(get_value(get_ui_id(S0vclose)))
 
         set_engine_par($ENGINE_PAR_VOLUME,S#n#vclose,2*#n#+1,-1,-1)
         set_engine_par($ENGINE_PAR_VOLUME,S#n#vfar,2*#n#+2,-1,-1)
         set_knob_label(S#n#vclose, get_engine_par_disp($ENGINE_PAR_VOLUME, 2*#n#+1,-1,-1))
         set_knob_label(S#n#vfar, get_engine_par_disp($ENGINE_PAR_VOLUME,2*#n#+2,-1,-1))
-        {
-        S#n#vclose := get_engine_par($ENGINE_PAR_VOLUME, 2*#n#+1, -1, -1)
-        S#n#vfar := get_engine_par($ENGINE_PAR_VOLUME, 2*#n#+2, -1, -1)
-        }
+        S#n#vclose := %knobdefaults[#n# * 0]
+        S#n#vfar := %knobdefaults[#n# * 1]
+        
 
     end macro
 
@@ -140,7 +150,7 @@ end on
 on persistence_changed 
 	DEBUG.on_persistence_changed
 
-	// Your script here
+	reset_family_values(samplemenus)
 
 end on
 
@@ -169,7 +179,6 @@ on note
 	DEBUG.groups_monitor
 end on
 
-    
 
     macro checkactivesamps(#n#)
         on ui_control (sampleMenu#n#)
@@ -185,7 +194,7 @@ end on
                 %menuStates[#n#] := 1
             end if
             %menuVals[#n#] := sampleMenu#n#
-            message(%menuVals[#n#])
+            message($activeMenus)
         end on
     end macro
 
@@ -208,6 +217,7 @@ end on
     end macro
 
     iterate_macro(checkFarKnobs) := 0 to NUM_MENUS - 1
+
 
 {
     on ui_control (S1vclose)

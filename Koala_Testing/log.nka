@@ -1,7 +1,7 @@
 !_log
 --- Logger Started ---
-00:00:00:02400:00:00:024 --- [INIT] Script applied. Instrument loaded 131 time(s). Engine uptime (ms): 6705224
-00:00:00:026 --- [PERS_CHANGED] 'on init' callback was successfully executed in 1727 microseconds
+00:00:00:02600:00:00:026 --- [INIT] Script applied. Instrument loaded 177 time(s). Engine uptime (ms): 5494955
+00:00:00:027 --- [PERS_CHANGED] 'on init' callback was successfully executed in 938 microseconds
 
 
 
