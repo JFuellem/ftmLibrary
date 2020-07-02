@@ -1,0 +1,468 @@
+{
+
+********* KOALA - AN ADVANCED SCRIPTING LIBRARY FOR KSP DEVELOPERS *********
+
+This file is part of Koala - An advanced scripting library for KSP developers.
+
+Copyright (c) 2016 Davide Magni
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+- Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+- Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer 
+in the documentation and/or other materials provided with the distribution.
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+CONTACTS
+
+koala@davidemagni.com
+www.davidemagni.com
+Skype: magneto538
+Twitter: magneto538
+
+}  
+
+// Curve
+// curve_value shall be a value from -50 to 50. 0 is linear.
+define CURVE_AMOUNT(curve_value) := ( int_to_real((1000 + curve_value) * 10) / 10000.0 )
+
+function curve(curve_value, lin_value, curve_steps, min, max) -> return
+	declare temp 
+	if CURVE_AMOUNT(curve_value) # 1.0
+		return := min + real_to_int( int_to_real(max-min) * (( pow(CURVE_AMOUNT(curve_value), int_to_real(lin_value)) - 1.0 ) / ( pow(CURVE_AMOUNT(curve_value), int_to_real(curve_steps)) - 1.0 ) ) )
+	else 
+		return := min + lin_value*(max-min)/curve_steps
+	end if 
+end function
+
+function curve_alt(ex, x, min, max) -> return
+    return := pow(int_to_real(x) / 1000.0, pow(10.0, int_to_real(ex)/100.0)) * int_to_real(max - min) + int_to_real(min)
+end function
+
+// Credits to BigBob's Sign() function. return_mode chooses the format of the return:
+// if return_mode is 0: negative value 0, positive value 1
+// if return_mode is 1: negative value -1, positive value 1
+function sign(value, return_mode) -> return
+	return := ((sh_right(value, 31) .or. 1) + (1-return_mode)) / (2-return_mode)
+end function
+
+// Turn 0 into 1 and vice-versa. Applies XOR operator to input value.
+function flip(value, bit_pos) -> return
+	return := ((value .and. .not. sh_left(1, bit_pos)) .or. (.not. value .and. sh_left(1, bit_pos)))
+end function
+
+// Identical to above, but here you can decide to set the bit on/off manually.
+function set_bit(value, bit_value, bit_pos) -> return
+	return := ((value .and. .not. sh_left(1, bit_pos)) .or. sh_left(bit_value, bit_pos))
+end function
+
+// Advanced logarythm function. The user may now set a custom integer base and a real/int value to be processed.
+function log10(value) -> return
+	return := log_b(10, value)
+end function
+
+function log2(value) -> return
+	return := log_b(2, value)
+end function
+
+function log_b(base, value) -> return 
+	return := log(value) / log(int_to_real(base))
+end function
+
+// Simplified syntax for common powers
+function pow2(value) -> return
+	return := pow(value, 2.0)
+end function
+
+function pow3(value) -> return
+	return := pow(value, 3.0)
+end function
+
+// Root with custom index
+function cbrt(value) -> return
+	return := nth_root(3, value)
+end function
+
+function nth_root(idx, value) -> return
+	return := pow(value, (1.0/int_to_real(idx)))
+end function
+
+// Compute hypotenuse given two cathetuses
+function hypot(cath_1, cath_2) -> return
+	return := sqrt(pow2(cath_1)+pow2(cath_2))
+end function
+
+// Range, minimum and maximum value. Thanks to BigBob's Math library.
+function range(a, b) -> return
+	return := abs(a-b)
+end function
+
+function max(a, b) -> return
+	return := a*(1 + sh_right(a - b, 31)) - b*sh_right(a - b, 31)
+end function
+
+function min(a, b) -> return
+	return := a*(1 + sh_right(b - a, 31)) - b*sh_right(b - a, 31)
+end function
+
+function clip(value, top) -> return
+	return := (value - (-sh_right(top - value, 31)) * (value - top))
+end function
+
+function gate(value, btm) -> return
+	return := (value + (-sh_right(value - btm, 31)) * (btm - value))
+end function
+
+function clamp(value, btm, top) -> return
+	return := (value*(1 + (sh_right(top-value,31) .or. sh_right(value-btm,31))) - btm*sh_right(value-btm,31) - top*sh_right(top-value,31))
+end function
+
+// Great Common Divider. Based on the Euclidean algorithm
+function gcd(x, y) -> return
+	declare a
+	declare b
+	declare t
+
+	a := x 
+	b := y 
+    while b # 0
+       t := b 
+       b := a mod b 
+       a := t 
+    end while
+    return := a
+end function
+
+// Least Common Multiple between two values
+function lcm(a, b) -> return
+	declare t := a
+	while t mod b # 0
+		t := t + a
+	end while
+	return := t 
+end function
+
+// Least Common Multiple between a series of numbers. Needs to be fed with an array that contains the values to be processed.
+// The function reduce() has been unrolled here in order to avoid issues with the 'math' prefix.
+function lcmm(arr) -> return
+	declare t := arr[0]
+	declare i
+	for i := 0 to num_elements(arr)-1
+		// This is math.lcm
+		declare x := t
+		while x mod arr[i] # 0
+			x := x + t
+		end while
+		t := x 
+		return := t
+	end for
+end function
+
+// Returns 1 if Even, 0 if Odd
+function parity(a) -> return
+	return := abs((a mod 2) - 1)
+end function
+
+function bit_rnd(unsigned) -> return 
+	return := 0
+	for i := 0 to 31 - unsigned
+		return := return .or. sh_left(random(0,1), i)
+	end for
+end function
+
+// Reduce the number of shown decimals. Both the input and the output are real values.
+function trim(in, decim) -> return
+	return := round(in * pow(10.0, int_to_real(decim))) / pow(10.0, int_to_real(decim))
+end function
+
+// Convert a note nr into a frequency.
+// The base formula is (2^(1/12))^(note-49) * ref. 82 is the note nr for A4 (reference). ref is the reference pitch (440 Hz)
+function note_to_freq(note, ref) -> return
+	return := pow(1.0594630943593, int_to_real(note) - 82.0) * ref
+end function
+
+// Convert a frequency into a note nr.
+// The base formula is 12*log2(freq/ref) + 49.
+function freq_to_note(freq, ref) -> return
+	return := real_to_int(12.0 * (log(freq/ref)/log(2.0)) + 82.0)
+end function
+
+// fmod function is basically a workaround to use mod operator on real numbers. mod is not defined outside the
+// integers.
+function fmod(a, b) -> return
+	return := ((a) - floor((a) / (b)) * (b))
+end function
+
+// returns a bit sequence from an integer. The output is a text string.
+function int_to_bin(int, bit_nr) -> return
+	if bit_nr <= 0x20
+		return := ''
+		for i := 0 to bit_nr-1 
+			return := (sh_right(int, i) .and. 1) & return
+		end for
+	else 
+		return := '### KOALA WARNING: int_to_bin has invalid bit_nr (must be <= 32)!'
+		message(return)
+	end if
+end function
+
+// returns a hex sequence from an integer. 
+// The output is formatted in order to match Kontakt's requests ('9' before and 'h' after the string)
+// This function is a fork of Hex() in BigBob's Math library.
+function int_to_hex(int) -> return 
+	declare input
+	input := int
+	return := ''
+	for i := 0 to 7
+		select input .and. 0xF
+			case 0 to 9 
+				return := input .and. 0xF & return
+			case 10
+				return := 'A' & return
+			case 11
+				return := 'B' & return
+			case 12
+				return := 'C' & return
+			case 13
+				return := 'D' & return
+			case 14
+				return := 'E' & return
+			case 15
+				return := 'F' & return
+		end select
+    	input := sh_right(input, 4) 
+	end for
+	return := '9' & return & 'h'
+end function
+
+// Outputs a text. Feed it with an int and reduce it to an int.dec text string.
+// Example: value = 12538, div = 1000, dec_div = 100
+// Output: 12.53
+function decimals(value, div, dec_div) -> return 
+	return := (value) / (div) & '.' & abs(((value) mod (div)) / dec_div) 
+end function
+
+function decimals_hr(value, div, dec_div) -> return 
+	declare n 
+	n := abs(((value) mod (div)) / dec_div)
+	while n+1 < (div/dec_div) / 10
+		n := n * 10
+	end while
+	return := (value) / (div) & '.' & n
+end function
+
+
+// Similar to Max MSP's scale object.
+// v: value to be scaled 
+// a/b: input min/max 
+// c/d: output min/max
+function scale(v, a, b, c, d) -> return
+	return := (((((v)-(a)) * ((d)-(c)))/((b)-(a))) + (c))
+end function
+
+// Simple periodic functions
+function simple_tri(phase, period, v_offs) -> return 
+	return := (abs((((phase) + (period)) mod ((period)*2)) - (period)) + (v_offs))
+end function
+function simple_saw(mode, phase, period, v_offs) -> return 
+	return := (abs(((phase) mod (period)) - (mode)*((period)-1)) + (v_offs))
+end function
+function simple_sqr(phase, period, v_offs) -> return 
+	return := (abs((((phase) / (period)) mod 2) - 1) + (v_offs))
+end function
+
+// Iterate an operation through a list of values. Needs to be fed with a function that accepts 2 int variables and an array that contains the list of values.
+// Stolen by Python.
+function reduce(func, args) -> return
+	declare t := args[0]
+	declare i
+	for i := 0 to num_elements(args)-1
+		t := func(t, args[i])
+		return := t
+	end for
+end function
+
+// ----------------------- EASING FUNCTIONS -----------
+
+	// t: current time in milliseconds. This is a real value, so the resolution can be much higher than milliseconds. We want to keep the scale in milliseconds
+	//		because it appears to fit most of the common uses without breaking the maximum Kontakt value during calculations.
+	// b: value where the animation begins
+	// c: value where the animation ends
+	// d: d of the animation in milliseconds. This is a real value.
+	// Thanks to Paolo Ingraito for making this happen!
+	// References:	http://gizma.com/easing/
+
+	// Macro definitions
+	define DELTA 			:= (int_to_real(c) - int_to_real(b))
+	define RES_1 			:= (t / d)
+	define RES_2 			:= (t / (d / 2.0))
+
+	// These operations are locals for bool.is_greater and bool.is_not_greater. This is needed because 
+	// this KSP file is imported as 'math'.
+	define IS_T_NOT_GREATER := (1 + sh_right(real_to_int(d / 2.0) - real_to_int(t), 31))
+	define IS_T_GREATER		:= (-sh_right(real_to_int(d / 2.0) - real_to_int(t), 31))
+
+
+	// Linear tween - no easing, no acceleration.
+	// Fundamental equation: (c - b)*t/d + b
+	function linear_tween(t, b, c, d) -> return
+		return := 	real_to_int(round((DELTA / d) * t)) + b
+	end function
+
+	// Quadratic easing in - accelerating from zero velocity
+	// Fundamental equation: (c - b)*(t/d)*(t/d) + b
+	function easeIn_quad(t, b, c, d) -> return
+		return := 	real_to_int(round(DELTA * RES_1 * RES_1)) + b
+	end function
+
+	// Quadratic easing out - decelerating to zero velocity
+	// Fundamental equation: -(c - b)*(t/d)*((t/d)-2) + b
+	function easeOut_quad(t, b, c, d) -> return
+		return := 	real_to_int(round(-DELTA * RES_1 * (RES_1 - 2.0))) + b
+	end function
+
+	// Quadratic easing in/out - acceleration until halfway, then deceleration
+	// Fundamental equations: ((c-b)/2.0*(t / (d/2.0))*(t / (d/2.0)))+b for t < (d/2.0)
+	// 						 (-(c-b)/2.0 * (((t / (d/2.0))-1.0)*(((t / (d/2.0))-1.0)-2.0) -1.0) for t > (d/2.0)
+	function easeInOut_quad(t, b, c, d) -> return
+		return :=  	IS_T_NOT_GREATER * ...
+				   	real_to_int(round(DELTA / 2.0 * RES_2 * RES_2)) + ...
+				   	IS_T_GREATER * ...
+				   	real_to_int(round(-DELTA / 2.0 * ((RES_2 - 1.0) * ((RES_2 - 1.0) - 2.0) - 1.0)))...
+				   	+ b	
+	end function
+
+	// Cubic easing in - accelerating from zero velocity
+	// Fundamental equation: (c - b)*(t/d)*(t/d)*(t/d) + b
+	function easeIn_cubic(t, b, c, d) -> return
+		return := 	real_to_int(round(DELTA * RES_1 * RES_1 * RES_1)) + b
+	end function
+
+	// Cubic easing out - decelerating to zero velocity
+	// Fundamental equation: ((c - b) * ((t / d -1.0) * (t / d -1.0)*(t / d -1.0)+1.0)) + b
+	function easeOut_cubic(t, b, c, d) -> return
+		return := 	real_to_int(round(DELTA * ((RES_1 - 1.0) * (RES_1 - 1.0) * (RES_1 - 1.0) + 1.0))) + b
+	end function
+
+	// Cubic easing in/out - acceleration until halfway, then deceleration
+	// Fundamental equations: ((c-b)/2.0 * (t / (d/2.0))*(t / (d/2.0))*(t / (d/2.0)))+b for t < (d/2.0)
+	// 						 ((c-b)/2.0 * ((t / (d/2.0) -2.0) * (t / (d/2.0) -2.0)*(t / (d/2.0) -2.0)+2.0)) + b for t > (d/2.0)
+	function easeInOut_cubic(t, b, c, d) -> return
+		return :=  	IS_T_NOT_GREATER * ...
+				   	real_to_int(round((DELTA / 2.0) * RES_2 * RES_2 * RES_2)) + ...
+				   	IS_T_GREATER * ...
+				   	real_to_int(round((DELTA / 2.0) * ((RES_2 - 2.0) * (RES_2 - 2.0) * (RES_2 - 2.0) + 2.0)))...
+				    + b				    
+	end function
+
+	// Quartic easing in - accelerating from zero velocity
+	// Fundamental equation: (c - b)*(t/d)*(t/d)*(t/d)*(t/d) + b
+	function easeIn_quartic(t, b, c, d) -> return
+		return := 	real_to_int(round(DELTA * RES_1 * RES_1 * RES_1 * RES_1)) + b
+	end function		
+
+	// Quartic easing out - decelerating to zero velocity
+	// Fundamental equation: (-(c - b) * ((t / d -1.0) *(t / d -1.0) * (t / d -1.0)*(t / d -1.0)-1.0)) + b
+	function easeOut_quartic(t, b, c, d) -> return
+		return := 	real_to_int(round(-DELTA * ((RES_1 - 1.0) * (RES_1 - 1.0) * (RES_1 - 1.0) * (RES_1 -1.0) - 1.0))) + b
+	end function
+
+	// Quartic easing in/out - acceleration until halfway, then deceleration
+	// Fundamental equations: ((c-b)/2.0 * (t / (d/2.0))*(t / (d/2.0))*(t / (d/2.0))*(t / (d/2.0)))+b for t < (d/2.0)
+	// 						 (-(c-b)/2.0 * ((t / (d/2.0) -2.0) * (t / (d/2.0) -2.0) * (t / (d/2.0) -2.0)*(t / (d/2.0) -2.0)-2.0)) + b for t > (d/2.0)
+	function easeInOut_quartic(t, b, c, d) -> return
+		return :=   IS_T_NOT_GREATER * ...
+				   	real_to_int(round(DELTA / 2.0 * (RES_2 * RES_2 * RES_2 * RES_2))) + ...
+				   	IS_T_GREATER * ...
+				   	real_to_int(round(-DELTA / 2.0 * ((RES_2 - 2.0) * (RES_2 - 2.0) * (RES_2 - 2.0) * (RES_2 - 2.0) - 2.0)))...
+				    + b	
+	end function
+
+	// Sinusoidal easing in - accelerating from zero velocity
+	// Fundamental equation: (-(c - b) * cos(t / d * (~NI_MATH_PI / 2.0))) + (c - b)+ b
+	function easeIn_sine(t, b, c, d) -> return
+		return := real_to_int(round(-DELTA * cos(RES_1 * 1.5707963267949))) + (c - b) + b
+	end function
+
+	// Sinusoidal easing out - decelerating to zero velocity
+	// Fundamental equation: ((c - b) * sin(t / d * (~NI_MATH_PI / 2.0))) + b
+	function easeOut_sine(t, b, c, d) -> return
+		return := 	real_to_int(round(DELTA * sin(t / d * 1.5707963267949))) + b
+	end function
+
+	// Sinusoidal easing in/out - acceleration until halfway, then deceleration
+	// Fundamental equation: (-(c - b)/2.0 * (cos((t / d) * ~NI_MATH_PI) -1.0)) + b
+	function easeInOut_sine(t, b, c, d) -> return
+		return := 	real_to_int(round(-DELTA / 2.0 * (cos((t / d) * ~NI_MATH_PI) -1.0))) + b
+	end function
+
+	// Exponential easing in - accelerating from zero velocity
+	// Fundamental equation: ((c - b) * (pow(2.0 , 10.0*((t / d)-1.0)))) +  b
+	function easeIn_expo(t, b, c, d) -> return
+		return := 	real_to_int(round(DELTA * (pow(2.0, 10.0 * (RES_1 - 1.0))))) +  b
+	end function
+
+	// Exponential easing out - decelerating to zero velocity
+	// Fundamental equation: ((c - b) * (-pow(2.0 , -10.0*(t / d))+1.0)) +  b
+	function easeOut_expo(t, b, c, d) -> return
+		return := 	real_to_int(round(DELTA * (-pow(2.0, -10.0 * RES_1) + 1.0))) +  b
+	end function
+
+	// Exponential easing in/out - acceleration until halfway, then deceleration
+	// Fundamental equations: ((c-b)/2.0 *(pow(2.0 , 10.0*(t / (d/2.0)-1.0))))+b for t < (d/2.0)
+	// 						 ((c-b)/2.0  * (-pow(2.0 , -10.0*((t / (d/2.0))-1.0))+2.0))+b for t > (d/2.0)
+	function easeInOut_expo(t, b, c, d) -> return
+	    return :=  	IS_T_NOT_GREATER * ...
+				   	real_to_int(round(DELTA / 2.0 * (pow(2.0, 10.0 * (RES_2 - 1.0))))) + ...
+				   	IS_T_GREATER * ...
+				   	real_to_int(round(DELTA / 2.0  * (-pow(2.0, -10.0 * (RES_2 - 1.0)) + 2.0)))...
+				    + b	
+	end function
+
+	// Circular easing in - accelerating from zero velocity
+	// Fundamental equation: (-(c - b) * (sqrt(1.0-(t / d)*(t / d))-1.0)) +  b
+	function easeIn_circ(t, b, c, d) -> return
+		return := 	real_to_int(round(-DELTA * (sqrt(1.0 - RES_1 * RES_1) - 1.0))) +  b
+	end function
+
+	// Circular easing out - decelerating to zero velocity
+	// Fundamental equation: ((c - b) * (sqrt(1.0-((t / d)-1.0)*((t / d)-1.0)))) +  b
+	function easeOut_circ(t, b, c, d) -> return
+		return := 	real_to_int(round(DELTA * (sqrt(1.0 - (RES_1 - 1.0) * (RES_1 - 1.0))))) +  b
+	end function
+
+	// Circular easing in/out - acceleration until halfway, then deceleration
+	// Fundamental equations: (-(c-b)/2.0 * (sqrt(1.0-(t / (d/2.0))*(t / (d/2.0)))-1.0) )+b for t < (d/2.0)
+	// 						 ((c-b)/2.0 * (sqrt(1.0-(t / (d/2.0) -2.0)*(t / (d/2.0) -2.0))+1.0)  ) + b for t > (d/2.0)
+	function easeInOut_circ(t, b, c, d) -> return
+	    return :=  	IS_T_NOT_GREATER * ...
+				   	real_to_int(round(-DELTA / 2.0 * (sqrt(1.0 - RES_2 * RES_2) - 1.0))) + ...
+				   	IS_T_GREATER * ...
+				   	real_to_int(round(DELTA/2.0 * (sqrt(1.0 - (RES_2 - 2.0) * (RES_2 - 2.0)) + 1.0)))...
+				    + b	
+	end function
+
+	// Elastic easing out - decelerating to zero velocity with bouncing effect
+	// The elasticy factor is the period of the bouncing. The smaller it is, the most elastic is the easing.
+	// Fundamental equation: ((c-b) * (pow(2.0,-10.0*(t/d)) * sin( ((t/d) - elasticity/4.0) * (2.0*~NI_MATH_PI)/elasticity)+1.0)) +b 
+	function easeOut_elastic(t, b, c, d, e) -> return
+		return := 	real_to_int(round(DELTA * (pow(2.0, -10.0 * RES_1) * sin((RES_1 - e / 4.0) * 6.28318530717959 / e) + 1.0))) + b 
+	end function
+
