@@ -38,7 +38,7 @@ Twitter: magneto538
 
 }  
 
-//SET_CONDITION(ENABLE_DEBUG)
+SET_CONDITION(ENABLE_DEBUG)
 // note to myself: if the Debugger is enabled, the instrument height in the create_instrument() function is ignored. Do not worry!
 
 import "Koala/Koala.ksp"
@@ -48,13 +48,144 @@ on init
 	activate_logger(get_folder(GET_FOLDER_PATCH_DIR) & "/log.nka")
 	Koala.init
 	create_instrument(280, "PocketBackground", "", "PocketEdition")
+
+	create_family(samplemenus, 1)
+	create_family(debugknobs, 2)
+
+	define NUM_MENUS := 4
+	define NUM_ENTRIES := 4
+
+    declare !sounds[NUM_ENTRIES]
+    !sounds[0] := "Empty"
+    !sounds[1] := "Cello"
+    !sounds[2] := "Sax"
+    !sounds[3] := "Shruti"
+
+    //variables to check Menus
+    declare $activeMenus := 0
+    declare $inActiveMenus := 0
+    declare %menuStates[NUM_MENUS]
+    declare $count
+    //declares array to which values are stored after init
+    declare %menuVals[NUM_MENUS]
+
+    // Reflects whether a menu has a sample loaded
+    for $count := 0 to NUM_MENUS - 1
+        %menuStates[$count] := 0
+    end for
+
+    //Menucreation
+    declare %menuCoord[2]
+
+    macro makeCoolMenu(#n#)
+        %menuCoord[0] := 60 + 100 * #n#
+        %menuCoord[1] := 60
+        create_menu(sampleMenu#n#, samplemenus, %menuCoord[0], %menuCoord[1], 50, 20, 0, NUM_ENTRIES, REGULAR.BLACK, 0, 1, "ori.png")
+    end macro
+    
+    iterate_macro(makeCoolMenu) := 0 to NUM_MENUS - 1
+
+    // populating the menus
+    declare $soundsCount
+
+    macro addMenuItems(#n#)
+        for $soundsCount := 0 to num_elements(!sounds) - 1
+        add_menu_item (sampleMenu#n#, !sounds[$soundsCount], $soundsCount)
+        end for
+    end macro
+
+    iterate_macro(addMenuItems) := 0 to NUM_MENUS -1
+
+
+    //make volumeButtons for Tri1 and Tri2 for debuggung and testing purposes
+    declare %volCloseKnobCoord[2]
+    declare %volMidKnobCoord[2]
+    declare %volFarKnobCoord[2]
+
+    macro makeDebugKnobs(#n#)
+        %volCloseKnobCoord[0] := 60 + 100 * #n#
+        %volCloseKnobCoord[1] := 100
+ 
+        create_slider(vClose#n#, debugknobs, %volCloseKnobCoord[0], %volCloseKnobCoord[1], 100, 50, 0, 631000, 500000, 1, 1000, "")
+   
+   		%volMidKnobCoord[0] := 60 + 100 * #n#
+        %volMidKnobCoord[1] := 150
+
+        create_slider(vMid#n#, debugknobs, %volMidKnobCoord[0], %volMidKnobCoord[1], 100, 50, 0, 631000, 500000, 1, 1000, "")
+
+        %volFarKnobCoord[0] := 60 + 100 * #n#
+        %volFarKnobCoord[1] := 200
+
+
+        create_slider(vFar#n#, debugknobs, %volFarKnobCoord[0], %volFarKnobCoord[1], 100, 50, 0, 631000, 500000, 1, 1000, "")
+
+        //set_knob_label(vClose#n#, get_engine_par_disp($ENGINE_PAR_VOLUME, 2*#n#+1,-1,-1))
+        //set_knob_label(vMid#n#, get_engine_par_disp($ENGINE_PAR_VOLUME,2*#n#+2,-1,-1))
+    end macro
+
+    iterate_macro(makeDebugKnobs) := 0 to 1
+
+    macro makedebuglabels(#n#)
+    	    create_text_label(vCloseLab#n#, debugknobs, %volCloseKnobCoord[0], %volCloseKnobCoord[1] + 25, 100, 50, get_engine_par_disp($ENGINE_PAR_VOLUME, 2+1,-1,-1), REGULAR.BLACK, 0, 0)
+
+    end macro
+
+    iterate_macro(makedebuglabels) := 0 to 1
+
+
+
+
 end on 
+
+
+//macros
+	//menu values are stored to array
+    macro storeMenuToArray(#n#)
+        %menuVals[#n#] := sampleMenu#n#
+    end macro
+
+	//Sets and retrieves engine volume with current knob value
+	macro setEngineVol(#n#)
+        set_engine_par($ENGINE_PAR_VOLUME,vClose#n#,2*#n#+1,-1,-1)
+        set_engine_par($ENGINE_PAR_VOLUME,vMid#n#,2*#n#+2,-1,-1)
+        //set_knob_label(vClose#n#, get_engine_par_disp($ENGINE_PAR_VOLUME, 2*#n#+1,-1,-1))
+        //set_knob_label(vMid#n#, get_engine_par_disp($ENGINE_PAR_VOLUME,2*#n#+2,-1,-1))
+    end macro
+
+    //counts active menus
+    macro checkactivesamps(#n#)
+        on ui_control (sampleMenu#n#)
+            %menuVals[#n#] := sampleMenu#n#
+            $inActiveMenus := count_entries(%menuVals, 0)
+            $activeMenus := NUM_MENUS - $inActiveMenus
+            message($activeMenus)
+        end on
+    end macro
+
+    macro checkKnobs(#n#)
+        on ui_control (vClose#n#)
+        set_engine_par($ENGINE_PAR_VOLUME,vClose#n#,2*#n#+1,-1,-1)
+        //set_knob_label(vClose#n#,get_engine_par_disp($ENGINE_PAR_VOLUME,2*#n#+1,-1,-1))
+        set_label_properties(vCloseLab#n#, get_engine_par_disp($ENGINE_PAR_VOLUME,2*#n#+1,-1,-1), "", 0, REGULAR.BLACK, 0)
+        end on
+    end macro
+
+    iterate_macro(checkKnobs) := 0 to 1
+
 
 
 on persistence_changed 
 	DEBUG.on_persistence_changed
+	//reset of families
+	//reset_family_values(samplemenus)
+    //reset_family_values(debugknobs)
 
-	// Your script here
+    iterate_macro(storeMenuToArray) := 0 to NUM_MENUS -1
+
+    iterate_macro(checkactivesamps) := 0 to NUM_MENUS - 1
+
+    iterate_macro(setEngineVol) := 0 to 1
+
 
 end on
 
