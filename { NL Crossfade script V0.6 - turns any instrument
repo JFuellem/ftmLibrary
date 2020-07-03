@@ -1,0 +1,1652 @@
+{ NL Crossfade script V0.6 - turns any instrument into a mod-wheel controlled velocity layer crossfaded one.
+  
+  Author:           Nils Liberg  
+  Acknowledgements: Thanks to R.D.Villwock aka 'Big Bob' for developing his amazing 
+                    math library on which this script heavily relies for doing equal-power xfade.
+
+  Usage instructions:
+  ============================================================  
+  Set nlayers to the number of velocity layers of your instrument.
+  Set layer1 to the top velocity of the lowest velocity layer.
+  Set layer2 to the top velocity of the second lowest velocity layer.
+  Set layer3 ... and so on.
+  (The top velocity of the top layer is always 127 so it's not displayed and
+  there is no need to set it.)
+  The modrange knob determines the dynamical range of the MIDI CC ->volume modulation.
+  The velrange knob determines the dynamical range of the velocity->volume modulation.
+  Important: remove any velocity->volume or CC->volume modulation for all groups.    
+  
+  Now play and use the mod-wheel to crossfade between layers using equal-power xfade.  
+
+  Some short explanatory notes for script developers:
+  ============================================================
+  Display:
+  As the CC changes a visual marker consisting of three table elements set to their max value 
+  is used. In order not to have to recalculate all the display table values upon moving this 
+  marker they are calculated only once as the layer structure is changed and stored into the 
+  display_buffer variable. These values are then copied to the display table in the
+  update_display function.
+  
+  Articulations:
+  Since there are instruments with multiple articulations and thus multiple velocity layer
+  configurations there is support for storing multiple velocity layer setups in the 'art' family.
+  This functionality is not yet used - at all times there is just one articulation.
+  
+  How the notes are played and their volume updated:
+  In the NCB (and in the RCB for release triggers) play_notes is invoked which plays
+  one note for each layer and store their IDs and reference volume at some index in the
+  notes.ID/notes.0db arrays. The update_volumes function is called directly after this and
+  on each subsequent CC change to update the volume of all active notes.
+  
+  Open questions:  
+  What is the most logical velocity->volume modulation range to use when script is deactivated?
+}
+
+
+on init
+  declare const $AngScale := 1000000  { Input Angle scaling factor }  
+  declare %AngTbl[16] :=  { Angle Table (in dg scaled by 10^6) } ...
+    { atan[n] = arctan(2^-n) and atan[0] is not used } (500000000, ...
+     295167235, 155958261, 79166848,  39737049, 19887896, ...
+       9946375,   4973491,   2486783,  1243396,   621699, ...
+        310849,    155425,     77712,    38856,    19428)  
+  declare const $Ang90 := 1000 { Right angle (90 degrees) = 1000 dg } 
+  {make_perfview}
+  SET_CONDITION(NO_SYS_SCRIPT_RLS_TRIG)
+  SET_CONDITION(K21)
+  message("")
+  declare $i
+  declare $j  
+  declare const $MAXLAYERS := 6             { maximum number of velocity layers }  
+  declare const $MAXPOLY := 512 / $MAXLAYERS { maximum polyphony }  
+  declare ui_value_edit $layer1(0,127,1)    { top velocity of layer 1 }
+  declare ui_value_edit $layer2(0,127,1)    { top velocity of layer 2 }
+  declare ui_value_edit $layer3(0,127,1)    { top velocity of layer 3 }
+  declare ui_value_edit $layer4(0,127,1)    { top velocity of layer 4 }
+  declare ui_value_edit $layer5(0,127,1)    { top velocity of layer 5 }  
+  declare ui_value_edit $nlayers(1,6,1)     { number of velocity layers }
+  declare ui_knob $modrange(0,80,1)         { intensity of CC->volume modulation }
+  declare ui_knob $velrange(0,80,1)         { intensity of velocity->volume modulation }
+  declare ui_label $activate_cc_label(1,1)  { label for next field }
+  declare ui_menu $activate_cc              { midi CC used to activate xfade mode }
+  declare ui_label $xfade_cc_label(1,1)     { label for next field }
+  declare ui_menu $xfade_cc                 { midi CC used to control xfade }
+  declare ui_table %display[128](3,4,15000) { xfade display }
+  declare ui_label $about_label(3,1)        { about label }
+  
+  declare %display_buffer[128]              { the xfade display without the marker 
+                                             (in order to not have to recalc it every 
+                                              time the marker is moved)               }
+  move_control($nlayers,6, 1)
+  move_control($layer1, 6, 2)
+  move_control($layer2, 6, 3)
+  move_control($layer3, 6, 4)
+  move_control($layer4, 0, 0)
+  move_control($layer5, 0, 0)      
+  move_control($xfade_cc_label, 4, 1)
+  move_control($xfade_cc, 4, 2)
+  move_control($activate_cc_label, 4, 3)
+  move_control($activate_cc, 4, 4)
+  move_control($modrange, 5, 1)
+  move_control($velrange, 5, 3)
+  move_control(%display, 1, 1)  
+  move_control($about_label, 1, 5)
+  set_knob_unit($modrange, $KNOB_UNIT_DB)    
+  set_knob_unit($velrange, $KNOB_UNIT_DB)    
+  set_text($activate_cc_label, "Activate with:")  
+  set_text($xfade_cc_label, "XFade with:")  
+  set_text($about_label, "Equal-power crossfade script V0.6 by Nils Liberg")
+  set_text($nlayers, "No. layers")
+  set_text($layer1, "Layer 1")
+  set_text($layer2, "Layer 2")
+  set_text($layer3, "Layer 3")
+  set_text($layer4, "Layer 4")
+  set_text($layer5, "Layer 5")  
+    
+  { init CC menus }
+  add_menu_item($activate_cc, "Always on", 0)  
+  $i := 1
+  while ($i <= 127)
+    add_menu_item($xfade_cc, "CC" & $i, $i)
+    add_menu_item($activate_cc, "CC" & $i, $i)
+    inc($i)
+  end while
+  
+  { default values }
+  $nlayers := 4
+  $layer1 := 55
+  $layer2 := 88
+  $layer3 := 108
+  $layer4 := 127
+  $layer5 := 127   
+  $modrange := 18
+  $velrange := 25
+  $xfade_cc := 1
+  USE_CODE_IF_NOT(K21)
+    set_knob_defval($modrange, $modrange)
+    set_knob_defval($velrange, $velrange) 
+  END_USE_CODE
+    
+  { layer settings for each articulation }
+  {family art}
+    declare %art__layer_mid[512]          { middle positions of velocity layers }
+    declare %art__layer_count[20]         { number of layers for a certain articulation }
+    declare $art__count := 0              { number of articulations }
+    declare $art__current := 0            { current articulation }
+    declare $art__offset := 0             { offset into layer_mid array for current articulation }
+    
+  { data for each note }
+  {family notes}
+    declare %notes__active[$MAXPOLY]         { whether a given note is active; all layers for all notes: }    
+    declare %notes__id [$MAXPOLY*$MAXLAYERS]  { velocity layer note IDs for each incoming note }
+    declare %notes__0db[$MAXPOLY*$MAXLAYERS]  { amount of mdB to restore change_vol back to 0 dB reference }
+  
+  declare $note_offset               { the index of the current note }
+  declare $lastcc                    { last CC val }
+  declare $layer_index1              { first layer affected by current CC }
+  declare $layer_index2              { second layer affected by current CC (always layer_index1 + 1) }
+  declare $vol1                      { xfade volume for layer_index1 }
+  declare $vol2                      { xfade volume for layer_index2 }  
+  declare $mod_vol                   { CC modulated volume }
+  declare $vel_vol                   { velocity modulated volume }
+  declare $initialized               { whether the layer configurations have been initialized }
+  declare $rls_groups_exist          { whether there exist any release trigger groups }
+  
+  { determine if there are any release groups }
+  USE_CODE_IF_NOT(K21)
+    $i := 0
+    while ($i <= $NUM_GROUPS-1)
+      if (_get_engine_par($ENGINE_PAR_RELEASE_TRIGGER, $i, -1, -1) # 0)      
+        $rls_groups_exist := 1
+      end if
+      inc($i)
+    end while
+  END_USE_CODE  
+  
+  make_persistent(%display)
+  make_persistent(%display_buffer)
+  make_persistent($layer1)
+  make_persistent($layer2)
+  make_persistent($layer3)
+  make_persistent($layer4)
+  make_persistent($layer5)
+  make_persistent($nlayers)
+  make_persistent($modrange)  
+  make_persistent($velrange) 
+  make_persistent($activate_cc) 
+  make_persistent($xfade_cc)
+  make_persistent(%art__layer_mid)
+  make_persistent(%art__layer_count)
+  make_persistent($art__count)
+  make_persistent($art__current)
+  make_persistent($art__offset)  
+  
+  { knob labels aren't persistant so force update of dynamical range knob labels }
+  _read_persistent_var($modrange)
+  _read_persistent_var($velrange)
+  declare $_lowest_vol  
+  declare $_tmp
+  {begin on_range_change($modrange)}
+    declare const $_30K := 30000  
+    declare const $_50K := 50000
+    declare const $_60K := 60000
+    declare const $_70K := 70000
+    declare const $_80K := 80000  
+    declare $_cx  { Range-mapped 'cv' }
+    {begin ATFade(0,$modrange,$_lowest_vol)}
+      declare const $Muted := -100000 { -100 db in mdb }
+         { node 0: c0 = 0,  a0 = -100000 mdb
+           node 1: c1 = 17, a1 = -60000 mdb
+           node 2: c2 = 50, a2 = -25000 mdb }
+             
+      $_cx := 127 + $modrange*(0 - 127)/100  { Set range for cx }
+      select ($_cx)
+        case 50 to 127      { 'Working' zone, -25..0 db }
+          $_lowest_vol := ($_50K*($_cx - 127) - 72)/154
+          { atn := a2*(127 - cx)/(127 - c2) rounded }
+        case 17 to 49       { Soft zone, -60..-25 db }
+          $_lowest_vol := -$_60K + ($_70K*($_cx - 17) + 33)/66
+          {  atn := a1 + (a2 - a1)*(cx - c1)/(c2 - c1) rounded }
+        case 0 to 16        { Fade-out zone, -100..60 db }
+          $_lowest_vol := $Muted + ($_80K*$_cx + 17)/34
+          { atn := a0 + (a1 - a0)*cx/c1 rounded }
+      end select
+    {end ATFade(0,$modrange,$_lowest_vol)}
+    set_knob_label($modrange, -$_lowest_vol / 1000 & "." & (-$_lowest_vol / 10 mod 100))  
+  {end on_range_change($modrange)}
+  {begin on_range_change($velrange)}
+    {begin ATFade(0,$velrange,$_lowest_vol)}
+         { node 0: c0 = 0,  a0 = -100000 mdb
+           node 1: c1 = 17, a1 = -60000 mdb
+           node 2: c2 = 50, a2 = -25000 mdb }
+             
+      $_cx := 127 + $velrange*(0 - 127)/100  { Set range for cx }
+      select ($_cx)
+        case 50 to 127      { 'Working' zone, -25..0 db }
+          $_lowest_vol := ($_50K*($_cx - 127) - 72)/154
+          { atn := a2*(127 - cx)/(127 - c2) rounded }
+        case 17 to 49       { Soft zone, -60..-25 db }
+          $_lowest_vol := -$_60K + ($_70K*($_cx - 17) + 33)/66
+          {  atn := a1 + (a2 - a1)*(cx - c1)/(c2 - c1) rounded }
+        case 0 to 16        { Fade-out zone, -100..60 db }
+          $_lowest_vol := $Muted + ($_80K*$_cx + 17)/34
+          { atn := a0 + (a1 - a0)*cx/c1 rounded }
+      end select
+    {end ATFade(0,$velrange,$_lowest_vol)}
+    set_knob_label($velrange, -$_lowest_vol / 1000 & "." & (-$_lowest_vol / 10 mod 100))  
+  {end on_range_change($velrange)}
+  _read_persistent_var($nlayers)
+  {begin show_hide_layers}
+    {begin show_control_if($layer1,6,2,$nlayers>=2)}
+      if ($nlayers >= 2)
+        move_control($layer1, 6, 2)
+      else
+        move_control($layer1, 0, 0)
+      end if
+    {end show_control_if($layer1,6,2,$nlayers>=2)}
+    {begin show_control_if($layer2,6,3,$nlayers>=3)}
+      if ($nlayers >= 3)
+        move_control($layer2, 6, 3)
+      else
+        move_control($layer2, 0, 0)
+      end if
+    {end show_control_if($layer2,6,3,$nlayers>=3)}
+    {begin show_control_if($layer3,6,4,$nlayers>=4)}
+      if ($nlayers >= 4)
+        move_control($layer3, 6, 4)
+      else
+        move_control($layer3, 0, 0)
+      end if
+    {end show_control_if($layer3,6,4,$nlayers>=4)}
+    {begin show_control_if($layer4,6,5,$nlayers>=5)}
+      if ($nlayers >= 5)
+        move_control($layer4, 6, 5)
+      else
+        move_control($layer4, 0, 0)
+      end if
+    {end show_control_if($layer4,6,5,$nlayers>=5)}
+    {begin show_control_if($layer5,6,6,$nlayers>=6)}
+      if ($nlayers >= 6)
+        move_control($layer5, 6, 6)
+      else
+        move_control($layer5, 0, 0)
+      end if
+    {end show_control_if($layer5,6,6,$nlayers>=6)}
+  {end show_hide_layers}
+  declare $_group2  
+  declare $_group
+  declare $_val
+  declare $_i2
+  declare $_layer1
+  declare $_layer2
+  declare $_val1
+  declare $_val2
+  declare $_i  
+  declare $_xfv
+  declare $_sin2
+  declare $_cos2
+  declare $_id
+  declare $_offset2
+  declare $_offset  
+  declare $_array_offset
+  declare $_velocity
+  declare const $_Ang45 := $Ang90/2 { Initial 45 degree rotation }
+  declare const $_cK := 607252935  { Cordic K*10^9 (15 or more iterations) }
+  declare const $_DownScale := 100000 { Reduce scaling from 10^9 to 10^4 }
+  declare const $_DownRound := $_DownScale/2  { Half adjust scale down }
+  declare $_dx { Change in X resulting from current rotation }
+  declare $_dy { Change in Y resulting from current rotation }  
+  declare $_n  { Iteration index }
+  declare $_x  { X-component of Cordic vector scaled by 10^9 }
+  declare $_y  { Y-component of Cordic vector scaled by 10^9 }
+  declare $_z  { Residual Cordic Angle }
+  declare const $_Log2_n := 12655   { Numerator of Log10(2) approximation }
+  declare const $_Log2_d := 42039   { Denominator of 12655/42039 = 0.301029996 }
+  declare const $_Log2Round := $_Log2_d/2 { Half adjust for Log(2) }
+  declare const $_TopBit := 13  { Highest possible on bit in input 'x' }
+  declare const $_TopBitValue := sh_left(1,$_TopBit)  { Value of top bit }
+  declare const $_TopX := $_TopBitValue*2 - 1    { Max allowed input 'x' }
+  declare const $_LogScale := 10000     { Scaling for output logarithm }  
+  declare const $_MaxLog := ($_TopBit + 1)*$_LogScale     { Log2(TopX + 1) }
+  declare const $_NAL := -1  { Sentinel value used for undefined log, 'Not a Log' }  
+  declare const $_LmShift := 16 - $_TopBit  { Boost LmScale = LogScale*(2^LmShift) }
+  declare const $_LmRound := sh_left(1,$_LmShift - 1)   { Half LmShift 'value' }
+  declare const $_Lm3 := 3*sh_left($_LogScale,$_LmShift)  { 3*LmScale }
+  declare const $_SPe := 32626   { Scaled-Pe = Pe*220*LogScale }
+  declare const $_SPe3 := 97584  { Scaled-Pe3 = 2.991*SPe }
+  declare const $_PeScale := 220 { Extra Pe scale factor (above LogScale) }
+  declare const $_PeRound := $_PeScale/2 { To half-adjust Pe error correction }   
+  declare $_err { Error Correction term for mantissa }
+  declare $_Lc  { lg(x) characteristic }
+  declare $_Lm  { lg(x) mantissa approximation }
+  declare $_X0  { X0 = 2^Lc, Lower end of mantissa 'interval' for input X } 
+  declare const $_MaxRatio := 10000 { Max for scaled V/Vm }
+  declare const $_Minx_db := -80000 { -80 db = 20 log10(0.0001) }
+  declare $_lgx
+end on
+
+on note     
+  { if script has not yet been initialized, do it now }
+  if ($initialized = 0)
+    $initialized := 1
+    {begin on_update}
+    { reset the articulations and re-add the current setting }
+    {begin clear_articulations}
+      $art__count := 0
+    {end clear_articulations}
+    {begin add_articulation($nlayers,$layer1,$layer2,$layer3,$layer4,$layer5)}
+      {begin set_articulation($art__count,$nlayers,$layer1,$layer2,$layer3,$layer4,$layer5)}
+        
+        %art__layer_count[$art__count] := $nlayers      
+        $_offset2 := $art__count*$MAXLAYERS
+        
+        { calculate middle of each layer }
+        if ($nlayers = 1)    
+          %art__layer_mid[$_offset2 + 0] := 0
+          %art__layer_mid[$_offset2 + 1] := 127    
+        else
+          %art__layer_mid[$_offset2 + 0] := 0    
+          %art__layer_mid[$_offset2 + 1] := ($layer1 + $layer2) / 2 
+          %art__layer_mid[$_offset2 + 2] := ($layer2 + $layer3) / 2 
+          %art__layer_mid[$_offset2 + 3] := ($layer3 + $layer4) / 2 
+          %art__layer_mid[$_offset2 + 4] := ($layer4 + $layer5) / 2 
+          %art__layer_mid[$_offset2 + $nlayers-1] := 127    
+        end if  
+      {end set_articulation($art__count,$nlayers,$layer1,$layer2,$layer3,$layer4,$layer5)}
+      inc($art__count)
+    {end add_articulation($nlayers,$layer1,$layer2,$layer3,$layer4,$layer5)}
+      
+    {begin update_display_buffer}
+      
+      { display the xfade curves }
+      $_i2 := 0
+      while ($_i2 <= 126)
+        {begin calc_vol($_i2,$_layer1,$_layer2,$_val1,$_val2)}
+          
+        { find velocity layer containing the given pos }
+        $_i := 0
+        while ($_i <= %art__layer_count[$art__current]-2)
+          if (in_range($_i2, %art__layer_mid[$art__offset + $_i], ...
+                           %art__layer_mid[$art__offset + $_i + 1]))
+            $_layer1 := $_i
+            $_layer2 := $_layer1 + 1
+            $_i := 999 { break }
+          end if
+          inc($_i)
+        end while
+        
+        { angle = 90 degrees * (pos - left) / (right - left) }
+        $_xfv := $Ang90 * ($_i2 - %art__layer_mid[$art__offset + $_layer1]) / ...
+                       (%art__layer_mid[$art__offset + $_layer2] - %art__layer_mid[$art__offset + $_layer1])
+                       
+        { calculate xfade values and convert to dB }
+        {begin SinCos($_xfv,$_sin2,$_cos2)}
+          
+          $_x := $_cK  { Pre-rotate reference vector K by 45 degrees so  }
+          $_y := $_cK  {  that iteration for n = 0 need not be performed }
+          $_z := ($_xfv - $_Ang45)*$AngScale { Scaled input angle referenced to 500 dg } 
+          $_n := 1
+          while ($_n <= 15)
+            $_dx := sh_right($_y,$_n)  { Rotated change in current x }
+            $_dy := sh_right($_x,$_n)  { Rotated change in current y }
+            if ($_z < 0)  { Rotate vector clockwise }
+              $_x := $_x + $_dx   { Compute new rotated X }
+              $_y := $_y - $_dy   { Compute new rotated Y }
+              $_z := $_z + %AngTbl[$_n]  { Update residual angle }
+            else      { Rotate vector counter-clockwise }  
+              $_x := $_x - $_dx   { Compute new rotated X }
+              $_y := $_y + $_dy   { Compute new rotated Y }
+              $_z := $_z - %AngTbl[$_n]  { Update residual angle } 
+            end if
+            inc($_n)
+          end while
+          $_sin2 := ($_y + $_DownRound)/$_DownScale  { Reduce scale to 10^4 and round }
+          $_cos2 := ($_x + $_DownRound)/$_DownScale  { Both are positive in 1st quadrant }
+        {end SinCos($_xfv,$_sin2,$_cos2)}
+        {begin Get_db($_cos2,$_val1)}
+          
+          if ($_cos2 >= $_MaxRatio) { If 'r' is too big }
+            $_val1 := 0       { Output no more than 0db reference }
+          else
+            {begin Log10($_cos2,$_val1)}
+              
+            {begin Log2($_cos2,$_val1)}
+              { Pe = 0.014830 = 16,313/1.1M   1.1M = 110*LogScale }
+              
+              if ($_cos2 <= 0)  { First, filter out the extremes in 'x' }
+                $_val1 := $_NAL      { log not defined for zero or negative 'x' }
+              else
+              if ($_cos2 > $_TopX)
+                $_val1 := $_MaxLog   { Log2(TopBit+1)*10000 = maximum log output }
+              else { 0 < x < TopX }  
+                $_X0 := $_TopBitValue  { 2^TopBit = Highest mantissa interval base }
+                $_Lc := $_TopBit       { Max characteristic }
+                while (($_cos2 .and. $_X0) = 0)  { Loop to find highest 'on' bit }
+                  $_X0 := sh_right($_X0,1)    { Keep track of high bit value }
+                  dec ($_Lc)   { Keep track of high bit position from 15..0 }
+                end while    { On loop exit, Lc = unscaled characteristic, X0 = 2^Lc }
+                if ($_cos2 = $_X0)
+                  $_val1 := $_Lc*$_LogScale { For exact powers of 2, mantissa = 0 so we're done }
+                else { mantissa > 0 }
+                  $_Lm := $_Lm3*($_cos2 - $_X0)/($_cos2 + $_X0)  { Mantissa*LmScale }
+                  $_err := sh_right($_cos2*$_SPe,$_Lc - 1) - $_SPe3  { SPe*2*x/X0 - SPe3 }
+                  $_err := $_SPe - $_err*$_err/$_SPe     { Error scaled by PeScale*LogScale }
+                  $_err := (sh_left($_err,$_LmShift) + $_PeRound)/$_PeScale  { Reduce to LmScale }
+                  $_val1 := $_Lc*$_LogScale + sh_right($_Lm - $_err + $_LmRound,$_LmShift)   { Result }
+                end if  { Final Result scaled only by LogScale }
+              end if
+              end if
+            {end Log2($_cos2,$_val1)}
+            if ($_val1 >= 0)    { If not NAL }
+              $_val1 := ($_val1*$_Log2_n + $_Log2Round)/$_Log2_d  { logx = logx*Log10(2) } 
+            end if
+            {end Log10($_cos2,$_val1)}
+            if ($_val1 < 0)
+              $_val1 := $Muted { 'r' <= 0, output Muted }
+            else { 0.0001 < 'r' < 1.0000 }
+              $_val1 := 2*$_val1 + $_Minx_db { atn = 20000*log(r) - 80000 }
+            end if
+          end if
+        {end Get_db($_cos2,$_val1)}
+        {begin Get_db($_sin2,$_val2)}
+          
+          if ($_sin2 >= $_MaxRatio) { If 'r' is too big }
+            $_val2 := 0       { Output no more than 0db reference }
+          else
+            {begin Log10($_sin2,$_val2)}
+              
+            {begin Log2($_sin2,$_val2)}
+              { Pe = 0.014830 = 16,313/1.1M   1.1M = 110*LogScale }
+              
+              if ($_sin2 <= 0)  { First, filter out the extremes in 'x' }
+                $_val2 := $_NAL      { log not defined for zero or negative 'x' }
+              else
+              if ($_sin2 > $_TopX)
+                $_val2 := $_MaxLog   { Log2(TopBit+1)*10000 = maximum log output }
+              else { 0 < x < TopX }  
+                $_X0 := $_TopBitValue  { 2^TopBit = Highest mantissa interval base }
+                $_Lc := $_TopBit       { Max characteristic }
+                while (($_sin2 .and. $_X0) = 0)  { Loop to find highest 'on' bit }
+                  $_X0 := sh_right($_X0,1)    { Keep track of high bit value }
+                  dec ($_Lc)   { Keep track of high bit position from 15..0 }
+                end while    { On loop exit, Lc = unscaled characteristic, X0 = 2^Lc }
+                if ($_sin2 = $_X0)
+                  $_val2 := $_Lc*$_LogScale { For exact powers of 2, mantissa = 0 so we're done }
+                else { mantissa > 0 }
+                  $_Lm := $_Lm3*($_sin2 - $_X0)/($_sin2 + $_X0)  { Mantissa*LmScale }
+                  $_err := sh_right($_sin2*$_SPe,$_Lc - 1) - $_SPe3  { SPe*2*x/X0 - SPe3 }
+                  $_err := $_SPe - $_err*$_err/$_SPe     { Error scaled by PeScale*LogScale }
+                  $_err := (sh_left($_err,$_LmShift) + $_PeRound)/$_PeScale  { Reduce to LmScale }
+                  $_val2 := $_Lc*$_LogScale + sh_right($_Lm - $_err + $_LmRound,$_LmShift)   { Result }
+                end if  { Final Result scaled only by LogScale }
+              end if
+              end if
+            {end Log2($_sin2,$_val2)}
+            if ($_val2 >= 0)    { If not NAL }
+              $_val2 := ($_val2*$_Log2_n + $_Log2Round)/$_Log2_d  { logx = logx*Log10(2) } 
+            end if
+            {end Log10($_sin2,$_val2)}
+            if ($_val2 < 0)
+              $_val2 := $Muted { 'r' <= 0, output Muted }
+            else { 0.0001 < 'r' < 1.0000 }
+              $_val2 := 2*$_val2 + $_Minx_db { atn = 20000*log(r) - 80000 }
+            end if
+          end if
+        {end Get_db($_sin2,$_val2)}
+        {end calc_vol($_i2,$_layer1,$_layer2,$_val1,$_val2)}
+        $_val1 := $_val1 + 15000  { add a number since table values have to be non-negative }
+        $_val2 := $_val2 + 15000  { add a number since table values have to be non-negative }
+        {begin nonnegative($_val1)}
+        if ($_val1 < 0)
+          $_val1 := 0
+        end if
+        {end nonnegative($_val1)}
+        {begin nonnegative($_val2)}
+        if ($_val2 < 0)
+          $_val2 := 0
+        end if
+        {end nonnegative($_val2)}
+        %display_buffer[$_i2] := $_val1
+        if (%art__layer_count[$art__current] = 1)
+          %display_buffer[$_i2+1] := $_val1  { in case of a single layer display val1 twice }
+        else
+          %display_buffer[$_i2+1] := $_val2  { in case of multiple layers display val1 and val2 }
+        end if    
+        $_i2 := $_i2 + 2
+      end while
+    {end update_display_buffer}
+    {begin update_display(-999)}
+      
+      { copy display buffer to display }
+      $i := 0
+      while ($i <= 127)
+        %display[$i] := %display_buffer[$i]
+        inc($i)
+      end while
+      
+      { display a marker }  
+      if (in_range(-999, 1, 127))
+        %display[-999-1] := 15000
+      end if
+      if (in_range(-999, 0, 126))
+        %display[-999+1] := 15000    
+      end if
+      if (in_range(-999, 0, 127))
+        %display[-999] := 15000
+      end if
+    {end update_display(-999)}
+    {end on_update}
+  end if
+  
+  { activate normal and deactivate release groups }
+  if ($rls_groups_exist = 1)
+    {begin only_normal_groups}
+    USE_CODE_IF_NOT(K21)
+      disallow_group($ALL_GROUPS)
+      $_group := 0
+      while ($_group <= $NUM_GROUPS-1)
+        if (_get_engine_par($ENGINE_PAR_RELEASE_TRIGGER, $_group, -1, -1) = 0)
+          allow_group($_group)
+        end if
+        inc($_group)
+      end while
+    END_USE_CODE
+    {end only_normal_groups}
+  end if
+  
+  $lastcc := %CC[$xfade_cc]  
+  
+  { if activate CC is set and not activated }
+  if ($activate_cc # 0 and %CC[$activate_cc] < 64)
+    { calculate velocity modulated volume }
+    {begin ATFade($EVENT_VELOCITY,($velrange),$vel_vol)}
+       { node 0: c0 = 0,  a0 = -100000 mdb
+         node 1: c1 = 17, a1 = -60000 mdb
+         node 2: c2 = 50, a2 = -25000 mdb }
+           
+    $_cx := 127 + ($velrange)*($EVENT_VELOCITY - 127)/100  { Set range for cx }
+    select ($_cx)
+      case 50 to 127      { 'Working' zone, -25..0 db }
+        $vel_vol := ($_50K*($_cx - 127) - 72)/154
+        { atn := a2*(127 - cx)/(127 - c2) rounded }
+      case 17 to 49       { Soft zone, -60..-25 db }
+        $vel_vol := -$_60K + ($_70K*($_cx - 17) + 33)/66
+        {  atn := a1 + (a2 - a1)*(cx - c1)/(c2 - c1) rounded }
+      case 0 to 16        { Fade-out zone, -100..60 db }
+        $vel_vol := $Muted + ($_80K*$_cx + 17)/34
+        { atn := a0 + (a1 - a0)*cx/c1 rounded }
+    end select
+    {end ATFade($EVENT_VELOCITY,($velrange),$vel_vol)}
+    change_vol($EVENT_ID, $vel_vol, 1)
+    
+  else
+    { discard incoming note }
+    ignore_event($EVENT_ID)        
+    
+    { find the first inactive note element, or exit if none }
+    $note_offset := search(%notes__active, 0)    
+    if ($note_offset = -1)
+      exit
+    end if
+                
+    {begin play_notes($note_offset)}
+        
+    $_array_offset := $note_offset * $MAXLAYERS    
+    
+    { calculate velocity modulated volume }
+    {begin ATFade($EVENT_VELOCITY,$velrange,$vel_vol)}
+         { node 0: c0 = 0,  a0 = -100000 mdb
+           node 1: c1 = 17, a1 = -60000 mdb
+           node 2: c2 = 50, a2 = -25000 mdb }
+             
+      $_cx := 127 + $velrange*($EVENT_VELOCITY - 127)/100  { Set range for cx }
+      select ($_cx)
+        case 50 to 127      { 'Working' zone, -25..0 db }
+          $vel_vol := ($_50K*($_cx - 127) - 72)/154
+          { atn := a2*(127 - cx)/(127 - c2) rounded }
+        case 17 to 49       { Soft zone, -60..-25 db }
+          $vel_vol := -$_60K + ($_70K*($_cx - 17) + 33)/66
+          {  atn := a1 + (a2 - a1)*(cx - c1)/(c2 - c1) rounded }
+        case 0 to 16        { Fade-out zone, -100..60 db }
+          $vel_vol := $Muted + ($_80K*$_cx + 17)/34
+          { atn := a0 + (a1 - a0)*cx/c1 rounded }
+      end select
+    {end ATFade($EVENT_VELOCITY,$velrange,$vel_vol)}
+    
+    { for each layer }
+    $i := 0
+    while ($i <= %art__layer_count[$art__current]-1)
+      { determine velocity }   
+      $_velocity := %art__layer_mid[$art__offset + $i]
+      if ($_velocity < 1)
+        $_velocity := 1
+      end if
+      if ($_velocity > 127)
+        $_velocity := 127
+      end if
+      
+      { play layer note }
+      %notes__id[$_array_offset + $i]  := play_note($EVENT_NOTE, $_velocity, 0, -1)    
+      %notes__0db[$_array_offset + $i] := $vel_vol   { lower the reference volume }                 
+      inc($i)
+    end while
+    
+    { remember that this note is used }
+    %notes__active[$note_offset] := 1
+    {end play_notes($note_offset)}
+    {begin update_volumes}
+    
+    { calculate CC modulated volume }
+    {begin ATFade($lastcc,$modrange,$mod_vol)}
+         { node 0: c0 = 0,  a0 = -100000 mdb
+           node 1: c1 = 17, a1 = -60000 mdb
+           node 2: c2 = 50, a2 = -25000 mdb }
+             
+      $_cx := 127 + $modrange*($lastcc - 127)/100  { Set range for cx }
+      select ($_cx)
+        case 50 to 127      { 'Working' zone, -25..0 db }
+          $mod_vol := ($_50K*($_cx - 127) - 72)/154
+          { atn := a2*(127 - cx)/(127 - c2) rounded }
+        case 17 to 49       { Soft zone, -60..-25 db }
+          $mod_vol := -$_60K + ($_70K*($_cx - 17) + 33)/66
+          {  atn := a1 + (a2 - a1)*(cx - c1)/(c2 - c1) rounded }
+        case 0 to 16        { Fade-out zone, -100..60 db }
+          $mod_vol := $Muted + ($_80K*$_cx + 17)/34
+          { atn := a0 + (a1 - a0)*cx/c1 rounded }
+      end select
+    {end ATFade($lastcc,$modrange,$mod_vol)}
+      
+    $i := 0
+    while ($i <= $MAXPOLY-1)
+      if (%notes__active[$i] = 1)   { if it's active }
+        $_offset := $i * $MAXLAYERS
+                         
+        { figure out what layers are affected and their volumes }
+        {begin calc_vol($lastcc,$layer_index1,$layer_index2,$vol1,$vol2)}
+        
+      { find velocity layer containing the given pos }
+      $_i := 0
+      while ($_i <= %art__layer_count[$art__current]-2)
+        if (in_range($lastcc, %art__layer_mid[$art__offset + $_i], ...
+                         %art__layer_mid[$art__offset + $_i + 1]))
+          $layer_index1 := $_i
+          $layer_index2 := $layer_index1 + 1
+          $_i := 999 { break }
+        end if
+        inc($_i)
+      end while
+      
+      { angle = 90 degrees * (pos - left) / (right - left) }
+      $_xfv := $Ang90 * ($lastcc - %art__layer_mid[$art__offset + $layer_index1]) / ...
+                     (%art__layer_mid[$art__offset + $layer_index2] - %art__layer_mid[$art__offset + $layer_index1])
+                     
+      { calculate xfade values and convert to dB }
+      {begin SinCos($_xfv,$_sin2,$_cos2)}
+        
+        $_x := $_cK  { Pre-rotate reference vector K by 45 degrees so  }
+        $_y := $_cK  {  that iteration for n = 0 need not be performed }
+        $_z := ($_xfv - $_Ang45)*$AngScale { Scaled input angle referenced to 500 dg } 
+        $_n := 1
+        while ($_n <= 15)
+          $_dx := sh_right($_y,$_n)  { Rotated change in current x }
+          $_dy := sh_right($_x,$_n)  { Rotated change in current y }
+          if ($_z < 0)  { Rotate vector clockwise }
+            $_x := $_x + $_dx   { Compute new rotated X }
+            $_y := $_y - $_dy   { Compute new rotated Y }
+            $_z := $_z + %AngTbl[$_n]  { Update residual angle }
+          else      { Rotate vector counter-clockwise }  
+            $_x := $_x - $_dx   { Compute new rotated X }
+            $_y := $_y + $_dy   { Compute new rotated Y }
+            $_z := $_z - %AngTbl[$_n]  { Update residual angle } 
+          end if
+          inc($_n)
+        end while
+        $_sin2 := ($_y + $_DownRound)/$_DownScale  { Reduce scale to 10^4 and round }
+        $_cos2 := ($_x + $_DownRound)/$_DownScale  { Both are positive in 1st quadrant }
+      {end SinCos($_xfv,$_sin2,$_cos2)}
+      {begin Get_db($_cos2,$vol1)}
+        
+        if ($_cos2 >= $_MaxRatio) { If 'r' is too big }
+          $vol1 := 0       { Output no more than 0db reference }
+        else
+          {begin Log10($_cos2,$vol1)}
+            
+          {begin Log2($_cos2,$vol1)}
+            { Pe = 0.014830 = 16,313/1.1M   1.1M = 110*LogScale }
+            
+            if ($_cos2 <= 0)  { First, filter out the extremes in 'x' }
+              $vol1 := $_NAL      { log not defined for zero or negative 'x' }
+            else
+            if ($_cos2 > $_TopX)
+              $vol1 := $_MaxLog   { Log2(TopBit+1)*10000 = maximum log output }
+            else { 0 < x < TopX }  
+              $_X0 := $_TopBitValue  { 2^TopBit = Highest mantissa interval base }
+              $_Lc := $_TopBit       { Max characteristic }
+              while (($_cos2 .and. $_X0) = 0)  { Loop to find highest 'on' bit }
+                $_X0 := sh_right($_X0,1)    { Keep track of high bit value }
+                dec ($_Lc)   { Keep track of high bit position from 15..0 }
+              end while    { On loop exit, Lc = unscaled characteristic, X0 = 2^Lc }
+              if ($_cos2 = $_X0)
+                $vol1 := $_Lc*$_LogScale { For exact powers of 2, mantissa = 0 so we're done }
+              else { mantissa > 0 }
+                $_Lm := $_Lm3*($_cos2 - $_X0)/($_cos2 + $_X0)  { Mantissa*LmScale }
+                $_err := sh_right($_cos2*$_SPe,$_Lc - 1) - $_SPe3  { SPe*2*x/X0 - SPe3 }
+                $_err := $_SPe - $_err*$_err/$_SPe     { Error scaled by PeScale*LogScale }
+                $_err := (sh_left($_err,$_LmShift) + $_PeRound)/$_PeScale  { Reduce to LmScale }
+                $vol1 := $_Lc*$_LogScale + sh_right($_Lm - $_err + $_LmRound,$_LmShift)   { Result }
+              end if  { Final Result scaled only by LogScale }
+            end if
+            end if
+          {end Log2($_cos2,$vol1)}
+          if ($vol1 >= 0)    { If not NAL }
+            $vol1 := ($vol1*$_Log2_n + $_Log2Round)/$_Log2_d  { logx = logx*Log10(2) } 
+          end if
+          {end Log10($_cos2,$vol1)}
+          if ($vol1 < 0)
+            $vol1 := $Muted { 'r' <= 0, output Muted }
+          else { 0.0001 < 'r' < 1.0000 }
+            $vol1 := 2*$vol1 + $_Minx_db { atn = 20000*log(r) - 80000 }
+          end if
+        end if
+      {end Get_db($_cos2,$vol1)}
+      {begin Get_db($_sin2,$vol2)}
+        
+        if ($_sin2 >= $_MaxRatio) { If 'r' is too big }
+          $vol2 := 0       { Output no more than 0db reference }
+        else
+          {begin Log10($_sin2,$vol2)}
+            
+          {begin Log2($_sin2,$vol2)}
+            { Pe = 0.014830 = 16,313/1.1M   1.1M = 110*LogScale }
+            
+            if ($_sin2 <= 0)  { First, filter out the extremes in 'x' }
+              $vol2 := $_NAL      { log not defined for zero or negative 'x' }
+            else
+            if ($_sin2 > $_TopX)
+              $vol2 := $_MaxLog   { Log2(TopBit+1)*10000 = maximum log output }
+            else { 0 < x < TopX }  
+              $_X0 := $_TopBitValue  { 2^TopBit = Highest mantissa interval base }
+              $_Lc := $_TopBit       { Max characteristic }
+              while (($_sin2 .and. $_X0) = 0)  { Loop to find highest 'on' bit }
+                $_X0 := sh_right($_X0,1)    { Keep track of high bit value }
+                dec ($_Lc)   { Keep track of high bit position from 15..0 }
+              end while    { On loop exit, Lc = unscaled characteristic, X0 = 2^Lc }
+              if ($_sin2 = $_X0)
+                $vol2 := $_Lc*$_LogScale { For exact powers of 2, mantissa = 0 so we're done }
+              else { mantissa > 0 }
+                $_Lm := $_Lm3*($_sin2 - $_X0)/($_sin2 + $_X0)  { Mantissa*LmScale }
+                $_err := sh_right($_sin2*$_SPe,$_Lc - 1) - $_SPe3  { SPe*2*x/X0 - SPe3 }
+                $_err := $_SPe - $_err*$_err/$_SPe     { Error scaled by PeScale*LogScale }
+                $_err := (sh_left($_err,$_LmShift) + $_PeRound)/$_PeScale  { Reduce to LmScale }
+                $vol2 := $_Lc*$_LogScale + sh_right($_Lm - $_err + $_LmRound,$_LmShift)   { Result }
+              end if  { Final Result scaled only by LogScale }
+            end if
+            end if
+          {end Log2($_sin2,$vol2)}
+          if ($vol2 >= 0)    { If not NAL }
+            $vol2 := ($vol2*$_Log2_n + $_Log2Round)/$_Log2_d  { logx = logx*Log10(2) } 
+          end if
+          {end Log10($_sin2,$vol2)}
+          if ($vol2 < 0)
+            $vol2 := $Muted { 'r' <= 0, output Muted }
+          else { 0.0001 < 'r' < 1.0000 }
+            $vol2 := 2*$vol2 + $_Minx_db { atn = 20000*log(r) - 80000 }
+          end if
+        end if
+      {end Get_db($_sin2,$vol2)}
+        {end calc_vol($lastcc,$layer_index1,$layer_index2,$vol1,$vol2)}
+        
+        { update volume of affected notes }
+        if (in_range($layer_index1, 0, %art__layer_count[$art__current]-1))
+          {begin update_volume(%notes__id[$_offset+$layer_index1],%notes__0db[$_offset+$layer_index1],$vol1)}
+      change_vol(%notes__id[$_offset + $layer_index1], %notes__0db[$_offset + $layer_index1] + ($vol1 + $mod_vol), 1)
+      %notes__0db[$_offset + $layer_index1] := -($vol1 + $mod_vol)  { remember how far we are from reference volume }
+          {end update_volume(%notes__id[$_offset+$layer_index1],%notes__0db[$_offset+$layer_index1],$vol1)}
+        end if
+        if (in_range($layer_index2, 0, %art__layer_count[$art__current]-1))
+          {begin update_volume(%notes__id[$_offset+$layer_index2],%notes__0db[$_offset+$layer_index2],$vol2)}
+      change_vol(%notes__id[$_offset + $layer_index2], %notes__0db[$_offset + $layer_index2] + ($vol2 + $mod_vol), 1)
+      %notes__0db[$_offset + $layer_index2] := -($vol2 + $mod_vol)  { remember how far we are from reference volume }
+          {end update_volume(%notes__id[$_offset+$layer_index2],%notes__0db[$_offset+$layer_index2],$vol2)}
+        end if         
+        
+        { mute all unaffected notes }
+        $j := 0
+        while ($j <= %art__layer_count[$art__current]-1)
+          if ($j # $layer_index1 and $j # $layer_index2)
+            {begin update_volume(%notes__id[$_offset+$j],%notes__0db[$_offset+$j],-100000)}
+      change_vol(%notes__id[$_offset + $j], %notes__0db[$_offset + $j] + (-100000 + $mod_vol), 1)
+      %notes__0db[$_offset + $j] := -(-100000 + $mod_vol)  { remember how far we are from reference volume }
+            {end update_volume(%notes__id[$_offset+$j],%notes__0db[$_offset+$j],-100000)}
+          end if
+          inc($j)
+        end while
+      end if
+      inc($i)
+    end while
+    {end update_volumes}
+  end if
+  
+  { reset the release trigger counter in order for release trigger volume modulation to work }
+  _reset_rls_trig_counter($EVENT_NOTE)
+end on
+
+on release  
+  { if the invoke_update function has indicated that we want to invoke on_update }
+  if ($EVENT_NOTE = 0 and %EVENT_PAR[0] = 9999)
+    {begin on_update}
+    { reset the articulations and re-add the current setting }
+    {begin clear_articulations}
+      $art__count := 0
+    {end clear_articulations}
+    {begin add_articulation($nlayers,$layer1,$layer2,$layer3,$layer4,$layer5)}
+      {begin set_articulation($art__count,$nlayers,$layer1,$layer2,$layer3,$layer4,$layer5)}
+        
+        %art__layer_count[$art__count] := $nlayers      
+        $_offset2 := $art__count*$MAXLAYERS
+        
+        { calculate middle of each layer }
+        if ($nlayers = 1)    
+          %art__layer_mid[$_offset2 + 0] := 0
+          %art__layer_mid[$_offset2 + 1] := 127    
+        else
+          %art__layer_mid[$_offset2 + 0] := 0    
+          %art__layer_mid[$_offset2 + 1] := ($layer1 + $layer2) / 2 
+          %art__layer_mid[$_offset2 + 2] := ($layer2 + $layer3) / 2 
+          %art__layer_mid[$_offset2 + 3] := ($layer3 + $layer4) / 2 
+          %art__layer_mid[$_offset2 + 4] := ($layer4 + $layer5) / 2 
+          %art__layer_mid[$_offset2 + $nlayers-1] := 127    
+        end if  
+      {end set_articulation($art__count,$nlayers,$layer1,$layer2,$layer3,$layer4,$layer5)}
+      inc($art__count)
+    {end add_articulation($nlayers,$layer1,$layer2,$layer3,$layer4,$layer5)}
+      
+    {begin update_display_buffer}
+      
+      { display the xfade curves }
+      $_i2 := 0
+      while ($_i2 <= 126)
+        {begin calc_vol($_i2,$_layer1,$_layer2,$_val1,$_val2)}
+          
+        { find velocity layer containing the given pos }
+        $_i := 0
+        while ($_i <= %art__layer_count[$art__current]-2)
+          if (in_range($_i2, %art__layer_mid[$art__offset + $_i], ...
+                           %art__layer_mid[$art__offset + $_i + 1]))
+            $_layer1 := $_i
+            $_layer2 := $_layer1 + 1
+            $_i := 999 { break }
+          end if
+          inc($_i)
+        end while
+        
+        { angle = 90 degrees * (pos - left) / (right - left) }
+        $_xfv := $Ang90 * ($_i2 - %art__layer_mid[$art__offset + $_layer1]) / ...
+                       (%art__layer_mid[$art__offset + $_layer2] - %art__layer_mid[$art__offset + $_layer1])
+                       
+        { calculate xfade values and convert to dB }
+        {begin SinCos($_xfv,$_sin2,$_cos2)}
+          
+          $_x := $_cK  { Pre-rotate reference vector K by 45 degrees so  }
+          $_y := $_cK  {  that iteration for n = 0 need not be performed }
+          $_z := ($_xfv - $_Ang45)*$AngScale { Scaled input angle referenced to 500 dg } 
+          $_n := 1
+          while ($_n <= 15)
+            $_dx := sh_right($_y,$_n)  { Rotated change in current x }
+            $_dy := sh_right($_x,$_n)  { Rotated change in current y }
+            if ($_z < 0)  { Rotate vector clockwise }
+              $_x := $_x + $_dx   { Compute new rotated X }
+              $_y := $_y - $_dy   { Compute new rotated Y }
+              $_z := $_z + %AngTbl[$_n]  { Update residual angle }
+            else      { Rotate vector counter-clockwise }  
+              $_x := $_x - $_dx   { Compute new rotated X }
+              $_y := $_y + $_dy   { Compute new rotated Y }
+              $_z := $_z - %AngTbl[$_n]  { Update residual angle } 
+            end if
+            inc($_n)
+          end while
+          $_sin2 := ($_y + $_DownRound)/$_DownScale  { Reduce scale to 10^4 and round }
+          $_cos2 := ($_x + $_DownRound)/$_DownScale  { Both are positive in 1st quadrant }
+        {end SinCos($_xfv,$_sin2,$_cos2)}
+        {begin Get_db($_cos2,$_val1)}
+          
+          if ($_cos2 >= $_MaxRatio) { If 'r' is too big }
+            $_val1 := 0       { Output no more than 0db reference }
+          else
+            {begin Log10($_cos2,$_val1)}
+              
+            {begin Log2($_cos2,$_val1)}
+              { Pe = 0.014830 = 16,313/1.1M   1.1M = 110*LogScale }
+              
+              if ($_cos2 <= 0)  { First, filter out the extremes in 'x' }
+                $_val1 := $_NAL      { log not defined for zero or negative 'x' }
+              else
+              if ($_cos2 > $_TopX)
+                $_val1 := $_MaxLog   { Log2(TopBit+1)*10000 = maximum log output }
+              else { 0 < x < TopX }  
+                $_X0 := $_TopBitValue  { 2^TopBit = Highest mantissa interval base }
+                $_Lc := $_TopBit       { Max characteristic }
+                while (($_cos2 .and. $_X0) = 0)  { Loop to find highest 'on' bit }
+                  $_X0 := sh_right($_X0,1)    { Keep track of high bit value }
+                  dec ($_Lc)   { Keep track of high bit position from 15..0 }
+                end while    { On loop exit, Lc = unscaled characteristic, X0 = 2^Lc }
+                if ($_cos2 = $_X0)
+                  $_val1 := $_Lc*$_LogScale { For exact powers of 2, mantissa = 0 so we're done }
+                else { mantissa > 0 }
+                  $_Lm := $_Lm3*($_cos2 - $_X0)/($_cos2 + $_X0)  { Mantissa*LmScale }
+                  $_err := sh_right($_cos2*$_SPe,$_Lc - 1) - $_SPe3  { SPe*2*x/X0 - SPe3 }
+                  $_err := $_SPe - $_err*$_err/$_SPe     { Error scaled by PeScale*LogScale }
+                  $_err := (sh_left($_err,$_LmShift) + $_PeRound)/$_PeScale  { Reduce to LmScale }
+                  $_val1 := $_Lc*$_LogScale + sh_right($_Lm - $_err + $_LmRound,$_LmShift)   { Result }
+                end if  { Final Result scaled only by LogScale }
+              end if
+              end if
+            {end Log2($_cos2,$_val1)}
+            if ($_val1 >= 0)    { If not NAL }
+              $_val1 := ($_val1*$_Log2_n + $_Log2Round)/$_Log2_d  { logx = logx*Log10(2) } 
+            end if
+            {end Log10($_cos2,$_val1)}
+            if ($_val1 < 0)
+              $_val1 := $Muted { 'r' <= 0, output Muted }
+            else { 0.0001 < 'r' < 1.0000 }
+              $_val1 := 2*$_val1 + $_Minx_db { atn = 20000*log(r) - 80000 }
+            end if
+          end if
+        {end Get_db($_cos2,$_val1)}
+        {begin Get_db($_sin2,$_val2)}
+          
+          if ($_sin2 >= $_MaxRatio) { If 'r' is too big }
+            $_val2 := 0       { Output no more than 0db reference }
+          else
+            {begin Log10($_sin2,$_val2)}
+              
+            {begin Log2($_sin2,$_val2)}
+              { Pe = 0.014830 = 16,313/1.1M   1.1M = 110*LogScale }
+              
+              if ($_sin2 <= 0)  { First, filter out the extremes in 'x' }
+                $_val2 := $_NAL      { log not defined for zero or negative 'x' }
+              else
+              if ($_sin2 > $_TopX)
+                $_val2 := $_MaxLog   { Log2(TopBit+1)*10000 = maximum log output }
+              else { 0 < x < TopX }  
+                $_X0 := $_TopBitValue  { 2^TopBit = Highest mantissa interval base }
+                $_Lc := $_TopBit       { Max characteristic }
+                while (($_sin2 .and. $_X0) = 0)  { Loop to find highest 'on' bit }
+                  $_X0 := sh_right($_X0,1)    { Keep track of high bit value }
+                  dec ($_Lc)   { Keep track of high bit position from 15..0 }
+                end while    { On loop exit, Lc = unscaled characteristic, X0 = 2^Lc }
+                if ($_sin2 = $_X0)
+                  $_val2 := $_Lc*$_LogScale { For exact powers of 2, mantissa = 0 so we're done }
+                else { mantissa > 0 }
+                  $_Lm := $_Lm3*($_sin2 - $_X0)/($_sin2 + $_X0)  { Mantissa*LmScale }
+                  $_err := sh_right($_sin2*$_SPe,$_Lc - 1) - $_SPe3  { SPe*2*x/X0 - SPe3 }
+                  $_err := $_SPe - $_err*$_err/$_SPe     { Error scaled by PeScale*LogScale }
+                  $_err := (sh_left($_err,$_LmShift) + $_PeRound)/$_PeScale  { Reduce to LmScale }
+                  $_val2 := $_Lc*$_LogScale + sh_right($_Lm - $_err + $_LmRound,$_LmShift)   { Result }
+                end if  { Final Result scaled only by LogScale }
+              end if
+              end if
+            {end Log2($_sin2,$_val2)}
+            if ($_val2 >= 0)    { If not NAL }
+              $_val2 := ($_val2*$_Log2_n + $_Log2Round)/$_Log2_d  { logx = logx*Log10(2) } 
+            end if
+            {end Log10($_sin2,$_val2)}
+            if ($_val2 < 0)
+              $_val2 := $Muted { 'r' <= 0, output Muted }
+            else { 0.0001 < 'r' < 1.0000 }
+              $_val2 := 2*$_val2 + $_Minx_db { atn = 20000*log(r) - 80000 }
+            end if
+          end if
+        {end Get_db($_sin2,$_val2)}
+        {end calc_vol($_i2,$_layer1,$_layer2,$_val1,$_val2)}
+        $_val1 := $_val1 + 15000  { add a number since table values have to be non-negative }
+        $_val2 := $_val2 + 15000  { add a number since table values have to be non-negative }
+        {begin nonnegative($_val1)}
+        if ($_val1 < 0)
+          $_val1 := 0
+        end if
+        {end nonnegative($_val1)}
+        {begin nonnegative($_val2)}
+        if ($_val2 < 0)
+          $_val2 := 0
+        end if
+        {end nonnegative($_val2)}
+        %display_buffer[$_i2] := $_val1
+        if (%art__layer_count[$art__current] = 1)
+          %display_buffer[$_i2+1] := $_val1  { in case of a single layer display val1 twice }
+        else
+          %display_buffer[$_i2+1] := $_val2  { in case of multiple layers display val1 and val2 }
+        end if    
+        $_i2 := $_i2 + 2
+      end while
+    {end update_display_buffer}
+    {begin update_display(-999)}
+      
+      { copy display buffer to display }
+      $i := 0
+      while ($i <= 127)
+        %display[$i] := %display_buffer[$i]
+        inc($i)
+      end while
+      
+      { display a marker }  
+      if (in_range(-999, 1, 127))
+        %display[-999-1] := 15000
+      end if
+      if (in_range(-999, 0, 126))
+        %display[-999+1] := 15000    
+      end if
+      if (in_range(-999, 0, 127))
+        %display[-999] := 15000
+      end if
+    {end update_display(-999)}
+    {end on_update}
+    
+  { if normal note and the sustain pedal is not pressed }
+  else
+  if (%CC[64] < 64 or $activate_cc = 64)
+    { find the note ID and translate it to an offset into a note offset }
+    $i := search(%notes__id, $EVENT_ID)
+    if ($i # -1)
+      $note_offset := $i / $MAXLAYERS            
+      
+      { if there are any release groups }
+      if ($rls_groups_exist = 1)
+        
+        { activate release groups and deactivate normal ones }
+        {begin only_release_groups}
+    USE_CODE_IF_NOT(K21)
+      disallow_group($ALL_GROUPS)
+      $_group2 := 0
+      while ($_group2 <= $NUM_GROUPS-1)
+        if (_get_engine_par($ENGINE_PAR_RELEASE_TRIGGER, $_group2, -1, -1) # 0)
+          allow_group($_group2)      
+        end if
+        inc($_group2)
+      end while
+    END_USE_CODE
+        {end only_release_groups}
+        
+        { play releases and replace normal note info with releases note info }
+        {begin play_notes($note_offset)}
+        
+    $_array_offset := $note_offset * $MAXLAYERS    
+    
+    { calculate velocity modulated volume }
+    {begin ATFade($EVENT_VELOCITY,$velrange,$vel_vol)}
+         { node 0: c0 = 0,  a0 = -100000 mdb
+           node 1: c1 = 17, a1 = -60000 mdb
+           node 2: c2 = 50, a2 = -25000 mdb }
+             
+      $_cx := 127 + $velrange*($EVENT_VELOCITY - 127)/100  { Set range for cx }
+      select ($_cx)
+        case 50 to 127      { 'Working' zone, -25..0 db }
+          $vel_vol := ($_50K*($_cx - 127) - 72)/154
+          { atn := a2*(127 - cx)/(127 - c2) rounded }
+        case 17 to 49       { Soft zone, -60..-25 db }
+          $vel_vol := -$_60K + ($_70K*($_cx - 17) + 33)/66
+          {  atn := a1 + (a2 - a1)*(cx - c1)/(c2 - c1) rounded }
+        case 0 to 16        { Fade-out zone, -100..60 db }
+          $vel_vol := $Muted + ($_80K*$_cx + 17)/34
+          { atn := a0 + (a1 - a0)*cx/c1 rounded }
+      end select
+    {end ATFade($EVENT_VELOCITY,$velrange,$vel_vol)}
+    
+    { for each layer }
+    $i := 0
+    while ($i <= %art__layer_count[$art__current]-1)
+      { determine velocity }   
+      $_velocity := %art__layer_mid[$art__offset + $i]
+      if ($_velocity < 1)
+        $_velocity := 1
+      end if
+      if ($_velocity > 127)
+        $_velocity := 127
+      end if
+      
+      { play layer note }
+      %notes__id[$_array_offset + $i]  := play_note($EVENT_NOTE, $_velocity, 0, -1)    
+      %notes__0db[$_array_offset + $i] := $vel_vol   { lower the reference volume }                 
+      inc($i)
+    end while
+    
+    { remember that this note is used }
+    %notes__active[$note_offset] := 1
+        {end play_notes($note_offset)}
+        {begin update_volumes}
+    
+    { calculate CC modulated volume }
+    {begin ATFade($lastcc,$modrange,$mod_vol)}
+         { node 0: c0 = 0,  a0 = -100000 mdb
+           node 1: c1 = 17, a1 = -60000 mdb
+           node 2: c2 = 50, a2 = -25000 mdb }
+             
+      $_cx := 127 + $modrange*($lastcc - 127)/100  { Set range for cx }
+      select ($_cx)
+        case 50 to 127      { 'Working' zone, -25..0 db }
+          $mod_vol := ($_50K*($_cx - 127) - 72)/154
+          { atn := a2*(127 - cx)/(127 - c2) rounded }
+        case 17 to 49       { Soft zone, -60..-25 db }
+          $mod_vol := -$_60K + ($_70K*($_cx - 17) + 33)/66
+          {  atn := a1 + (a2 - a1)*(cx - c1)/(c2 - c1) rounded }
+        case 0 to 16        { Fade-out zone, -100..60 db }
+          $mod_vol := $Muted + ($_80K*$_cx + 17)/34
+          { atn := a0 + (a1 - a0)*cx/c1 rounded }
+      end select
+    {end ATFade($lastcc,$modrange,$mod_vol)}
+      
+    $i := 0
+    while ($i <= $MAXPOLY-1)
+      if (%notes__active[$i] = 1)   { if it's active }
+        $_offset := $i * $MAXLAYERS
+                         
+        { figure out what layers are affected and their volumes }
+        {begin calc_vol($lastcc,$layer_index1,$layer_index2,$vol1,$vol2)}
+        
+      { find velocity layer containing the given pos }
+      $_i := 0
+      while ($_i <= %art__layer_count[$art__current]-2)
+        if (in_range($lastcc, %art__layer_mid[$art__offset + $_i], ...
+                         %art__layer_mid[$art__offset + $_i + 1]))
+          $layer_index1 := $_i
+          $layer_index2 := $layer_index1 + 1
+          $_i := 999 { break }
+        end if
+        inc($_i)
+      end while
+      
+      { angle = 90 degrees * (pos - left) / (right - left) }
+      $_xfv := $Ang90 * ($lastcc - %art__layer_mid[$art__offset + $layer_index1]) / ...
+                     (%art__layer_mid[$art__offset + $layer_index2] - %art__layer_mid[$art__offset + $layer_index1])
+                     
+      { calculate xfade values and convert to dB }
+      {begin SinCos($_xfv,$_sin2,$_cos2)}
+        
+        $_x := $_cK  { Pre-rotate reference vector K by 45 degrees so  }
+        $_y := $_cK  {  that iteration for n = 0 need not be performed }
+        $_z := ($_xfv - $_Ang45)*$AngScale { Scaled input angle referenced to 500 dg } 
+        $_n := 1
+        while ($_n <= 15)
+          $_dx := sh_right($_y,$_n)  { Rotated change in current x }
+          $_dy := sh_right($_x,$_n)  { Rotated change in current y }
+          if ($_z < 0)  { Rotate vector clockwise }
+            $_x := $_x + $_dx   { Compute new rotated X }
+            $_y := $_y - $_dy   { Compute new rotated Y }
+            $_z := $_z + %AngTbl[$_n]  { Update residual angle }
+          else      { Rotate vector counter-clockwise }  
+            $_x := $_x - $_dx   { Compute new rotated X }
+            $_y := $_y + $_dy   { Compute new rotated Y }
+            $_z := $_z - %AngTbl[$_n]  { Update residual angle } 
+          end if
+          inc($_n)
+        end while
+        $_sin2 := ($_y + $_DownRound)/$_DownScale  { Reduce scale to 10^4 and round }
+        $_cos2 := ($_x + $_DownRound)/$_DownScale  { Both are positive in 1st quadrant }
+      {end SinCos($_xfv,$_sin2,$_cos2)}
+      {begin Get_db($_cos2,$vol1)}
+        
+        if ($_cos2 >= $_MaxRatio) { If 'r' is too big }
+          $vol1 := 0       { Output no more than 0db reference }
+        else
+          {begin Log10($_cos2,$vol1)}
+            
+          {begin Log2($_cos2,$vol1)}
+            { Pe = 0.014830 = 16,313/1.1M   1.1M = 110*LogScale }
+            
+            if ($_cos2 <= 0)  { First, filter out the extremes in 'x' }
+              $vol1 := $_NAL      { log not defined for zero or negative 'x' }
+            else
+            if ($_cos2 > $_TopX)
+              $vol1 := $_MaxLog   { Log2(TopBit+1)*10000 = maximum log output }
+            else { 0 < x < TopX }  
+              $_X0 := $_TopBitValue  { 2^TopBit = Highest mantissa interval base }
+              $_Lc := $_TopBit       { Max characteristic }
+              while (($_cos2 .and. $_X0) = 0)  { Loop to find highest 'on' bit }
+                $_X0 := sh_right($_X0,1)    { Keep track of high bit value }
+                dec ($_Lc)   { Keep track of high bit position from 15..0 }
+              end while    { On loop exit, Lc = unscaled characteristic, X0 = 2^Lc }
+              if ($_cos2 = $_X0)
+                $vol1 := $_Lc*$_LogScale { For exact powers of 2, mantissa = 0 so we're done }
+              else { mantissa > 0 }
+                $_Lm := $_Lm3*($_cos2 - $_X0)/($_cos2 + $_X0)  { Mantissa*LmScale }
+                $_err := sh_right($_cos2*$_SPe,$_Lc - 1) - $_SPe3  { SPe*2*x/X0 - SPe3 }
+                $_err := $_SPe - $_err*$_err/$_SPe     { Error scaled by PeScale*LogScale }
+                $_err := (sh_left($_err,$_LmShift) + $_PeRound)/$_PeScale  { Reduce to LmScale }
+                $vol1 := $_Lc*$_LogScale + sh_right($_Lm - $_err + $_LmRound,$_LmShift)   { Result }
+              end if  { Final Result scaled only by LogScale }
+            end if
+            end if
+          {end Log2($_cos2,$vol1)}
+          if ($vol1 >= 0)    { If not NAL }
+            $vol1 := ($vol1*$_Log2_n + $_Log2Round)/$_Log2_d  { logx = logx*Log10(2) } 
+          end if
+          {end Log10($_cos2,$vol1)}
+          if ($vol1 < 0)
+            $vol1 := $Muted { 'r' <= 0, output Muted }
+          else { 0.0001 < 'r' < 1.0000 }
+            $vol1 := 2*$vol1 + $_Minx_db { atn = 20000*log(r) - 80000 }
+          end if
+        end if
+      {end Get_db($_cos2,$vol1)}
+      {begin Get_db($_sin2,$vol2)}
+        
+        if ($_sin2 >= $_MaxRatio) { If 'r' is too big }
+          $vol2 := 0       { Output no more than 0db reference }
+        else
+          {begin Log10($_sin2,$vol2)}
+            
+          {begin Log2($_sin2,$vol2)}
+            { Pe = 0.014830 = 16,313/1.1M   1.1M = 110*LogScale }
+            
+            if ($_sin2 <= 0)  { First, filter out the extremes in 'x' }
+              $vol2 := $_NAL      { log not defined for zero or negative 'x' }
+            else
+            if ($_sin2 > $_TopX)
+              $vol2 := $_MaxLog   { Log2(TopBit+1)*10000 = maximum log output }
+            else { 0 < x < TopX }  
+              $_X0 := $_TopBitValue  { 2^TopBit = Highest mantissa interval base }
+              $_Lc := $_TopBit       { Max characteristic }
+              while (($_sin2 .and. $_X0) = 0)  { Loop to find highest 'on' bit }
+                $_X0 := sh_right($_X0,1)    { Keep track of high bit value }
+                dec ($_Lc)   { Keep track of high bit position from 15..0 }
+              end while    { On loop exit, Lc = unscaled characteristic, X0 = 2^Lc }
+              if ($_sin2 = $_X0)
+                $vol2 := $_Lc*$_LogScale { For exact powers of 2, mantissa = 0 so we're done }
+              else { mantissa > 0 }
+                $_Lm := $_Lm3*($_sin2 - $_X0)/($_sin2 + $_X0)  { Mantissa*LmScale }
+                $_err := sh_right($_sin2*$_SPe,$_Lc - 1) - $_SPe3  { SPe*2*x/X0 - SPe3 }
+                $_err := $_SPe - $_err*$_err/$_SPe     { Error scaled by PeScale*LogScale }
+                $_err := (sh_left($_err,$_LmShift) + $_PeRound)/$_PeScale  { Reduce to LmScale }
+                $vol2 := $_Lc*$_LogScale + sh_right($_Lm - $_err + $_LmRound,$_LmShift)   { Result }
+              end if  { Final Result scaled only by LogScale }
+            end if
+            end if
+          {end Log2($_sin2,$vol2)}
+          if ($vol2 >= 0)    { If not NAL }
+            $vol2 := ($vol2*$_Log2_n + $_Log2Round)/$_Log2_d  { logx = logx*Log10(2) } 
+          end if
+          {end Log10($_sin2,$vol2)}
+          if ($vol2 < 0)
+            $vol2 := $Muted { 'r' <= 0, output Muted }
+          else { 0.0001 < 'r' < 1.0000 }
+            $vol2 := 2*$vol2 + $_Minx_db { atn = 20000*log(r) - 80000 }
+          end if
+        end if
+      {end Get_db($_sin2,$vol2)}
+        {end calc_vol($lastcc,$layer_index1,$layer_index2,$vol1,$vol2)}
+        
+        { update volume of affected notes }
+        if (in_range($layer_index1, 0, %art__layer_count[$art__current]-1))
+          {begin update_volume(%notes__id[$_offset+$layer_index1],%notes__0db[$_offset+$layer_index1],$vol1)}
+      change_vol(%notes__id[$_offset + $layer_index1], %notes__0db[$_offset + $layer_index1] + ($vol1 + $mod_vol), 1)
+      %notes__0db[$_offset + $layer_index1] := -($vol1 + $mod_vol)  { remember how far we are from reference volume }
+          {end update_volume(%notes__id[$_offset+$layer_index1],%notes__0db[$_offset+$layer_index1],$vol1)}
+        end if
+        if (in_range($layer_index2, 0, %art__layer_count[$art__current]-1))
+          {begin update_volume(%notes__id[$_offset+$layer_index2],%notes__0db[$_offset+$layer_index2],$vol2)}
+      change_vol(%notes__id[$_offset + $layer_index2], %notes__0db[$_offset + $layer_index2] + ($vol2 + $mod_vol), 1)
+      %notes__0db[$_offset + $layer_index2] := -($vol2 + $mod_vol)  { remember how far we are from reference volume }
+          {end update_volume(%notes__id[$_offset+$layer_index2],%notes__0db[$_offset+$layer_index2],$vol2)}
+        end if         
+        
+        { mute all unaffected notes }
+        $j := 0
+        while ($j <= %art__layer_count[$art__current]-1)
+          if ($j # $layer_index1 and $j # $layer_index2)
+            {begin update_volume(%notes__id[$_offset+$j],%notes__0db[$_offset+$j],-100000)}
+      change_vol(%notes__id[$_offset + $j], %notes__0db[$_offset + $j] + (-100000 + $mod_vol), 1)
+      %notes__0db[$_offset + $j] := -(-100000 + $mod_vol)  { remember how far we are from reference volume }
+            {end update_volume(%notes__id[$_offset+$j],%notes__0db[$_offset+$j],-100000)}
+          end if
+          inc($j)
+        end while
+      end if
+      inc($i)
+    end while
+        {end update_volumes}
+      end if
+      
+      { mark note as no longer used }
+      %notes__active[$note_offset] := 0      
+    end if
+  end if
+  end if
+end on
+
+on controller  
+  if ($CC_NUM = $xfade_cc and %CC_TOUCHED[$xfade_cc] = 1)
+    $lastcc := %CC[$xfade_cc]  
+    {begin update_volumes}
+    
+    { calculate CC modulated volume }
+    {begin ATFade($lastcc,$modrange,$mod_vol)}
+         { node 0: c0 = 0,  a0 = -100000 mdb
+           node 1: c1 = 17, a1 = -60000 mdb
+           node 2: c2 = 50, a2 = -25000 mdb }
+             
+      $_cx := 127 + $modrange*($lastcc - 127)/100  { Set range for cx }
+      select ($_cx)
+        case 50 to 127      { 'Working' zone, -25..0 db }
+          $mod_vol := ($_50K*($_cx - 127) - 72)/154
+          { atn := a2*(127 - cx)/(127 - c2) rounded }
+        case 17 to 49       { Soft zone, -60..-25 db }
+          $mod_vol := -$_60K + ($_70K*($_cx - 17) + 33)/66
+          {  atn := a1 + (a2 - a1)*(cx - c1)/(c2 - c1) rounded }
+        case 0 to 16        { Fade-out zone, -100..60 db }
+          $mod_vol := $Muted + ($_80K*$_cx + 17)/34
+          { atn := a0 + (a1 - a0)*cx/c1 rounded }
+      end select
+    {end ATFade($lastcc,$modrange,$mod_vol)}
+      
+    $i := 0
+    while ($i <= $MAXPOLY-1)
+      if (%notes__active[$i] = 1)   { if it's active }
+        $_offset := $i * $MAXLAYERS
+                         
+        { figure out what layers are affected and their volumes }
+        {begin calc_vol($lastcc,$layer_index1,$layer_index2,$vol1,$vol2)}
+        
+      { find velocity layer containing the given pos }
+      $_i := 0
+      while ($_i <= %art__layer_count[$art__current]-2)
+        if (in_range($lastcc, %art__layer_mid[$art__offset + $_i], ...
+                         %art__layer_mid[$art__offset + $_i + 1]))
+          $layer_index1 := $_i
+          $layer_index2 := $layer_index1 + 1
+          $_i := 999 { break }
+        end if
+        inc($_i)
+      end while
+      
+      { angle = 90 degrees * (pos - left) / (right - left) }
+      $_xfv := $Ang90 * ($lastcc - %art__layer_mid[$art__offset + $layer_index1]) / ...
+                     (%art__layer_mid[$art__offset + $layer_index2] - %art__layer_mid[$art__offset + $layer_index1])
+                     
+      { calculate xfade values and convert to dB }
+      {begin SinCos($_xfv,$_sin2,$_cos2)}
+        
+        $_x := $_cK  { Pre-rotate reference vector K by 45 degrees so  }
+        $_y := $_cK  {  that iteration for n = 0 need not be performed }
+        $_z := ($_xfv - $_Ang45)*$AngScale { Scaled input angle referenced to 500 dg } 
+        $_n := 1
+        while ($_n <= 15)
+          $_dx := sh_right($_y,$_n)  { Rotated change in current x }
+          $_dy := sh_right($_x,$_n)  { Rotated change in current y }
+          if ($_z < 0)  { Rotate vector clockwise }
+            $_x := $_x + $_dx   { Compute new rotated X }
+            $_y := $_y - $_dy   { Compute new rotated Y }
+            $_z := $_z + %AngTbl[$_n]  { Update residual angle }
+          else      { Rotate vector counter-clockwise }  
+            $_x := $_x - $_dx   { Compute new rotated X }
+            $_y := $_y + $_dy   { Compute new rotated Y }
+            $_z := $_z - %AngTbl[$_n]  { Update residual angle } 
+          end if
+          inc($_n)
+        end while
+        $_sin2 := ($_y + $_DownRound)/$_DownScale  { Reduce scale to 10^4 and round }
+        $_cos2 := ($_x + $_DownRound)/$_DownScale  { Both are positive in 1st quadrant }
+      {end SinCos($_xfv,$_sin2,$_cos2)}
+      {begin Get_db($_cos2,$vol1)}
+        
+        if ($_cos2 >= $_MaxRatio) { If 'r' is too big }
+          $vol1 := 0       { Output no more than 0db reference }
+        else
+          {begin Log10($_cos2,$vol1)}
+            
+          {begin Log2($_cos2,$vol1)}
+            { Pe = 0.014830 = 16,313/1.1M   1.1M = 110*LogScale }
+            
+            if ($_cos2 <= 0)  { First, filter out the extremes in 'x' }
+              $vol1 := $_NAL      { log not defined for zero or negative 'x' }
+            else
+            if ($_cos2 > $_TopX)
+              $vol1 := $_MaxLog   { Log2(TopBit+1)*10000 = maximum log output }
+            else { 0 < x < TopX }  
+              $_X0 := $_TopBitValue  { 2^TopBit = Highest mantissa interval base }
+              $_Lc := $_TopBit       { Max characteristic }
+              while (($_cos2 .and. $_X0) = 0)  { Loop to find highest 'on' bit }
+                $_X0 := sh_right($_X0,1)    { Keep track of high bit value }
+                dec ($_Lc)   { Keep track of high bit position from 15..0 }
+              end while    { On loop exit, Lc = unscaled characteristic, X0 = 2^Lc }
+              if ($_cos2 = $_X0)
+                $vol1 := $_Lc*$_LogScale { For exact powers of 2, mantissa = 0 so we're done }
+              else { mantissa > 0 }
+                $_Lm := $_Lm3*($_cos2 - $_X0)/($_cos2 + $_X0)  { Mantissa*LmScale }
+                $_err := sh_right($_cos2*$_SPe,$_Lc - 1) - $_SPe3  { SPe*2*x/X0 - SPe3 }
+                $_err := $_SPe - $_err*$_err/$_SPe     { Error scaled by PeScale*LogScale }
+                $_err := (sh_left($_err,$_LmShift) + $_PeRound)/$_PeScale  { Reduce to LmScale }
+                $vol1 := $_Lc*$_LogScale + sh_right($_Lm - $_err + $_LmRound,$_LmShift)   { Result }
+              end if  { Final Result scaled only by LogScale }
+            end if
+            end if
+          {end Log2($_cos2,$vol1)}
+          if ($vol1 >= 0)    { If not NAL }
+            $vol1 := ($vol1*$_Log2_n + $_Log2Round)/$_Log2_d  { logx = logx*Log10(2) } 
+          end if
+          {end Log10($_cos2,$vol1)}
+          if ($vol1 < 0)
+            $vol1 := $Muted { 'r' <= 0, output Muted }
+          else { 0.0001 < 'r' < 1.0000 }
+            $vol1 := 2*$vol1 + $_Minx_db { atn = 20000*log(r) - 80000 }
+          end if
+        end if
+      {end Get_db($_cos2,$vol1)}
+      {begin Get_db($_sin2,$vol2)}
+        
+        if ($_sin2 >= $_MaxRatio) { If 'r' is too big }
+          $vol2 := 0       { Output no more than 0db reference }
+        else
+          {begin Log10($_sin2,$vol2)}
+            
+          {begin Log2($_sin2,$vol2)}
+            { Pe = 0.014830 = 16,313/1.1M   1.1M = 110*LogScale }
+            
+            if ($_sin2 <= 0)  { First, filter out the extremes in 'x' }
+              $vol2 := $_NAL      { log not defined for zero or negative 'x' }
+            else
+            if ($_sin2 > $_TopX)
+              $vol2 := $_MaxLog   { Log2(TopBit+1)*10000 = maximum log output }
+            else { 0 < x < TopX }  
+              $_X0 := $_TopBitValue  { 2^TopBit = Highest mantissa interval base }
+              $_Lc := $_TopBit       { Max characteristic }
+              while (($_sin2 .and. $_X0) = 0)  { Loop to find highest 'on' bit }
+                $_X0 := sh_right($_X0,1)    { Keep track of high bit value }
+                dec ($_Lc)   { Keep track of high bit position from 15..0 }
+              end while    { On loop exit, Lc = unscaled characteristic, X0 = 2^Lc }
+              if ($_sin2 = $_X0)
+                $vol2 := $_Lc*$_LogScale { For exact powers of 2, mantissa = 0 so we're done }
+              else { mantissa > 0 }
+                $_Lm := $_Lm3*($_sin2 - $_X0)/($_sin2 + $_X0)  { Mantissa*LmScale }
+                $_err := sh_right($_sin2*$_SPe,$_Lc - 1) - $_SPe3  { SPe*2*x/X0 - SPe3 }
+                $_err := $_SPe - $_err*$_err/$_SPe     { Error scaled by PeScale*LogScale }
+                $_err := (sh_left($_err,$_LmShift) + $_PeRound)/$_PeScale  { Reduce to LmScale }
+                $vol2 := $_Lc*$_LogScale + sh_right($_Lm - $_err + $_LmRound,$_LmShift)   { Result }
+              end if  { Final Result scaled only by LogScale }
+            end if
+            end if
+          {end Log2($_sin2,$vol2)}
+          if ($vol2 >= 0)    { If not NAL }
+            $vol2 := ($vol2*$_Log2_n + $_Log2Round)/$_Log2_d  { logx = logx*Log10(2) } 
+          end if
+          {end Log10($_sin2,$vol2)}
+          if ($vol2 < 0)
+            $vol2 := $Muted { 'r' <= 0, output Muted }
+          else { 0.0001 < 'r' < 1.0000 }
+            $vol2 := 2*$vol2 + $_Minx_db { atn = 20000*log(r) - 80000 }
+          end if
+        end if
+      {end Get_db($_sin2,$vol2)}
+        {end calc_vol($lastcc,$layer_index1,$layer_index2,$vol1,$vol2)}
+        
+        { update volume of affected notes }
+        if (in_range($layer_index1, 0, %art__layer_count[$art__current]-1))
+          {begin update_volume(%notes__id[$_offset+$layer_index1],%notes__0db[$_offset+$layer_index1],$vol1)}
+      change_vol(%notes__id[$_offset + $layer_index1], %notes__0db[$_offset + $layer_index1] + ($vol1 + $mod_vol), 1)
+      %notes__0db[$_offset + $layer_index1] := -($vol1 + $mod_vol)  { remember how far we are from reference volume }
+          {end update_volume(%notes__id[$_offset+$layer_index1],%notes__0db[$_offset+$layer_index1],$vol1)}
+        end if
+        if (in_range($layer_index2, 0, %art__layer_count[$art__current]-1))
+          {begin update_volume(%notes__id[$_offset+$layer_index2],%notes__0db[$_offset+$layer_index2],$vol2)}
+      change_vol(%notes__id[$_offset + $layer_index2], %notes__0db[$_offset + $layer_index2] + ($vol2 + $mod_vol), 1)
+      %notes__0db[$_offset + $layer_index2] := -($vol2 + $mod_vol)  { remember how far we are from reference volume }
+          {end update_volume(%notes__id[$_offset+$layer_index2],%notes__0db[$_offset+$layer_index2],$vol2)}
+        end if         
+        
+        { mute all unaffected notes }
+        $j := 0
+        while ($j <= %art__layer_count[$art__current]-1)
+          if ($j # $layer_index1 and $j # $layer_index2)
+            {begin update_volume(%notes__id[$_offset+$j],%notes__0db[$_offset+$j],-100000)}
+      change_vol(%notes__id[$_offset + $j], %notes__0db[$_offset + $j] + (-100000 + $mod_vol), 1)
+      %notes__0db[$_offset + $j] := -(-100000 + $mod_vol)  { remember how far we are from reference volume }
+            {end update_volume(%notes__id[$_offset+$j],%notes__0db[$_offset+$j],-100000)}
+          end if
+          inc($j)
+        end while
+      end if
+      inc($i)
+    end while
+    {end update_volumes}
+    {begin update_display(%CC[$xfade_cc])}
+    
+    { copy display buffer to display }
+    $i := 0
+    while ($i <= 127)
+      %display[$i] := %display_buffer[$i]
+      inc($i)
+    end while
+    
+    { display a marker }  
+    if (in_range(%CC[$xfade_cc], 1, 127))
+      %display[%CC[$xfade_cc]-1] := 15000
+    end if
+    if (in_range(%CC[$xfade_cc], 0, 126))
+      %display[%CC[$xfade_cc]+1] := 15000    
+    end if
+    if (in_range(%CC[$xfade_cc], 0, 127))
+      %display[%CC[$xfade_cc]] := 15000
+    end if
+    {end update_display(%CC[$xfade_cc])}
+  end if
+end on
+
+on ui_control($modrange)
+  {begin on_range_change($modrange)}
+    {begin ATFade(0,$modrange,$_lowest_vol)}
+         { node 0: c0 = 0,  a0 = -100000 mdb
+           node 1: c1 = 17, a1 = -60000 mdb
+           node 2: c2 = 50, a2 = -25000 mdb }
+             
+      $_cx := 127 + $modrange*(0 - 127)/100  { Set range for cx }
+      select ($_cx)
+        case 50 to 127      { 'Working' zone, -25..0 db }
+          $_lowest_vol := ($_50K*($_cx - 127) - 72)/154
+          { atn := a2*(127 - cx)/(127 - c2) rounded }
+        case 17 to 49       { Soft zone, -60..-25 db }
+          $_lowest_vol := -$_60K + ($_70K*($_cx - 17) + 33)/66
+          {  atn := a1 + (a2 - a1)*(cx - c1)/(c2 - c1) rounded }
+        case 0 to 16        { Fade-out zone, -100..60 db }
+          $_lowest_vol := $Muted + ($_80K*$_cx + 17)/34
+          { atn := a0 + (a1 - a0)*cx/c1 rounded }
+      end select
+    {end ATFade(0,$modrange,$_lowest_vol)}
+    set_knob_label($modrange, -$_lowest_vol / 1000 & "." & (-$_lowest_vol / 10 mod 100))  
+  {end on_range_change($modrange)}
+end on
+on ui_control($velrange)
+  {begin on_range_change($velrange)}
+    {begin ATFade(0,$velrange,$_lowest_vol)}
+         { node 0: c0 = 0,  a0 = -100000 mdb
+           node 1: c1 = 17, a1 = -60000 mdb
+           node 2: c2 = 50, a2 = -25000 mdb }
+             
+      $_cx := 127 + $velrange*(0 - 127)/100  { Set range for cx }
+      select ($_cx)
+        case 50 to 127      { 'Working' zone, -25..0 db }
+          $_lowest_vol := ($_50K*($_cx - 127) - 72)/154
+          { atn := a2*(127 - cx)/(127 - c2) rounded }
+        case 17 to 49       { Soft zone, -60..-25 db }
+          $_lowest_vol := -$_60K + ($_70K*($_cx - 17) + 33)/66
+          {  atn := a1 + (a2 - a1)*(cx - c1)/(c2 - c1) rounded }
+        case 0 to 16        { Fade-out zone, -100..60 db }
+          $_lowest_vol := $Muted + ($_80K*$_cx + 17)/34
+          { atn := a0 + (a1 - a0)*cx/c1 rounded }
+      end select
+    {end ATFade(0,$velrange,$_lowest_vol)}
+    set_knob_label($velrange, -$_lowest_vol / 1000 & "." & (-$_lowest_vol / 10 mod 100))  
+  {end on_range_change($velrange)}
+end on
+on ui_control($layer1)
+  {begin invoke_update}
+    $_id := play_note(0, 1, 0, 1)
+    set_event_par($_id, 0, 9999)
+  {end invoke_update}
+end on
+on ui_control($layer2)
+  {begin invoke_update}
+    $_id := play_note(0, 1, 0, 1)
+    set_event_par($_id, 0, 9999)
+  {end invoke_update}
+end on
+on ui_control($layer3)
+  {begin invoke_update}
+    $_id := play_note(0, 1, 0, 1)
+    set_event_par($_id, 0, 9999)
+  {end invoke_update}
+end on
+on ui_control($layer4)
+  {begin invoke_update}
+    $_id := play_note(0, 1, 0, 1)
+    set_event_par($_id, 0, 9999)
+  {end invoke_update}
+end on
+on ui_control($layer5)
+  {begin invoke_update}
+    $_id := play_note(0, 1, 0, 1)
+    set_event_par($_id, 0, 9999)
+  {end invoke_update}
+end on
+on ui_control($nlayers)
+  {begin invoke_update}
+    $_id := play_note(0, 1, 0, 1)
+    set_event_par($_id, 0, 9999)
+  {end invoke_update}
+  {begin show_hide_layers}
+    {begin show_control_if($layer1,6,2,$nlayers>=2)}
+      if ($nlayers >= 2)
+        move_control($layer1, 6, 2)
+      else
+        move_control($layer1, 0, 0)
+      end if
+    {end show_control_if($layer1,6,2,$nlayers>=2)}
+    {begin show_control_if($layer2,6,3,$nlayers>=3)}
+      if ($nlayers >= 3)
+        move_control($layer2, 6, 3)
+      else
+        move_control($layer2, 0, 0)
+      end if
+    {end show_control_if($layer2,6,3,$nlayers>=3)}
+    {begin show_control_if($layer3,6,4,$nlayers>=4)}
+      if ($nlayers >= 4)
+        move_control($layer3, 6, 4)
+      else
+        move_control($layer3, 0, 0)
+      end if
+    {end show_control_if($layer3,6,4,$nlayers>=4)}
+    {begin show_control_if($layer4,6,5,$nlayers>=5)}
+      if ($nlayers >= 5)
+        move_control($layer4, 6, 5)
+      else
+        move_control($layer4, 0, 0)
+      end if
+    {end show_control_if($layer4,6,5,$nlayers>=5)}
+    {begin show_control_if($layer5,6,6,$nlayers>=6)}
+      if ($nlayers >= 6)
+        move_control($layer5, 6, 6)
+      else
+        move_control($layer5, 0, 0)
+      end if
+    {end show_control_if($layer5,6,6,$nlayers>=6)}
+  {end show_hide_layers}
+end on
+
