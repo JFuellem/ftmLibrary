@@ -48,8 +48,8 @@ on init
 	create_instrument(540, "", "", "Koala_Testing")
 
 
-	create_family(samplemenus, 0)
-	create_family(debugknobs, 1)
+	create_family(samplemenus, 1)
+	create_family(debugknobs, 2)
 
     define NUM_MENUS := 4
     define NUM_ENTRIES := 6
@@ -63,34 +63,24 @@ on init
     !sounds[5] := "Trolly 3"
 
     declare $activeMenus := 0
+    declare $inActiveMenus := 0
     declare %menuStates[NUM_MENUS]
     declare $count
-    declare %knobdefaults[NUM_MENUS * 2]
 
+    // Reflects whether a menu has a sample loaded
     for $count := 0 to NUM_MENUS - 1
         %menuStates[$count] := 0
     end for
 
-    for $count := 0 to NUM_MENUS - 1
-        %knobdefaults[$count * 0] := 500000
-        %knobdefaults[$count * 1] := 500000
-    end for
-
-
-    declare %menuVals[NUM_MENUS]
-      
-    declare $menuxval
-    declare $menuyval
+    declare %menuCoord[2]
 
     macro makeCoolMenu(#n#)
-        $menuxval := 60 + 100 * #n#
-        $menuyval := 60
-        create_menu(sampleMenu#n#, samplemenus, $menuxval, $menuyval, 50, 20, 0, NUM_ENTRIES, REGULAR.BLACK, 0, 1, "ori.png")
+        %menuCoord[0] := 60 + 100 * #n#
+        %menuCoord[1] := 60
+        create_menu(sampleMenu#n#, samplemenus, %menuCoord[0], %menuCoord[1], 50, 20, 0, NUM_ENTRIES, REGULAR.BLACK, 0, 1, "ori.png")
     end macro
     
     iterate_macro(makeCoolMenu) := 0 to NUM_MENUS - 1
-
-   
 
     declare $knobCXval
     declare $knobCYval 
@@ -110,25 +100,12 @@ on init
 
         create_knob(S#n#vfar, debugknobs, $knobFXval, $knobFYval, 0, 631000, 500000, 10, 1, $KNOB_UNIT_DB, "S1 Far")
 
-
-       // reset_family_values(debugknobs)
-        //reset_value(get_ui_id(S#n#vclose))
-        //reset_value(get_ui_id(S#n#vfar))
-
-        //message(get_value(get_ui_id(S0vclose)))
-
-        set_engine_par($ENGINE_PAR_VOLUME,S#n#vclose,2*#n#+1,-1,-1)
-        set_engine_par($ENGINE_PAR_VOLUME,S#n#vfar,2*#n#+2,-1,-1)
         set_knob_label(S#n#vclose, get_engine_par_disp($ENGINE_PAR_VOLUME, 2*#n#+1,-1,-1))
         set_knob_label(S#n#vfar, get_engine_par_disp($ENGINE_PAR_VOLUME,2*#n#+2,-1,-1))
-        S#n#vclose := %knobdefaults[#n# * 0]
-        S#n#vfar := %knobdefaults[#n# * 1]
         
-
     end macro
 
     iterate_macro(makeDebugKnobs) := 0 to NUM_MENUS - 1
-
 
 
     // populating the menus
@@ -141,7 +118,22 @@ on init
     end macro
 
     iterate_macro(addMenuItems) := 0 to NUM_MENUS -1
-	
+
+
+    //declares and saves the menus to an array
+    declare %menuVals[NUM_MENUS]
+    macro storeMenuToArray(#n#)
+        %menuVals[#n#] := sampleMenu#n#
+    end macro
+
+
+    macro setEngineVol(#n#)
+        set_engine_par($ENGINE_PAR_VOLUME,S#n#vclose,2*#n#+1,-1,-1)
+        set_engine_par($ENGINE_PAR_VOLUME,S#n#vfar,2*#n#+2,-1,-1)
+        set_knob_label(S#n#vclose, get_engine_par_disp($ENGINE_PAR_VOLUME, 2*#n#+1,-1,-1))
+        set_knob_label(S#n#vfar, get_engine_par_disp($ENGINE_PAR_VOLUME,2*#n#+2,-1,-1))
+    end macro
+
 end on 
 
 
@@ -150,7 +142,16 @@ end on
 on persistence_changed 
 	DEBUG.on_persistence_changed
 
-	reset_family_values(samplemenus)
+    //reset_family_values(samplemenus)
+    //reset_family_values(debugknobs)
+    iterate_macro(checkactivesamps) := 0 to NUM_MENUS - 1
+
+    //$inActiveMenus := count_entries(%menuVals, 0)
+    //$activeMenus := NUM_MENUS - $inActiveMenus
+
+    iterate_macro(setEngineVol) := 0 to NUM_MENUS - 1
+
+    iterate_macro(storeMenuToArray) := 0 to NUM_MENUS -1
 
 end on
 
@@ -182,18 +183,14 @@ end on
 
     macro checkactivesamps(#n#)
         on ui_control (sampleMenu#n#)
-            if (sampleMenu#n# = 0)
-                if (%menuStates[#n#] # 0)
-                    dec($activeMenus)
-                end if
-                %menuStates[#n#] := 0
-             else
-                if (%menuStates[#n#] = 0)
-                    inc($activeMenus)
-                end if
-                %menuStates[#n#] := 1
-            end if
             %menuVals[#n#] := sampleMenu#n#
+            $inActiveMenus := count_entries(%menuVals, 0)
+            $activeMenus := NUM_MENUS - $inActiveMenus
+            if (sampleMenu#n# # 0)
+                %menuStates[#n#] := 1
+            else
+                %menuStates[#n#] := 0
+            end if
             message($activeMenus)
         end on
     end macro
