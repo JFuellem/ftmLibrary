@@ -51,6 +51,7 @@ on init
 
 	create_family(samplemenus, 1)
 	create_family(debugknobs, 2)
+    create_family(triselectors, 3)
 
 	define NUM_MENUS := 4
 	define NUM_ENTRIES := 4
@@ -65,7 +66,10 @@ on init
     declare $activeMenus := 0
     declare $inActiveMenus := 0
     declare %menuStates[NUM_MENUS]
+    declare %triBtnStates[NUM_MENUS]
+    declare $activeTribtns
     declare $count
+    declare $i
     //declares array to which values are stored after init
     declare %menuVals[NUM_MENUS]
 
@@ -136,15 +140,15 @@ on init
 
         create_slider(vFar#n#, debugknobs, %volFarKnobCoord[0], %volFarKnobCoord[1], 100, 50, 0, 631000, 500000, 1, 1000, "")
         create_text_label(vFarLab#n#, debugknobs, %volFarKnobCoord[0], %volFarKnobCoord[1] + 25, 80, 10, get_engine_par_disp($ENGINE_PAR_VOLUME, 6*#n#+5,-1,-1), REGULAR.BLACK, 0, 0)
-
-        //set_knob_label(vClose#n#, get_engine_par_disp($ENGINE_PAR_VOLUME, 2*#n#+1,-1,-1))
-        //set_knob_label(vMid#n#, get_engine_par_disp($ENGINE_PAR_VOLUME,2*#n#+2,-1,-1))
     end macro
 
     iterate_macro(makeDebugKnobs) := 0 to 1
 
-    declare $invClose := 0
 
+    create_button(triselect0, triselectors, 293, 44, 50, 50, 0, 1, "wtf", "trisel.png")
+    create_button(triselect1, triselectors, 208, 191, 50, 50, 0, 1, "wtf", "trisel.png")
+    create_button(triselect2, triselectors, 293, 172, 50, 50, 0, 1, "wtf", "trisel.png")
+    create_button(triselect3, triselectors, 378, 191, 50, 50, 0, 1, "wtf", "trisel.png")
 
 
 
@@ -152,9 +156,10 @@ end on
 
 
 //macros
-	//after opening kontakt menu values and states are stored to array and amount of already active menus tested
+	//after opening kontakt, menu values and states are stored to array and amount of already active menus tested
     macro setMenu(#n#)
         %menuVals[#n#] := sampleMenu#n#
+        %triBtnStates[#n#] := triselect#n#
         $inActiveMenus := count_entries(%menuVals, 0)
         $activeMenus := NUM_MENUS - $inActiveMenus
         if (sampleMenu#n# # 0)
@@ -189,15 +194,14 @@ end on
             else
                 %menuStates[#n#] := 0
             end if
-
+            message($activeMenus)
         end on
     end macro
 
     macro checkKnobs(#n#)
         on ui_control (vClose#n#)
-        $invClose := -1 *(vClose#n# - 631000)
         set_engine_par($ENGINE_PAR_VOLUME,vClose#n#,6*#n#+1,-1,-1)
-        set_engine_par($ENGINE_PAR_VOLUME,$invClose,6*#n#+2,-1,-1)
+        set_engine_par($ENGINE_PAR_VOLUME,vClose#n#,6*#n#+2,-1,-1)
         set_label_properties(vCloseLab#n#, get_engine_par_disp($ENGINE_PAR_VOLUME,6*#n#+1,-1,-1), "", 0, REGULAR.BLACK, 0)
         end on
 
@@ -216,8 +220,15 @@ end on
 
     iterate_macro(checkKnobs) := 0 to 1
 
-
  	iterate_macro(checkactivesamps) := 0 to NUM_MENUS - 1
+
+    macro checkTriButtons(#n#)
+        on ui_control (triselect#n#)
+            
+        end on
+    end macro
+
+    iterate_macro(checkTriButtons) := 0 to NUM_MENUS - 1
 
 on persistence_changed
 	DEBUG.on_persistence_changed
@@ -247,11 +258,12 @@ on note
 
     disallow_group($ALL_GROUPS)
 
-    for $count := 0 to $activeMenus - 1
+
+    for $count := 0 to NUM_MENUS - 1
         if (%menuStates[$count] = 1)
-            allow_group($count * 6 +1)
-            allow_group($count * 6 +3)
-            allow_group($count * 6 +5)
+            for $i := 0 to 5
+            allow_group($count * 6 + $i)
+            end for
             if (%menuVals[$count] # 0)
                 play_note($EVENT_NOTE,%menuVals[$count],0,-1)
             end if
