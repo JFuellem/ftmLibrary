@@ -240,7 +240,7 @@ end on
             iterate_macro(resetTriButtons) := 0 to NUM_MENUS - 1
             set_value(get_ui_id(triselect#n#), 1)
             set_value(get_ui_id(hirarchySl), #n#)
-            set_label_properties(hirarchySlLab, hirarchySl, "", 0, REGULAR.BLACK, 0)
+            set_label_properties(hirarchySlLab, (hirarchySl + 1), "", 0, REGULAR.BLACK, 0)
             $currentTri := #n#
             DEBUG.show_value(1, $currentTri)
         end on
@@ -275,7 +275,7 @@ on persistence_changed
     iterate_macro(setEngineVol) := 0 to 1
 
     set_value(get_ui_id(hirarchySl), 0)
-    set_label_properties(hirarchySlLab, hirarchySl, "", 0, REGULAR.BLACK, 0)
+    set_label_properties(hirarchySlLab, (hirarchySl + 1), "", 0, REGULAR.BLACK, 0)
 
 
 end on
