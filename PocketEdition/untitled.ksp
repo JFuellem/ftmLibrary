@@ -47,12 +47,11 @@ import "Koala/Koala.ksp"
 on init
 	activate_logger(get_folder(GET_FOLDER_PATCH_DIR) & "/log.nka")
 	Koala.init
-	create_instrument(280, "OldPocketBackground", "", "PocketEdition")
+	create_instrument(280, "PocketBackground", "", "PocketEdition")
 
 	create_family(samplemenus, 1)
 	create_family(debugknobs, 2)
     create_family(triselectors, 3)
-    create_family(mainControls, 4)
 
 	define NUM_MENUS := 4
 	define NUM_ENTRIES := 4
@@ -69,19 +68,15 @@ on init
     declare %menuStates[NUM_MENUS]
     declare %triBtnStates[NUM_MENUS]
     declare $activeTribtns
-    declare $currentTri
     declare $count
     declare $i
     //declares array to which values are stored after init
     declare %menuVals[NUM_MENUS]
 
-    // Resets whether a menu has a sample loaded
+    // Reflects whether a menu has a sample loaded
     for $count := 0 to NUM_MENUS - 1
         %menuStates[$count] := 0
     end for
-
-    // declare Random-Var-array
-    declare %randSamp_offs[NUM_MENUS]
 
     //Menucreation
     declare %menuCoord[2]
@@ -96,7 +91,7 @@ on init
         else if (#n# = 2)
         	%menuCoord[0] := 272
         	%menuCoord[1] := 151
-        else if (#n# = 3)
+       else if (#n# = 3)
         	%menuCoord[0] := 360
         	%menuCoord[1] := 247
        	else
@@ -149,24 +144,12 @@ on init
 
     iterate_macro(makeDebugKnobs) := 0 to 1
 
-    //create Tri-Selector Buttons
-    create_button(triselect0, triselectors, 293, 44, 50, 50, 0, 1, "", "Trisel1")
-    create_button(triselect1, triselectors, 208, 191, 50, 50, 0, 1, "", "Trisel1")
-    create_button(triselect2, triselectors, 293, 172, 50, 50, 0, 1, "", "Trisel1")
-    create_button(triselect3, triselectors, 378, 191, 50, 50, 0, 1, "", "Trisel1")
 
-    //create "Left" controls (Distance, Amt. of hirarchy and Expression)
-    create_slider(distanceSl, mainControls, 52, 58, 44, 44, 0, 10000, 0, 1, 1000, "Knob")
-    create_slider(amtOfHirarchy, mainControls, 109, 58, 44, 44, 0, 10000, 0, 1, 1000, "Knob")
-    create_slider(expression, mainControls, 169, 58, 44, 44, 0, 127, 0, 1, 1000, "Knob")
-    create_slider(hirarchySl, mainControls, 52, 208, 44, 44, 0, 3, 0, 1, 1000, "Knob")
-    create_text_label(hirarchySlLab, mainControls, 104, 224, 20, 15, hirarchySl, REGULAR.BLACK, 0, 0)
+    create_button(triselect0, triselectors, 293, 44, 50, 50, 0, 1, "wtf", "trisel.png")
+    create_button(triselect1, triselectors, 208, 191, 50, 50, 0, 1, "wtf", "trisel.png")
+    create_button(triselect2, triselectors, 293, 172, 50, 50, 0, 1, "wtf", "trisel.png")
+    create_button(triselect3, triselectors, 378, 191, 50, 50, 0, 1, "wtf", "trisel.png")
 
-
-    //create "Right" controls (Offset Volume, offset Pan and transition-time)
-    create_slider(offsetVol, mainControls, 424, 58, 44, 44, 0, 10000, 0, 1, 1000, "Knob")
-    create_slider(offsetPan, mainControls, 483, 58, 44, 44, 0, 10000, 0, 1, 1000, "Knob")
-    create_slider(transTime, mainControls, 542, 58, 44, 44, 0, 10000, 0, 1, 1000, "Knob")
 
 
 end on
@@ -211,7 +194,7 @@ end on
             else
                 %menuStates[#n#] := 0
             end if
-            DEBUG.show_value(2, $activeMenus)
+            message($activeMenus)
         end on
     end macro
 
@@ -235,29 +218,17 @@ end on
         end on
     end macro
 
-    macro checkTriButtons(#n#)
-        on ui_control (triselect#n#)
-            iterate_macro(resetTriButtons) := 0 to NUM_MENUS - 1
-            set_value(get_ui_id(triselect#n#), 1)
-            set_value(get_ui_id(hirarchySl), #n#)
-            set_label_properties(hirarchySlLab, hirarchySl, "", 0, REGULAR.BLACK, 0)
-            $currentTri := #n#
-            DEBUG.show_value(1, $currentTri)
-        end on
-    end macro
-
-    macro resetTriButtons(#n#)
-        set_value(get_ui_id(triselect#n#), 0)
-    end macro
-
-
     iterate_macro(checkKnobs) := 0 to 1
 
  	iterate_macro(checkactivesamps) := 0 to NUM_MENUS - 1
-   
-    iterate_macro(checkTriButtons) := 0 to NUM_MENUS - 1
 
-    //end macros
+    macro checkTriButtons(#n#)
+        on ui_control (triselect#n#)
+            
+        end on
+    end macro
+
+    iterate_macro(checkTriButtons) := 0 to NUM_MENUS - 1
 
 on persistence_changed
 	DEBUG.on_persistence_changed
@@ -265,17 +236,11 @@ on persistence_changed
 	//reset_family_values(samplemenus)
     //reset_family_values(debugknobs)
 
-    iterate_macro(resetTriButtons) := 0 to NUM_MENUS - 1
-    set_value(get_ui_id(triselect0), 1)
-
     iterate_macro(setMenu) := 0 to NUM_MENUS -1
 
     iterate_macro(checkactivesamps) := 0 to NUM_MENUS - 1
 
     iterate_macro(setEngineVol) := 0 to 1
-
-    set_value(get_ui_id(hirarchySl), 0)
-    set_label_properties(hirarchySlLab, hirarchySl, "", 0, REGULAR.BLACK, 0)
 
 
 end on
@@ -291,26 +256,17 @@ end on
 on note
 	DEBUG.on_note
 
-    for $i := 0 to NUM_MENUS -1
-        %randSamp_offs[$i] := random(0, 50000000)
-    end for
-    
-    
     disallow_group($ALL_GROUPS)
 
-    //activate right groups when something is selected
+
     for $count := 0 to NUM_MENUS - 1
         if (%menuStates[$count] = 1)
-            for $i := 1 to 6
-                allow_group($count * 6 + $i)
+            for $i := 0 to 5
+            allow_group($count * 6 + $i)
             end for
-        end if
-    end for
-
-    //play correct sample in correct group (entered note, velocity where the sample is placed, offeset, duration)
-    for $count := 0 to NUM_MENUS - 1
-        if (%menuVals[$count] # 0)
-            play_note($EVENT_NOTE,%menuVals[$count],%randSamp_offs[$count],-1)
+            if (%menuVals[$count] # 0)
+                play_note($EVENT_NOTE,%menuVals[$count],0,-1)
+            end if
         end if
     end for
 
@@ -320,10 +276,6 @@ end on
 on release
 	DEBUG.on_release
 
-    for $i := 0 to NUM_MENUS -1
-        %randSamp_offs[$i] := random(0, 50000000)
-    end for
-
 	// Your script here
 
 end on
@@ -331,29 +283,8 @@ end on
 on controller
 	DEBUG.on_controller
 
-    if($CC_NUM = 1)
-        set_value(get_ui_id(expression), %CC[1])
-    end if
-	
+	// Your script here
 
-end on
-
-on ui_control (expression)
-    set_controller(1, expression)
-end on
-
-on ui_control (hirarchySl)
-    iterate_macro(resetTriButtons) := 0 to NUM_MENUS - 1
-    if (hirarchySl = 0)
-        set_value(get_ui_id(triselect0), 1)
-    else if (hirarchySl = 1)
-        set_value(get_ui_id(triselect1), 1)
-    else if (hirarchySl = 2)
-        set_value(get_ui_id(triselect2), 1)
-    else if (hirarchySl = 3)
-        set_value(get_ui_id(triselect3), 1)
-    end if
-    set_label_properties(hirarchySlLab, hirarchySl, "", 0, REGULAR.BLACK, 0)
 end on
 
 on pgs_changed
