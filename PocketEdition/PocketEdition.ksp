@@ -53,6 +53,7 @@ on init
 	create_family(debugknobs, 2)
     create_family(triselectors, 3)
     create_family(mainControls, 4)
+    create_family(triOffsetControls, 5)
 
 	define NUM_MENUS := 4
 	define NUM_ENTRIES := 4
@@ -168,6 +169,16 @@ on init
     create_slider(offsetPan, mainControls, 483, 58, 44, 44, 0, 10000, 0, 1, 1000, "Knob")
     create_slider(transTime, mainControls, 542, 58, 44, 44, 0, 10000, 0, 1, 1000, "Knob")
 
+    //create Tri-Knobs for Panning and Volume
+    create_slider(triPanKnob0, triOffsetControls, 270, 73, 20, 20, 0, 1000000, 500000, 1, 300, "TriKnob")
+    create_slider(triPanKnob1, triOffsetControls, 186, 220, 20, 20, 0, 1000000, 500000, 1, 300, "TriKnob")
+    create_slider(triPanKnob2, triOffsetControls, 270, 163, 20, 20, 0, 1000000, 500000, 1, 300, "TriKnob")
+    create_slider(triPanKnob3, triOffsetControls, 358, 220, 20, 20, 0, 1000000, 500000, 1, 300, "TriKnob")
+
+    create_slider(triVolKnob0, triOffsetControls, 336, 73, 20, 20, 0, 631000, 500000, 1, 1000, "TriKnob")
+    create_slider(triVolKnob1, triOffsetControls, 250, 220, 20, 20, 0, 631000, 500000, 1, 1000, "TriKnob")
+    create_slider(triVolKnob2, triOffsetControls, 336, 163, 20, 20, 0, 631000, 500000, 1, 1000, "TriKnob")
+    create_slider(triVolKnob3, triOffsetControls, 420, 220, 20, 20, 0, 631000, 500000, 1, 1000, "TriKnob")
 
 end on
 
@@ -233,6 +244,15 @@ end on
         set_engine_par($ENGINE_PAR_VOLUME,vFar#n#,6*#n#+6,-1,-1)
         set_label_properties(vFarLab#n#, get_engine_par_disp($ENGINE_PAR_VOLUME,6*#n#+5,-1,-1), "", 0, REGULAR.BLACK, 0)
         end on
+
+        on ui_control (triPanKnob#n#)
+            set_engine_par($ENGINE_PAR_PAN,triPanKnob#n#,6*#n#+1, -1, -1)
+            set_engine_par($ENGINE_PAR_PAN,triPanKnob#n#,6*#n#+2, -1, -1)
+            set_engine_par($ENGINE_PAR_PAN,triPanKnob#n#,6*#n#+3, -1, -1)
+            set_engine_par($ENGINE_PAR_PAN,triPanKnob#n#,6*#n#+4, -1, -1)
+            set_engine_par($ENGINE_PAR_PAN,triPanKnob#n#,6*#n#+5, -1, -1)
+            set_engine_par($ENGINE_PAR_PAN,triPanKnob#n#,6*#n#+6, -1, -1)
+        end on
     end macro
 
     macro checkTriButtons(#n#)
@@ -286,7 +306,6 @@ on listener
 	// Your script here
 
 end on
-
 
 on note
 	DEBUG.on_note
