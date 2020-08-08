@@ -70,11 +70,30 @@ on init
     declare %menuStates[NUM_MENUS]
     declare %triBtnStates[NUM_MENUS]
     declare $activeTribtns
-    declare $currentTri
+    declare $currentTri := 0
     declare $count
     declare $i
+    declare $inc
     //declares array to which values are stored after init
     declare %menuVals[NUM_MENUS]
+
+    //Hirarchy Arrays for Volume, Distance and Panning, which are constant
+    declare %VolKing[NUM_MENUS] := (500000, 300000, 100000, 100000)
+    declare %DistKing[NUM_MENUS] := (0,64,127,127)
+    declare %PanKing[NUM_MENUS] := (500000,500000,0,1000000)
+
+    {I have no clue if we need to copy the arrays, so the user could change them... we said no...
+    it will be different anyways if we use the dual knob thingy}
+    declare %UserKing[3*NUM_MENUS]
+
+   
+    //sophisticated Matrix which assigns the right triangle to the right hirarchy
+    declare %Staatsapparat[NUM_MENUS*NUM_MENUS] := (...
+        {0} 0,2,1,3,...
+        {1} 1,2,0,3,...
+        {2} 2,0,1,3,...
+        {3} 3,2,1,0...
+        )
 
     // Resets whether a menu has a sample loaded
     for $count := 0 to NUM_MENUS - 1
@@ -104,7 +123,7 @@ on init
        		%menuCoord[0] := 60 + 100 * #n#
         	%menuCoord[1] := 60
         end if
-        
+
         create_menu(sampleMenu#n#, samplemenus, %menuCoord[0], %menuCoord[1], 94, 17, 0, NUM_ENTRIES, REGULAR.BLACK, 0, 1, "ori.png")
     end macro
 
@@ -121,7 +140,8 @@ on init
 
     iterate_macro(addMenuItems) := 0 to NUM_MENUS -1
 
-
+    //redundant volume control
+    {
     //make volumeButtons for Tri1 and Tri2 for debuggung and testing purposes
     declare %volCloseKnobCoord[2]
     declare %volMidKnobCoord[2]
@@ -149,6 +169,7 @@ on init
     end macro
 
     iterate_macro(makeDebugKnobs) := 0 to 1
+    }
 
     //create Tri-Selector Buttons
     create_button(triselect0, triselectors, 293, 44, 50, 50, 0, 1, "", "Trisel1")
@@ -165,21 +186,30 @@ on init
 
 
     //create "Right" controls (Offset Volume, offset Pan and transition-time)
-    create_slider(offsetVol, mainControls, 424, 58, 44, 44, 0, 10000, 0, 1, 1000, "Knob")
-    create_slider(offsetPan, mainControls, 483, 58, 44, 44, 0, 10000, 0, 1, 1000, "Knob")
+    
+    create_slider(distanceSlider, mainControls, 424, 58, 44, 44, -50, 50, 0, 1, -1000, "Knob")
+    //create_slider(offsetPan, mainControls, 483, 58, 44, 44, 0, 10000, 0, 1, 1000, "Knob")
     create_slider(transTime, mainControls, 542, 58, 44, 44, 0, 10000, 0, 1, 1000, "Knob")
 
     //create Tri-Knobs for Panning and Volume
-    create_slider(triPanKnob0, triOffsetControls, 270, 73, 20, 20, 0, 1000000, 500000, 1, 300, "TriKnob")
-    create_slider(triPanKnob1, triOffsetControls, 186, 220, 20, 20, 0, 1000000, 500000, 1, 300, "TriKnob")
-    create_slider(triPanKnob2, triOffsetControls, 270, 163, 20, 20, 0, 1000000, 500000, 1, 300, "TriKnob")
-    create_slider(triPanKnob3, triOffsetControls, 358, 220, 20, 20, 0, 1000000, 500000, 1, 300, "TriKnob")
+    create_slider(triPanKnob0, triOffsetControls, 270, 73, 20, 20, 0, 1000000, 500000, 1, -300, "TriKnob")
+    create_slider(triPanKnob1, triOffsetControls, 186, 220, 20, 20, 0, 1000000, 500000, 1, -300, "TriKnob")
+    create_slider(triPanKnob2, triOffsetControls, 270, 163, 20, 20, 0, 1000000, 500000, 1, -300, "TriKnob")
+    create_slider(triPanKnob3, triOffsetControls, 358, 220, 20, 20, 0, 1000000, 500000, 1, -300, "TriKnob")
 
-    create_slider(triVolKnob0, triOffsetControls, 336, 73, 20, 20, 0, 631000, 500000, 1, 1000, "TriKnob")
-    create_slider(triVolKnob1, triOffsetControls, 250, 220, 20, 20, 0, 631000, 500000, 1, 1000, "TriKnob")
-    create_slider(triVolKnob2, triOffsetControls, 336, 163, 20, 20, 0, 631000, 500000, 1, 1000, "TriKnob")
-    create_slider(triVolKnob3, triOffsetControls, 420, 220, 20, 20, 0, 631000, 500000, 1, 1000, "TriKnob")
+    create_slider(triVolKnob0, triOffsetControls, 336, 73, 20, 20, 0, 631000, 500000, 1, -1000, "TriKnob")
+    create_slider(triVolKnob1, triOffsetControls, 250, 220, 20, 20, 0, 631000, 500000, 1, -1000, "TriKnob")
+    create_slider(triVolKnob2, triOffsetControls, 336, 163, 20, 20, 0, 631000, 500000, 1, -1000, "TriKnob")
+    create_slider(triVolKnob3, triOffsetControls, 420, 220, 20, 20, 0, 631000, 500000, 1, -1000, "TriKnob")
 
+end on
+
+
+//todo distancezüg
+on ui_control (distanceSlider)
+
+
+    set_controller(114, distanceSlider)
 end on
 
 
@@ -198,6 +228,8 @@ end on
 
     end macro
 
+    //redundant volume control
+ {
 	//Sets and retrieves engine volume with current knob value
 	macro setEngineVol(#n#)
         set_engine_par($ENGINE_PAR_VOLUME,vClose#n#,6*#n#+1,-1,-1)
@@ -210,7 +242,7 @@ end on
         set_label_properties(vMidLab#n#, get_engine_par_disp($ENGINE_PAR_VOLUME,6*#n#+3,-1,-1), "", 0, REGULAR.BLACK, 0)
         set_label_properties(vFarLab#n#, get_engine_par_disp($ENGINE_PAR_VOLUME,6*#n#+5,-1,-1), "", 0, REGULAR.BLACK, 0)
     end macro
-
+}
     //counts active menus
     macro checkactivesamps(#n#)
         on ui_control (sampleMenu#n#)
@@ -219,14 +251,22 @@ end on
             $activeMenus := NUM_MENUS - $inActiveMenus
             if (sampleMenu#n# # 0)
                 %menuStates[#n#] := 1
+                for $i := 1 to 6
+                purge_group(6*#n#+$i, 1)
+                end for
             else
                 %menuStates[#n#] := 0
+                for $i := 0 to 5
+                purge_group(6*#n#+$i, 0)
+                end for
             end if
             DEBUG.show_value(2, $activeMenus)
         end on
     end macro
 
     macro checkKnobs(#n#)
+        //redundant volume control
+        {
         on ui_control (vClose#n#)
         set_engine_par($ENGINE_PAR_VOLUME,vClose#n#,6*#n#+1,-1,-1)
         set_engine_par($ENGINE_PAR_VOLUME,vClose#n#,6*#n#+2,-1,-1)
@@ -244,6 +284,7 @@ end on
         set_engine_par($ENGINE_PAR_VOLUME,vFar#n#,6*#n#+6,-1,-1)
         set_label_properties(vFarLab#n#, get_engine_par_disp($ENGINE_PAR_VOLUME,6*#n#+5,-1,-1), "", 0, REGULAR.BLACK, 0)
         end on
+        }
 
         on ui_control (triPanKnob#n#)
             set_engine_par($ENGINE_PAR_PAN,triPanKnob#n#,6*#n#+1, -1, -1)
@@ -257,18 +298,50 @@ end on
 
     macro checkTriButtons(#n#)
         on ui_control (triselect#n#)
+            $currentTri := #n#
             iterate_macro(resetTriButtons) := 0 to NUM_MENUS - 1
             set_value(get_ui_id(triselect#n#), 1)
+            iterate_macro(kingRoules) := 0 to NUM_MENUS - 1
             set_value(get_ui_id(hirarchySl), #n#)
             set_label_properties(hirarchySlLab, (hirarchySl + 1), "", 0, REGULAR.BLACK, 0)
-            $currentTri := #n#
-            DEBUG.show_value(1, $currentTri)
         end on
+    end macro
+
+    macro kingRoules(#n#)
+
+        if (%Staatsapparat[($currentTri * 4) + #n#] = 0)
+            set_value(get_ui_id(triVolKnob0), %VolKing[#n#])
+            set_controller(100, %DistKing[#n#])
+            set_value(get_ui_id(triPanKnob0), %PanKing[#n#])
+            else if (%Staatsapparat[($currentTri * 4) + #n#] = 1)
+            set_value(get_ui_id(triVolKnob1), %VolKing[#n#])
+            set_controller(101, %DistKing[#n#])
+            set_value(get_ui_id(triPanKnob1), %PanKing[#n#])
+            else if (%Staatsapparat[($currentTri * 4) + #n#] = 2)
+            set_value(get_ui_id(triVolKnob2), %VolKing[#n#])
+            set_controller(102, %DistKing[#n#])
+            set_value(get_ui_id(triPanKnob2), %PanKing[#n#])
+            else if (%Staatsapparat[($currentTri * 4) + #n#] = 3)
+            set_value(get_ui_id(triVolKnob3), %VolKing[#n#])
+            set_controller(103, %DistKing[#n#])
+            set_value(get_ui_id(triPanKnob3), %PanKing[#n#])
+        end if
+        iterate_macro(kingExecutes) := 0 to NUM_MENUS - 1
+
+    end macro
+
+    macro kingExecutes(#n#)
+        for $i := 1 to 6
+            set_engine_par($ENGINE_PAR_VOLUME, triVolKnob#n#, 6*#n#+$i, -1, -1)
+            set_engine_par($ENGINE_PAR_PAN, triPanKnob#n#, 6*#n#+$i, -1, -1)
+        end for
     end macro
 
     macro resetTriButtons(#n#)
         set_value(get_ui_id(triselect#n#), 0)
     end macro
+
+    
 
 
     iterate_macro(checkKnobs) := 0 to 1
@@ -287,12 +360,14 @@ on persistence_changed
 
     iterate_macro(resetTriButtons) := 0 to NUM_MENUS - 1
     set_value(get_ui_id(triselect0), 1)
+    $currentTri := 0
+    iterate_macro(kingRoules) := 0 to NUM_MENUS - 1
 
     iterate_macro(setMenu) := 0 to NUM_MENUS -1
 
     iterate_macro(checkactivesamps) := 0 to NUM_MENUS - 1
 
-    iterate_macro(setEngineVol) := 0 to 1
+    //iterate_macro(setEngineVol) := 0 to 1
 
     set_value(get_ui_id(hirarchySl), 0)
     set_label_properties(hirarchySlLab, (hirarchySl + 1), "", 0, REGULAR.BLACK, 0)
@@ -310,10 +385,14 @@ end on
 on note
 	DEBUG.on_note
 
+    wait(1)
+
+
     for $i := 0 to NUM_MENUS -1
-        %randSamp_offs[$i] := random(0, 50000000)
+        %randSamp_offs[$i] := random(0, 14000000 {get_sample_length(get_event_par($EVENT_ID,$EVENT_PAR_ZONE_ID))})
     end for
-    
+
+    DEBUG.show_value(5, get_sample_length($EVENT_PAR_ZONE_ID))
     
     disallow_group($ALL_GROUPS)
 
@@ -338,10 +417,6 @@ end on
 
 on release
 	DEBUG.on_release
-
-    for $i := 0 to NUM_MENUS -1
-        %randSamp_offs[$i] := random(0, 50000000)
-    end for
 
 	// Your script here
 
@@ -372,7 +447,9 @@ on ui_control (hirarchySl)
     else if (hirarchySl = 3)
         set_value(get_ui_id(triselect3), 1)
     end if
-    set_label_properties(hirarchySlLab, hirarchySl, "", 0, REGULAR.BLACK, 0)
+    set_label_properties(hirarchySlLab, hirarchySl + 1, "", 0, REGULAR.BLACK, 0)
+    $currentTri := hirarchySl
+    iterate_macro(kingRoules) := 0 to NUM_MENUS - 1
 end on
 
 on pgs_changed
