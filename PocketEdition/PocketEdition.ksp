@@ -82,6 +82,9 @@ on init
     declare %DistKing[NUM_MENUS] := (0,64,127,127)
     declare %PanKing[NUM_MENUS] := (500000,500000,0,1000000)
 
+    declare ~DistanceOffset
+    declare $NewDistance
+
     {I have no clue if we need to copy the arrays, so the user could change them... we said no...
     it will be different anyways if we use the dual knob thingy}
     declare %UserKing[3*NUM_MENUS]
@@ -206,12 +209,18 @@ end on
 
 
 //todo distancezüg
+{
 on ui_control (distanceSlider)
-
-
-    set_controller(114, distanceSlider)
+    DEBUG.add_log(distanceSlider)
+    for $i := 0 to NUM_MENUS - 1
+        ~DistanceOffset := int_to_real(distanceSlider)*(127.0 - int_to_real(%CC[100 + $i])) * 0.02
+        $NewDistance := %CC[100 + $i] + real_to_int(round(~DistanceOffset))
+        set_controller((100 + $i), $NewDistance)
+        DEBUG.add_log($i)
+        DEBUG.add_log(~DistanceOffset)
+    end for
 end on
-
+}
 
 //macros
 	//after opening kontakt, menu values and states are stored to array and amount of already active menus tested
