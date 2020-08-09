@@ -65,10 +65,14 @@ on ui_control (PresetVol)
 	set_value(get_ui_id(DoppelShow), $VolumeOld)
 	$VolumeNew := $VolumeOld + $VolumeOffset
 	set_value(get_ui_id(DoppelKnob), $VolumeNew)
+	DEBUG.show_value(1, $VolumeNew)
+	DEBUG.show_value(2, $VolumeOld)
+	DEBUG.show_value(3, $VolumeOffset)
 end on
 
 on ui_control (DoppelKnob)
-	$VolumeOffset := get_value(get_ui_id(DoppelKnob)) - $VolumeNew
+	$VolumeOffset := get_value(get_ui_id(DoppelKnob)) - $VolumeOld
+	DEBUG.show_value(3, $VolumeOffset)
 end on
 
 
