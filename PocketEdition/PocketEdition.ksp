@@ -84,6 +84,9 @@ on init
 
     declare ~DistanceOffset
     declare $NewDistance
+    declare %PresetDistance[NUM_MENUS]
+    declare ?DistanceOffsetsTo127[NUM_MENUS]
+    declare ?DistanceOffsetsTo0[NUM_MENUS]
 
     {I have no clue if we need to copy the arrays, so the user could change them... we said no...
     it will be different anyways if we use the dual knob thingy}
@@ -209,18 +212,34 @@ end on
 
 
 //todo distancezüg
-{
+
 on ui_control (distanceSlider)
+    DEBUG.add_log("distanceSlider:")
     DEBUG.add_log(distanceSlider)
     for $i := 0 to NUM_MENUS - 1
-        ~DistanceOffset := int_to_real(distanceSlider)*(127.0 - int_to_real(%CC[100 + $i])) * 0.02
-        $NewDistance := %CC[100 + $i] + real_to_int(round(~DistanceOffset))
+        if (distanceSlider >= 0)
+            $NewDistance := %PresetDistance[$i] + real_to_int(round(?DistanceOffsetsTo127[$i] * int_to_real(distanceSlider))) 
+        else 
+            $NewDistance := %PresetDistance[$i] + real_to_int(round(?DistanceOffsetsTo0[$i] * int_to_real(distanceSlider))) 
+        end if
+
+        if ($NewDistance > 127)
+            $NewDistance := 127
+        
+        else if ($NewDistance < 0)
+            $NewDistance := 0
+        end if
         set_controller((100 + $i), $NewDistance)
-        DEBUG.add_log($i)
-        DEBUG.add_log(~DistanceOffset)
+        //DEBUG.add_log("presetDistance:")
+        //DEBUG.add_log(%PresetDistance[$i])
+        //DEBUG.add_log("Distanceoffset:")
+        //DEBUG.add_log(?DistanceOffsetsTo127[$i])
+        //DEBUG.add_log(?DistanceOffsetsTo0[$i])
+        DEBUG.add_log("Current_CC:")
+        DEBUG.add_log(%CC[100 + $i])
+
     end for
 end on
-}
 
 //macros
 	//after opening kontakt, menu values and states are stored to array and amount of already active menus tested
@@ -313,6 +332,13 @@ end on
             iterate_macro(kingRoules) := 0 to NUM_MENUS - 1
             set_value(get_ui_id(hirarchySl), #n#)
             set_label_properties(hirarchySlLab, (hirarchySl + 1), "", 0, REGULAR.BLACK, 0)
+            wait(5)
+            for $i := 0 to NUM_MENUS - 1
+                %PresetDistance[$i] := %CC[100 + $i]
+                wait(5)
+                ?DistanceOffsetsTo127[$i] := (127.0 - int_to_real(%PresetDistance[$i])) * 0.02
+                ?DistanceOffsetsTo0[$i] := int_to_real(%PresetDistance[$i]) * 0.02
+            end for
         end on
     end macro
 
@@ -336,7 +362,6 @@ end on
             set_value(get_ui_id(triPanKnob3), %PanKing[#n#])
         end if
         iterate_macro(kingExecutes) := 0 to NUM_MENUS - 1
-
     end macro
 
     macro kingExecutes(#n#)
@@ -371,7 +396,14 @@ on persistence_changed
     set_value(get_ui_id(triselect0), 1)
     $currentTri := 0
     iterate_macro(kingRoules) := 0 to NUM_MENUS - 1
-
+    wait(5)
+    for $i := 0 to NUM_MENUS - 1
+        %PresetDistance[$i] := %CC[100 + $i]
+        wait(5)
+        ?DistanceOffsetsTo127[$i] := (127.0 - int_to_real(%PresetDistance[$i])) * 0.02
+        ?DistanceOffsetsTo0[$i] := int_to_real(%PresetDistance[$i]) * 0.02
+    end for
+    
     iterate_macro(setMenu) := 0 to NUM_MENUS -1
 
     iterate_macro(checkactivesamps) := 0 to NUM_MENUS - 1

@@ -1,2117 +1,2117 @@
 !_log
 --- Logger Started ---
-00:00:00:02200:00:00:022 --- [INIT] Script applied. Instrument loaded 349 time(s). Engine uptime (ms): 1141066
-00:00:00:024 --- [PERS_CHANGED] 'on init' callback was successfully executed in 1533 microseconds
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+00:00:00:02900:00:00:029 --- [INIT] Script applied. Instrument loaded 7 time(s). Engine uptime (ms): 5479616
+00:00:00:034 --- [PERS_CHANGED] 'on init' callback was successfully executed in 4800 microseconds
+00:00:02:989 --- [USER - UI_CONTROL] distanceSlider:
+00:00:02:989 --- [USER - UI_CONTROL] 0
+00:00:02:989 --- [USER - UI_CONTROL] Current_CC:
+00:00:02:989 --- [USER - UI_CONTROL] 0
+00:00:02:989 --- [USER - UI_CONTROL] Current_CC:
+00:00:02:989 --- [USER - UI_CONTROL] 127
+00:00:02:989 --- [USER - UI_CONTROL] Current_CC:
+00:00:02:989 --- [USER - UI_CONTROL] 64
+00:00:02:989 --- [USER - UI_CONTROL] Current_CC:
+00:00:02:989 --- [USER - UI_CONTROL] 127
+00:00:03:074 --- [USER - UI_CONTROL] distanceSlider:
+00:00:03:074 --- [USER - UI_CONTROL] 0
+00:00:03:074 --- [USER - UI_CONTROL] Current_CC:
+00:00:03:074 --- [USER - UI_CONTROL] 0
+00:00:03:074 --- [USER - UI_CONTROL] Current_CC:
+00:00:03:074 --- [USER - UI_CONTROL] 127
+00:00:03:074 --- [USER - UI_CONTROL] Current_CC:
+00:00:03:074 --- [USER - UI_CONTROL] 64
+00:00:03:074 --- [USER - UI_CONTROL] Current_CC:
+00:00:03:074 --- [USER - UI_CONTROL] 127
+00:00:10:860 --- [USER - UI_CONTROL] distanceSlider:
+00:00:10:860 --- [USER - UI_CONTROL] -1
+00:00:10:860 --- [USER - UI_CONTROL] Current_CC:
+00:00:10:860 --- [USER - UI_CONTROL] 0
+00:00:10:860 --- [USER - UI_CONTROL] Current_CC:
+00:00:10:860 --- [USER - UI_CONTROL] 127
+00:00:10:860 --- [USER - UI_CONTROL] Current_CC:
+00:00:10:860 --- [USER - UI_CONTROL] 64
+00:00:10:860 --- [USER - UI_CONTROL] Current_CC:
+00:00:10:860 --- [USER - UI_CONTROL] 127
+00:00:10:860 --- [USER - UI_CONTROL] distanceSlider:
+00:00:10:860 --- [USER - UI_CONTROL] -1
+00:00:10:860 --- [USER - UI_CONTROL] Current_CC:
+00:00:10:860 --- [USER - UI_CONTROL] 0
+00:00:10:860 --- [USER - UI_CONTROL] Current_CC:
+00:00:10:860 --- [USER - UI_CONTROL] 127
+00:00:10:860 --- [USER - UI_CONTROL] Current_CC:
+00:00:10:860 --- [USER - UI_CONTROL] 64
+00:00:10:860 --- [USER - UI_CONTROL] Current_CC:
+00:00:10:860 --- [USER - UI_CONTROL] 127
+00:00:11:031 --- [USER - UI_CONTROL] distanceSlider:
+00:00:11:031 --- [USER - UI_CONTROL] -2
+00:00:11:031 --- [USER - UI_CONTROL] Current_CC:
+00:00:11:031 --- [USER - UI_CONTROL] 0
+00:00:11:031 --- [USER - UI_CONTROL] Current_CC:
+00:00:11:031 --- [USER - UI_CONTROL] 124
+00:00:11:031 --- [USER - UI_CONTROL] Current_CC:
+00:00:11:031 --- [USER - UI_CONTROL] 63
+00:00:11:031 --- [USER - UI_CONTROL] Current_CC:
+00:00:11:031 --- [USER - UI_CONTROL] 124
+00:00:11:031 --- [USER - UI_CONTROL] distanceSlider:
+00:00:11:031 --- [USER - UI_CONTROL] -2
+00:00:11:031 --- [USER - UI_CONTROL] Current_CC:
+00:00:11:031 --- [USER - UI_CONTROL] 0
+00:00:11:031 --- [USER - UI_CONTROL] Current_CC:
+00:00:11:031 --- [USER - UI_CONTROL] 124
+00:00:11:031 --- [USER - UI_CONTROL] Current_CC:
+00:00:11:031 --- [USER - UI_CONTROL] 63
+00:00:11:031 --- [USER - UI_CONTROL] Current_CC:
+00:00:11:031 --- [USER - UI_CONTROL] 124
+00:00:11:116 --- [USER - UI_CONTROL] distanceSlider:
+00:00:11:116 --- [USER - UI_CONTROL] -50
+00:00:11:116 --- [USER - UI_CONTROL] Current_CC:
+00:00:11:116 --- [USER - UI_CONTROL] 0
+00:00:11:116 --- [USER - UI_CONTROL] Current_CC:
+00:00:11:116 --- [USER - UI_CONTROL] 122
+00:00:11:116 --- [USER - UI_CONTROL] Current_CC:
+00:00:11:116 --- [USER - UI_CONTROL] 61
+00:00:11:116 --- [USER - UI_CONTROL] Current_CC:
+00:00:11:116 --- [USER - UI_CONTROL] 122
+00:00:11:116 --- [USER - UI_CONTROL] distanceSlider:
+00:00:11:117 --- [USER - UI_CONTROL] -50
+00:00:11:117 --- [USER - UI_CONTROL] Current_CC:
+00:00:11:117 --- [USER - UI_CONTROL] 0
+00:00:11:117 --- [USER - UI_CONTROL] Current_CC:
+00:00:11:117 --- [USER - UI_CONTROL] 122
+00:00:11:117 --- [USER - UI_CONTROL] Current_CC:
+00:00:11:117 --- [USER - UI_CONTROL] 61
+00:00:11:117 --- [USER - UI_CONTROL] Current_CC:
+00:00:11:117 --- [USER - UI_CONTROL] 122
+00:00:11:607 --- [USER - UI_CONTROL] distanceSlider:
+00:00:11:607 --- [USER - UI_CONTROL] -50
+00:00:11:607 --- [USER - UI_CONTROL] Current_CC:
+00:00:11:607 --- [USER - UI_CONTROL] 0
+00:00:11:607 --- [USER - UI_CONTROL] Current_CC:
+00:00:11:607 --- [USER - UI_CONTROL] 0
+00:00:11:607 --- [USER - UI_CONTROL] Current_CC:
+00:00:11:607 --- [USER - UI_CONTROL] 0
+00:00:11:607 --- [USER - UI_CONTROL] Current_CC:
+00:00:11:607 --- [USER - UI_CONTROL] 0
+00:00:18:647 --- [USER - UI_CONTROL] distanceSlider:
+00:00:18:647 --- [USER - UI_CONTROL] -50
+00:00:18:647 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:647 --- [USER - UI_CONTROL] 0
+00:00:18:647 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:647 --- [USER - UI_CONTROL] 0
+00:00:18:647 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:647 --- [USER - UI_CONTROL] 0
+00:00:18:647 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:647 --- [USER - UI_CONTROL] 0
+00:00:18:796 --- [USER - UI_CONTROL] distanceSlider:
+00:00:18:796 --- [USER - UI_CONTROL] -42
+00:00:18:796 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:796 --- [USER - UI_CONTROL] 0
+00:00:18:796 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:796 --- [USER - UI_CONTROL] 0
+00:00:18:796 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:796 --- [USER - UI_CONTROL] 0
+00:00:18:796 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:796 --- [USER - UI_CONTROL] 0
+00:00:18:796 --- [USER - UI_CONTROL] distanceSlider:
+00:00:18:796 --- [USER - UI_CONTROL] -42
+00:00:18:796 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:796 --- [USER - UI_CONTROL] 0
+00:00:18:796 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:796 --- [USER - UI_CONTROL] 0
+00:00:18:796 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:796 --- [USER - UI_CONTROL] 0
+00:00:18:796 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:796 --- [USER - UI_CONTROL] 0
+00:00:18:807 --- [USER - UI_CONTROL] distanceSlider:
+00:00:18:807 --- [USER - UI_CONTROL] -42
+00:00:18:807 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:807 --- [USER - UI_CONTROL] 0
+00:00:18:807 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:807 --- [USER - UI_CONTROL] 20
+00:00:18:807 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:807 --- [USER - UI_CONTROL] 10
+00:00:18:807 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:807 --- [USER - UI_CONTROL] 20
+00:00:18:850 --- [USER - UI_CONTROL] distanceSlider:
+00:00:18:850 --- [USER - UI_CONTROL] -20
+00:00:18:850 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:850 --- [USER - UI_CONTROL] 0
+00:00:18:850 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:850 --- [USER - UI_CONTROL] 20
+00:00:18:850 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:850 --- [USER - UI_CONTROL] 10
+00:00:18:850 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:850 --- [USER - UI_CONTROL] 20
+00:00:18:882 --- [USER - UI_CONTROL] distanceSlider:
+00:00:18:882 --- [USER - UI_CONTROL] 1
+00:00:18:882 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:882 --- [USER - UI_CONTROL] 0
+00:00:18:882 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:882 --- [USER - UI_CONTROL] 76
+00:00:18:882 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:882 --- [USER - UI_CONTROL] 38
+00:00:18:882 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:882 --- [USER - UI_CONTROL] 76
+00:00:18:882 --- [USER - UI_CONTROL] distanceSlider:
+00:00:18:882 --- [USER - UI_CONTROL] 1
+00:00:18:882 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:882 --- [USER - UI_CONTROL] 0
+00:00:18:882 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:882 --- [USER - UI_CONTROL] 76
+00:00:18:882 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:882 --- [USER - UI_CONTROL] 38
+00:00:18:882 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:882 --- [USER - UI_CONTROL] 76
+00:00:18:956 --- [USER - UI_CONTROL] distanceSlider:
+00:00:18:956 --- [USER - UI_CONTROL] 20
+00:00:18:956 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:956 --- [USER - UI_CONTROL] 3
+00:00:18:956 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:956 --- [USER - UI_CONTROL] 127
+00:00:18:956 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:956 --- [USER - UI_CONTROL] 65
+00:00:18:956 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:956 --- [USER - UI_CONTROL] 127
+00:00:18:956 --- [USER - UI_CONTROL] distanceSlider:
+00:00:18:956 --- [USER - UI_CONTROL] 20
+00:00:18:956 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:956 --- [USER - UI_CONTROL] 3
+00:00:18:956 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:956 --- [USER - UI_CONTROL] 127
+00:00:18:956 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:956 --- [USER - UI_CONTROL] 65
+00:00:18:956 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:956 --- [USER - UI_CONTROL] 127
+00:00:18:956 --- [USER - UI_CONTROL] distanceSlider:
+00:00:18:956 --- [USER - UI_CONTROL] 20
+00:00:18:956 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:956 --- [USER - UI_CONTROL] 3
+00:00:18:956 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:956 --- [USER - UI_CONTROL] 127
+00:00:18:956 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:956 --- [USER - UI_CONTROL] 65
+00:00:18:956 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:956 --- [USER - UI_CONTROL] 127
+00:00:18:967 --- [USER - UI_CONTROL] distanceSlider:
+00:00:18:967 --- [USER - UI_CONTROL] 22
+00:00:18:967 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:967 --- [USER - UI_CONTROL] 51
+00:00:18:967 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:967 --- [USER - UI_CONTROL] 127
+00:00:18:967 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:967 --- [USER - UI_CONTROL] 89
+00:00:18:967 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:967 --- [USER - UI_CONTROL] 127
+00:00:18:978 --- [USER - UI_CONTROL] distanceSlider:
+00:00:18:978 --- [USER - UI_CONTROL] 22
+00:00:18:978 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:978 --- [USER - UI_CONTROL] 56
+00:00:18:978 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:978 --- [USER - UI_CONTROL] 127
+00:00:18:978 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:978 --- [USER - UI_CONTROL] 92
+00:00:18:978 --- [USER - UI_CONTROL] Current_CC:
+00:00:18:978 --- [USER - UI_CONTROL] 127
+00:00:19:042 --- [USER - UI_CONTROL] distanceSlider:
+00:00:19:042 --- [USER - UI_CONTROL] 41
+00:00:19:042 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:042 --- [USER - UI_CONTROL] 56
+00:00:19:042 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:042 --- [USER - UI_CONTROL] 127
+00:00:19:042 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:042 --- [USER - UI_CONTROL] 92
+00:00:19:042 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:042 --- [USER - UI_CONTROL] 127
+00:00:19:042 --- [USER - UI_CONTROL] distanceSlider:
+00:00:19:042 --- [USER - UI_CONTROL] 41
+00:00:19:042 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:042 --- [USER - UI_CONTROL] 56
+00:00:19:042 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:042 --- [USER - UI_CONTROL] 127
+00:00:19:042 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:042 --- [USER - UI_CONTROL] 92
+00:00:19:042 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:042 --- [USER - UI_CONTROL] 127
+00:00:19:042 --- [USER - UI_CONTROL] distanceSlider:
+00:00:19:042 --- [USER - UI_CONTROL] 41
+00:00:19:042 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:042 --- [USER - UI_CONTROL] 56
+00:00:19:042 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:042 --- [USER - UI_CONTROL] 127
+00:00:19:042 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:042 --- [USER - UI_CONTROL] 92
+00:00:19:042 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:042 --- [USER - UI_CONTROL] 127
+00:00:19:042 --- [USER - UI_CONTROL] distanceSlider:
+00:00:19:042 --- [USER - UI_CONTROL] 41
+00:00:19:042 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:042 --- [USER - UI_CONTROL] 56
+00:00:19:042 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:042 --- [USER - UI_CONTROL] 127
+00:00:19:042 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:042 --- [USER - UI_CONTROL] 92
+00:00:19:042 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:042 --- [USER - UI_CONTROL] 127
+00:00:19:052 --- [USER - UI_CONTROL] distanceSlider:
+00:00:19:052 --- [USER - UI_CONTROL] 41
+00:00:19:052 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:052 --- [USER - UI_CONTROL] 104
+00:00:19:052 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:052 --- [USER - UI_CONTROL] 127
+00:00:19:052 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:052 --- [USER - UI_CONTROL] 116
+00:00:19:052 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:052 --- [USER - UI_CONTROL] 127
+00:00:19:138 --- [USER - UI_CONTROL] distanceSlider:
+00:00:19:138 --- [USER - UI_CONTROL] 50
+00:00:19:138 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:138 --- [USER - UI_CONTROL] 104
+00:00:19:138 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:138 --- [USER - UI_CONTROL] 127
+00:00:19:138 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:138 --- [USER - UI_CONTROL] 116
+00:00:19:138 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:138 --- [USER - UI_CONTROL] 127
+00:00:19:394 --- [USER - UI_CONTROL] distanceSlider:
+00:00:19:394 --- [USER - UI_CONTROL] 50
+00:00:19:394 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:394 --- [USER - UI_CONTROL] 127
+00:00:19:394 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:394 --- [USER - UI_CONTROL] 127
+00:00:19:394 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:394 --- [USER - UI_CONTROL] 127
+00:00:19:394 --- [USER - UI_CONTROL] Current_CC:
+00:00:19:394 --- [USER - UI_CONTROL] 127
+00:00:43:350 --- [USER - UI_CONTROL] distanceSlider:
+00:00:43:350 --- [USER - UI_CONTROL] 0
+00:00:43:350 --- [USER - UI_CONTROL] Current_CC:
+00:00:43:350 --- [USER - UI_CONTROL] 127
+00:00:43:350 --- [USER - UI_CONTROL] Current_CC:
+00:00:43:350 --- [USER - UI_CONTROL] 127
+00:00:43:350 --- [USER - UI_CONTROL] Current_CC:
+00:00:43:350 --- [USER - UI_CONTROL] 127
+00:00:43:350 --- [USER - UI_CONTROL] Current_CC:
+00:00:43:350 --- [USER - UI_CONTROL] 127
+00:00:43:350 --- [USER - UI_CONTROL] distanceSlider:
+00:00:43:350 --- [USER - UI_CONTROL] 0
+00:00:43:350 --- [USER - UI_CONTROL] Current_CC:
+00:00:43:350 --- [USER - UI_CONTROL] 127
+00:00:43:350 --- [USER - UI_CONTROL] Current_CC:
+00:00:43:350 --- [USER - UI_CONTROL] 127
+00:00:43:350 --- [USER - UI_CONTROL] Current_CC:
+00:00:43:350 --- [USER - UI_CONTROL] 127
+00:00:43:350 --- [USER - UI_CONTROL] Current_CC:
+00:00:43:350 --- [USER - UI_CONTROL] 127
+00:00:43:425 --- [USER - UI_CONTROL] distanceSlider:
+00:00:43:425 --- [USER - UI_CONTROL] 0
+00:00:43:425 --- [USER - UI_CONTROL] Current_CC:
+00:00:43:425 --- [USER - UI_CONTROL] 0
+00:00:43:425 --- [USER - UI_CONTROL] Current_CC:
+00:00:43:425 --- [USER - UI_CONTROL] 127
+00:00:43:425 --- [USER - UI_CONTROL] Current_CC:
+00:00:43:425 --- [USER - UI_CONTROL] 64
+00:00:43:425 --- [USER - UI_CONTROL] Current_CC:
+00:00:43:425 --- [USER - UI_CONTROL] 127
+00:00:57:408 --- [USER - UI_CONTROL] distanceSlider:
+00:00:57:408 --- [USER - UI_CONTROL] 0
+00:00:57:409 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:409 --- [USER - UI_CONTROL] 0
+00:00:57:409 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:409 --- [USER - UI_CONTROL] 127
+00:00:57:409 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:409 --- [USER - UI_CONTROL] 64
+00:00:57:409 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:409 --- [USER - UI_CONTROL] 127
+00:00:57:547 --- [USER - UI_CONTROL] distanceSlider:
+00:00:57:547 --- [USER - UI_CONTROL] 13
+00:00:57:547 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:547 --- [USER - UI_CONTROL] 0
+00:00:57:547 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:547 --- [USER - UI_CONTROL] 127
+00:00:57:547 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:547 --- [USER - UI_CONTROL] 64
+00:00:57:547 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:547 --- [USER - UI_CONTROL] 127
+00:00:57:547 --- [USER - UI_CONTROL] distanceSlider:
+00:00:57:547 --- [USER - UI_CONTROL] 13
+00:00:57:547 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:547 --- [USER - UI_CONTROL] 0
+00:00:57:547 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:547 --- [USER - UI_CONTROL] 127
+00:00:57:547 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:547 --- [USER - UI_CONTROL] 64
+00:00:57:547 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:547 --- [USER - UI_CONTROL] 127
+00:00:57:568 --- [USER - UI_CONTROL] distanceSlider:
+00:00:57:568 --- [USER - UI_CONTROL] 50
+00:00:57:568 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:568 --- [USER - UI_CONTROL] 33
+00:00:57:568 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:568 --- [USER - UI_CONTROL] 127
+00:00:57:568 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:568 --- [USER - UI_CONTROL] 80
+00:00:57:568 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:568 --- [USER - UI_CONTROL] 127
+00:00:57:568 --- [USER - UI_CONTROL] distanceSlider:
+00:00:57:568 --- [USER - UI_CONTROL] 50
+00:00:57:568 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:568 --- [USER - UI_CONTROL] 33
+00:00:57:568 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:568 --- [USER - UI_CONTROL] 127
+00:00:57:568 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:568 --- [USER - UI_CONTROL] 80
+00:00:57:569 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:569 --- [USER - UI_CONTROL] 127
+00:00:57:888 --- [USER - UI_CONTROL] distanceSlider:
+00:00:57:888 --- [USER - UI_CONTROL] 50
+00:00:57:888 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:888 --- [USER - UI_CONTROL] 127
+00:00:57:888 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:888 --- [USER - UI_CONTROL] 127
+00:00:57:888 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:888 --- [USER - UI_CONTROL] 127
+00:00:57:888 --- [USER - UI_CONTROL] Current_CC:
+00:00:57:888 --- [USER - UI_CONTROL] 127
+00:01:05:355 --- [USER - UI_CONTROL] distanceSlider:
+00:01:05:355 --- [USER - UI_CONTROL] 50
+00:01:05:355 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:355 --- [USER - UI_CONTROL] 127
+00:01:05:355 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:355 --- [USER - UI_CONTROL] 127
+00:01:05:355 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:355 --- [USER - UI_CONTROL] 127
+00:01:05:355 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:355 --- [USER - UI_CONTROL] 127
+00:01:05:547 --- [USER - UI_CONTROL] distanceSlider:
+00:01:05:547 --- [USER - UI_CONTROL] -13
+00:01:05:547 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:547 --- [USER - UI_CONTROL] 127
+00:01:05:547 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:547 --- [USER - UI_CONTROL] 127
+00:01:05:547 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:547 --- [USER - UI_CONTROL] 127
+00:01:05:547 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:547 --- [USER - UI_CONTROL] 127
+00:01:05:547 --- [USER - UI_CONTROL] distanceSlider:
+00:01:05:547 --- [USER - UI_CONTROL] -13
+00:01:05:547 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:547 --- [USER - UI_CONTROL] 127
+00:01:05:547 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:547 --- [USER - UI_CONTROL] 127
+00:01:05:547 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:547 --- [USER - UI_CONTROL] 127
+00:01:05:547 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:547 --- [USER - UI_CONTROL] 127
+00:01:05:547 --- [USER - UI_CONTROL] distanceSlider:
+00:01:05:547 --- [USER - UI_CONTROL] -13
+00:01:05:547 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:547 --- [USER - UI_CONTROL] 127
+00:01:05:547 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:547 --- [USER - UI_CONTROL] 127
+00:01:05:547 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:547 --- [USER - UI_CONTROL] 127
+00:01:05:547 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:547 --- [USER - UI_CONTROL] 127
+00:01:05:558 --- [USER - UI_CONTROL] distanceSlider:
+00:01:05:558 --- [USER - UI_CONTROL] -13
+00:01:05:558 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:558 --- [USER - UI_CONTROL] 0
+00:01:05:558 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:558 --- [USER - UI_CONTROL] 94
+00:01:05:558 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:558 --- [USER - UI_CONTROL] 47
+00:01:05:558 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:558 --- [USER - UI_CONTROL] 94
+00:01:05:600 --- [USER - UI_CONTROL] distanceSlider:
+00:01:05:600 --- [USER - UI_CONTROL] -29
+00:01:05:600 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:600 --- [USER - UI_CONTROL] 0
+00:01:05:600 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:600 --- [USER - UI_CONTROL] 94
+00:01:05:600 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:600 --- [USER - UI_CONTROL] 47
+00:01:05:600 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:600 --- [USER - UI_CONTROL] 94
+00:01:05:622 --- [USER - UI_CONTROL] distanceSlider:
+00:01:05:622 --- [USER - UI_CONTROL] -50
+00:01:05:622 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:622 --- [USER - UI_CONTROL] 0
+00:01:05:622 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:622 --- [USER - UI_CONTROL] 53
+00:01:05:622 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:622 --- [USER - UI_CONTROL] 27
+00:01:05:622 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:622 --- [USER - UI_CONTROL] 53
+00:01:05:622 --- [USER - UI_CONTROL] distanceSlider:
+00:01:05:622 --- [USER - UI_CONTROL] -50
+00:01:05:622 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:622 --- [USER - UI_CONTROL] 0
+00:01:05:622 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:622 --- [USER - UI_CONTROL] 53
+00:01:05:622 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:622 --- [USER - UI_CONTROL] 27
+00:01:05:622 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:622 --- [USER - UI_CONTROL] 53
+00:01:05:632 --- [USER - UI_CONTROL] distanceSlider:
+00:01:05:632 --- [USER - UI_CONTROL] -50
+00:01:05:632 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:632 --- [USER - UI_CONTROL] 0
+00:01:05:632 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:632 --- [USER - UI_CONTROL] 0
+00:01:05:632 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:632 --- [USER - UI_CONTROL] 0
+00:01:05:632 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:632 --- [USER - UI_CONTROL] 0
+00:01:05:632 --- [USER - UI_CONTROL] distanceSlider:
+00:01:05:632 --- [USER - UI_CONTROL] -50
+00:01:05:632 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:632 --- [USER - UI_CONTROL] 0
+00:01:05:632 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:632 --- [USER - UI_CONTROL] 0
+00:01:05:632 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:632 --- [USER - UI_CONTROL] 0
+00:01:05:632 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:632 --- [USER - UI_CONTROL] 0
+00:01:05:931 --- [USER - UI_CONTROL] distanceSlider:
+00:01:05:931 --- [USER - UI_CONTROL] -50
+00:01:05:931 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:931 --- [USER - UI_CONTROL] 0
+00:01:05:931 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:931 --- [USER - UI_CONTROL] 0
+00:01:05:931 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:931 --- [USER - UI_CONTROL] 0
+00:01:05:931 --- [USER - UI_CONTROL] Current_CC:
+00:01:05:931 --- [USER - UI_CONTROL] 0
+00:01:14:880 --- [USER - UI_CONTROL] distanceSlider:
+00:01:14:880 --- [USER - UI_CONTROL] -50
+00:01:14:880 --- [USER - UI_CONTROL] Current_CC:
+00:01:14:880 --- [USER - UI_CONTROL] 0
+00:01:14:880 --- [USER - UI_CONTROL] Current_CC:
+00:01:14:880 --- [USER - UI_CONTROL] 0
+00:01:14:880 --- [USER - UI_CONTROL] Current_CC:
+00:01:14:880 --- [USER - UI_CONTROL] 0
+00:01:14:880 --- [USER - UI_CONTROL] Current_CC:
+00:01:14:880 --- [USER - UI_CONTROL] 0
+00:01:15:083 --- [USER - UI_CONTROL] distanceSlider:
+00:01:15:083 --- [USER - UI_CONTROL] -49
+00:01:15:083 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:083 --- [USER - UI_CONTROL] 0
+00:01:15:083 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:083 --- [USER - UI_CONTROL] 0
+00:01:15:083 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:083 --- [USER - UI_CONTROL] 0
+00:01:15:083 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:083 --- [USER - UI_CONTROL] 0
+00:01:15:168 --- [USER - UI_CONTROL] distanceSlider:
+00:01:15:168 --- [USER - UI_CONTROL] -36
+00:01:15:168 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:168 --- [USER - UI_CONTROL] 0
+00:01:15:168 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:168 --- [USER - UI_CONTROL] 3
+00:01:15:168 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:168 --- [USER - UI_CONTROL] 1
+00:01:15:168 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:168 --- [USER - UI_CONTROL] 3
+00:01:15:168 --- [USER - UI_CONTROL] distanceSlider:
+00:01:15:168 --- [USER - UI_CONTROL] -36
+00:01:15:168 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:168 --- [USER - UI_CONTROL] 0
+00:01:15:168 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:168 --- [USER - UI_CONTROL] 3
+00:01:15:168 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:168 --- [USER - UI_CONTROL] 1
+00:01:15:168 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:168 --- [USER - UI_CONTROL] 3
+00:01:15:168 --- [USER - UI_CONTROL] distanceSlider:
+00:01:15:168 --- [USER - UI_CONTROL] -36
+00:01:15:168 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:168 --- [USER - UI_CONTROL] 0
+00:01:15:168 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:168 --- [USER - UI_CONTROL] 3
+00:01:15:168 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:168 --- [USER - UI_CONTROL] 1
+00:01:15:168 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:168 --- [USER - UI_CONTROL] 3
+00:01:15:179 --- [USER - UI_CONTROL] distanceSlider:
+00:01:15:179 --- [USER - UI_CONTROL] -36
+00:01:15:179 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:179 --- [USER - UI_CONTROL] 0
+00:01:15:179 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:179 --- [USER - UI_CONTROL] 36
+00:01:15:179 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:179 --- [USER - UI_CONTROL] 18
+00:01:15:179 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:179 --- [USER - UI_CONTROL] 36
+00:01:15:253 --- [USER - UI_CONTROL] distanceSlider:
+00:01:15:253 --- [USER - UI_CONTROL] -33
+00:01:15:253 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:253 --- [USER - UI_CONTROL] 0
+00:01:15:253 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:253 --- [USER - UI_CONTROL] 36
+00:01:15:253 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:253 --- [USER - UI_CONTROL] 18
+00:01:15:253 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:253 --- [USER - UI_CONTROL] 36
+00:01:15:253 --- [USER - UI_CONTROL] distanceSlider:
+00:01:15:253 --- [USER - UI_CONTROL] -33
+00:01:15:253 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:253 --- [USER - UI_CONTROL] 0
+00:01:15:253 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:253 --- [USER - UI_CONTROL] 36
+00:01:15:253 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:253 --- [USER - UI_CONTROL] 18
+00:01:15:253 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:253 --- [USER - UI_CONTROL] 36
+00:01:15:360 --- [USER - UI_CONTROL] distanceSlider:
+00:01:15:360 --- [USER - UI_CONTROL] -31
+00:01:15:360 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:360 --- [USER - UI_CONTROL] 0
+00:01:15:360 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:360 --- [USER - UI_CONTROL] 43
+00:01:15:360 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:360 --- [USER - UI_CONTROL] 22
+00:01:15:360 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:360 --- [USER - UI_CONTROL] 43
+00:01:15:371 --- [USER - UI_CONTROL] distanceSlider:
+00:01:15:371 --- [USER - UI_CONTROL] -31
+00:01:15:371 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:371 --- [USER - UI_CONTROL] 0
+00:01:15:371 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:371 --- [USER - UI_CONTROL] 48
+00:01:15:371 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:371 --- [USER - UI_CONTROL] 24
+00:01:15:371 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:371 --- [USER - UI_CONTROL] 48
+00:01:15:424 --- [USER - UI_CONTROL] distanceSlider:
+00:01:15:424 --- [USER - UI_CONTROL] -28
+00:01:15:424 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:424 --- [USER - UI_CONTROL] 0
+00:01:15:424 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:424 --- [USER - UI_CONTROL] 48
+00:01:15:424 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:424 --- [USER - UI_CONTROL] 24
+00:01:15:424 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:424 --- [USER - UI_CONTROL] 48
+00:01:15:445 --- [USER - UI_CONTROL] distanceSlider:
+00:01:15:445 --- [USER - UI_CONTROL] -26
+00:01:15:445 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:445 --- [USER - UI_CONTROL] 0
+00:01:15:445 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:445 --- [USER - UI_CONTROL] 56
+00:01:15:445 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:445 --- [USER - UI_CONTROL] 28
+00:01:15:445 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:445 --- [USER - UI_CONTROL] 56
+00:01:15:445 --- [USER - UI_CONTROL] distanceSlider:
+00:01:15:445 --- [USER - UI_CONTROL] -26
+00:01:15:445 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:445 --- [USER - UI_CONTROL] 0
+00:01:15:445 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:445 --- [USER - UI_CONTROL] 56
+00:01:15:445 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:445 --- [USER - UI_CONTROL] 28
+00:01:15:445 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:445 --- [USER - UI_CONTROL] 56
+00:01:15:541 --- [USER - UI_CONTROL] distanceSlider:
+00:01:15:541 --- [USER - UI_CONTROL] -26
+00:01:15:541 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:541 --- [USER - UI_CONTROL] 0
+00:01:15:541 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:541 --- [USER - UI_CONTROL] 61
+00:01:15:541 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:541 --- [USER - UI_CONTROL] 31
+00:01:15:541 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:541 --- [USER - UI_CONTROL] 61
+00:01:15:723 --- [USER - UI_CONTROL] distanceSlider:
+00:01:15:723 --- [USER - UI_CONTROL] -26
+00:01:15:723 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:723 --- [USER - UI_CONTROL] 0
+00:01:15:723 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:723 --- [USER - UI_CONTROL] 61
+00:01:15:723 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:723 --- [USER - UI_CONTROL] 31
+00:01:15:723 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:723 --- [USER - UI_CONTROL] 61
+00:01:15:808 --- [USER - UI_CONTROL] distanceSlider:
+00:01:15:808 --- [USER - UI_CONTROL] -23
+00:01:15:808 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:808 --- [USER - UI_CONTROL] 0
+00:01:15:808 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:808 --- [USER - UI_CONTROL] 61
+00:01:15:808 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:808 --- [USER - UI_CONTROL] 31
+00:01:15:808 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:808 --- [USER - UI_CONTROL] 61
+00:01:15:808 --- [USER - UI_CONTROL] distanceSlider:
+00:01:15:808 --- [USER - UI_CONTROL] -23
+00:01:15:808 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:808 --- [USER - UI_CONTROL] 0
+00:01:15:808 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:808 --- [USER - UI_CONTROL] 61
+00:01:15:808 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:808 --- [USER - UI_CONTROL] 31
+00:01:15:808 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:808 --- [USER - UI_CONTROL] 61
+00:01:15:829 --- [USER - UI_CONTROL] distanceSlider:
+00:01:15:829 --- [USER - UI_CONTROL] -22
+00:01:15:829 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:829 --- [USER - UI_CONTROL] 0
+00:01:15:829 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:829 --- [USER - UI_CONTROL] 69
+00:01:15:829 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:829 --- [USER - UI_CONTROL] 35
+00:01:15:829 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:829 --- [USER - UI_CONTROL] 69
+00:01:15:915 --- [USER - UI_CONTROL] distanceSlider:
+00:01:15:915 --- [USER - UI_CONTROL] -19
+00:01:15:915 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:915 --- [USER - UI_CONTROL] 0
+00:01:15:915 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:915 --- [USER - UI_CONTROL] 71
+00:01:15:915 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:915 --- [USER - UI_CONTROL] 36
+00:01:15:915 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:915 --- [USER - UI_CONTROL] 71
+00:01:15:915 --- [USER - UI_CONTROL] distanceSlider:
+00:01:15:915 --- [USER - UI_CONTROL] -19
+00:01:15:915 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:915 --- [USER - UI_CONTROL] 0
+00:01:15:915 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:915 --- [USER - UI_CONTROL] 71
+00:01:15:915 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:915 --- [USER - UI_CONTROL] 36
+00:01:15:915 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:915 --- [USER - UI_CONTROL] 71
+00:01:15:915 --- [USER - UI_CONTROL] distanceSlider:
+00:01:15:915 --- [USER - UI_CONTROL] -19
+00:01:15:915 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:915 --- [USER - UI_CONTROL] 0
+00:01:15:915 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:915 --- [USER - UI_CONTROL] 71
+00:01:15:915 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:915 --- [USER - UI_CONTROL] 36
+00:01:15:915 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:915 --- [USER - UI_CONTROL] 71
+00:01:15:925 --- [USER - UI_CONTROL] distanceSlider:
+00:01:15:925 --- [USER - UI_CONTROL] -19
+00:01:15:925 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:925 --- [USER - UI_CONTROL] 0
+00:01:15:925 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:925 --- [USER - UI_CONTROL] 79
+00:01:15:925 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:925 --- [USER - UI_CONTROL] 40
+00:01:15:925 --- [USER - UI_CONTROL] Current_CC:
+00:01:15:925 --- [USER - UI_CONTROL] 79
+00:01:16:011 --- [USER - UI_CONTROL] distanceSlider:
+00:01:16:011 --- [USER - UI_CONTROL] -16
+00:01:16:011 --- [USER - UI_CONTROL] Current_CC:
+00:01:16:011 --- [USER - UI_CONTROL] 0
+00:01:16:011 --- [USER - UI_CONTROL] Current_CC:
+00:01:16:011 --- [USER - UI_CONTROL] 79
+00:01:16:011 --- [USER - UI_CONTROL] Current_CC:
+00:01:16:011 --- [USER - UI_CONTROL] 40
+00:01:16:011 --- [USER - UI_CONTROL] Current_CC:
+00:01:16:011 --- [USER - UI_CONTROL] 79
+00:01:16:107 --- [USER - UI_CONTROL] distanceSlider:
+00:01:16:107 --- [USER - UI_CONTROL] -15
+00:01:16:107 --- [USER - UI_CONTROL] Current_CC:
+00:01:16:107 --- [USER - UI_CONTROL] 0
+00:01:16:107 --- [USER - UI_CONTROL] Current_CC:
+00:01:16:107 --- [USER - UI_CONTROL] 86
+00:01:16:107 --- [USER - UI_CONTROL] Current_CC:
+00:01:16:107 --- [USER - UI_CONTROL] 44
+00:01:16:107 --- [USER - UI_CONTROL] Current_CC:
+00:01:16:107 --- [USER - UI_CONTROL] 86
+00:01:16:288 --- [USER - UI_CONTROL] distanceSlider:
+00:01:16:288 --- [USER - UI_CONTROL] -16
+00:01:16:288 --- [USER - UI_CONTROL] Current_CC:
+00:01:16:288 --- [USER - UI_CONTROL] 0
+00:01:16:288 --- [USER - UI_CONTROL] Current_CC:
+00:01:16:288 --- [USER - UI_CONTROL] 89
+00:01:16:288 --- [USER - UI_CONTROL] Current_CC:
+00:01:16:288 --- [USER - UI_CONTROL] 45
+00:01:16:288 --- [USER - UI_CONTROL] Current_CC:
+00:01:16:288 --- [USER - UI_CONTROL] 89
+00:01:16:288 --- [USER - UI_CONTROL] distanceSlider:
+00:01:16:288 --- [USER - UI_CONTROL] -16
+00:01:16:288 --- [USER - UI_CONTROL] Current_CC:
+00:01:16:288 --- [USER - UI_CONTROL] 0
+00:01:16:288 --- [USER - UI_CONTROL] Current_CC:
+00:01:16:288 --- [USER - UI_CONTROL] 89
+00:01:16:288 --- [USER - UI_CONTROL] Current_CC:
+00:01:16:288 --- [USER - UI_CONTROL] 45
+00:01:16:289 --- [USER - UI_CONTROL] Current_CC:
+00:01:16:289 --- [USER - UI_CONTROL] 89
+00:01:50:548 --- [USER - UI_CONTROL] distanceSlider:
+00:01:50:548 --- [USER - UI_CONTROL] -16
+00:01:50:548 --- [USER - UI_CONTROL] Current_CC:
+00:01:50:548 --- [USER - UI_CONTROL] 0
+00:01:50:548 --- [USER - UI_CONTROL] Current_CC:
+00:01:50:548 --- [USER - UI_CONTROL] 86
+00:01:50:548 --- [USER - UI_CONTROL] Current_CC:
+00:01:50:548 --- [USER - UI_CONTROL] 44
+00:01:50:548 --- [USER - UI_CONTROL] Current_CC:
+00:01:50:548 --- [USER - UI_CONTROL] 86
+00:01:50:655 --- [USER - UI_CONTROL] distanceSlider:
+00:01:50:655 --- [USER - UI_CONTROL] -16
+00:01:50:655 --- [USER - UI_CONTROL] Current_CC:
+00:01:50:655 --- [USER - UI_CONTROL] 0
+00:01:50:655 --- [USER - UI_CONTROL] Current_CC:
+00:01:50:655 --- [USER - UI_CONTROL] 86
+00:01:50:655 --- [USER - UI_CONTROL] Current_CC:
+00:01:50:655 --- [USER - UI_CONTROL] 44
+00:01:50:655 --- [USER - UI_CONTROL] Current_CC:
+00:01:50:655 --- [USER - UI_CONTROL] 86
+00:02:18:558 --- [USER - UI_CONTROL] distanceSlider:
+00:02:18:558 --- [USER - UI_CONTROL] -16
+00:02:18:558 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:558 --- [USER - UI_CONTROL] 0
+00:02:18:558 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:558 --- [USER - UI_CONTROL] 86
+00:02:18:558 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:558 --- [USER - UI_CONTROL] 44
+00:02:18:558 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:558 --- [USER - UI_CONTROL] 86
+00:02:18:750 --- [USER - UI_CONTROL] distanceSlider:
+00:02:18:750 --- [USER - UI_CONTROL] -11
+00:02:18:750 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:750 --- [USER - UI_CONTROL] 0
+00:02:18:750 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:750 --- [USER - UI_CONTROL] 86
+00:02:18:750 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:750 --- [USER - UI_CONTROL] 44
+00:02:18:750 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:750 --- [USER - UI_CONTROL] 86
+00:02:18:750 --- [USER - UI_CONTROL] distanceSlider:
+00:02:18:750 --- [USER - UI_CONTROL] -11
+00:02:18:750 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:750 --- [USER - UI_CONTROL] 0
+00:02:18:750 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:750 --- [USER - UI_CONTROL] 86
+00:02:18:750 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:750 --- [USER - UI_CONTROL] 44
+00:02:18:750 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:750 --- [USER - UI_CONTROL] 86
+00:02:18:761 --- [USER - UI_CONTROL] distanceSlider:
+00:02:18:761 --- [USER - UI_CONTROL] -11
+00:02:18:761 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:761 --- [USER - UI_CONTROL] 0
+00:02:18:761 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:761 --- [USER - UI_CONTROL] 99
+00:02:18:761 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:761 --- [USER - UI_CONTROL] 50
+00:02:18:761 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:761 --- [USER - UI_CONTROL] 99
+00:02:18:846 --- [USER - UI_CONTROL] distanceSlider:
+00:02:18:846 --- [USER - UI_CONTROL] 7
+00:02:18:846 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:846 --- [USER - UI_CONTROL] 0
+00:02:18:846 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:846 --- [USER - UI_CONTROL] 99
+00:02:18:846 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:846 --- [USER - UI_CONTROL] 50
+00:02:18:846 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:846 --- [USER - UI_CONTROL] 99
+00:02:18:846 --- [USER - UI_CONTROL] distanceSlider:
+00:02:18:846 --- [USER - UI_CONTROL] 7
+00:02:18:846 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:846 --- [USER - UI_CONTROL] 0
+00:02:18:846 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:846 --- [USER - UI_CONTROL] 99
+00:02:18:846 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:846 --- [USER - UI_CONTROL] 50
+00:02:18:846 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:846 --- [USER - UI_CONTROL] 99
+00:02:18:942 --- [USER - UI_CONTROL] distanceSlider:
+00:02:18:942 --- [USER - UI_CONTROL] 17
+00:02:18:942 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:942 --- [USER - UI_CONTROL] 18
+00:02:18:942 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:942 --- [USER - UI_CONTROL] 127
+00:02:18:942 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:942 --- [USER - UI_CONTROL] 73
+00:02:18:942 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:942 --- [USER - UI_CONTROL] 127
+00:02:18:942 --- [USER - UI_CONTROL] distanceSlider:
+00:02:18:942 --- [USER - UI_CONTROL] 17
+00:02:18:942 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:942 --- [USER - UI_CONTROL] 18
+00:02:18:942 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:942 --- [USER - UI_CONTROL] 127
+00:02:18:942 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:942 --- [USER - UI_CONTROL] 73
+00:02:18:942 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:942 --- [USER - UI_CONTROL] 127
+00:02:18:942 --- [USER - UI_CONTROL] distanceSlider:
+00:02:18:942 --- [USER - UI_CONTROL] 17
+00:02:18:942 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:942 --- [USER - UI_CONTROL] 18
+00:02:18:942 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:942 --- [USER - UI_CONTROL] 127
+00:02:18:942 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:942 --- [USER - UI_CONTROL] 73
+00:02:18:942 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:942 --- [USER - UI_CONTROL] 127
+00:02:18:942 --- [USER - UI_CONTROL] distanceSlider:
+00:02:18:942 --- [USER - UI_CONTROL] 17
+00:02:18:942 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:942 --- [USER - UI_CONTROL] 18
+00:02:18:942 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:942 --- [USER - UI_CONTROL] 127
+00:02:18:942 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:942 --- [USER - UI_CONTROL] 73
+00:02:18:942 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:942 --- [USER - UI_CONTROL] 127
+00:02:18:953 --- [USER - UI_CONTROL] distanceSlider:
+00:02:18:953 --- [USER - UI_CONTROL] 17
+00:02:18:953 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:953 --- [USER - UI_CONTROL] 43
+00:02:18:953 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:953 --- [USER - UI_CONTROL] 127
+00:02:18:953 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:953 --- [USER - UI_CONTROL] 85
+00:02:18:953 --- [USER - UI_CONTROL] Current_CC:
+00:02:18:953 --- [USER - UI_CONTROL] 127
+00:02:19:028 --- [USER - UI_CONTROL] distanceSlider:
+00:02:19:028 --- [USER - UI_CONTROL] 28
+00:02:19:028 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:028 --- [USER - UI_CONTROL] 43
+00:02:19:028 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:028 --- [USER - UI_CONTROL] 127
+00:02:19:028 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:028 --- [USER - UI_CONTROL] 85
+00:02:19:028 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:028 --- [USER - UI_CONTROL] 127
+00:02:19:028 --- [USER - UI_CONTROL] distanceSlider:
+00:02:19:028 --- [USER - UI_CONTROL] 28
+00:02:19:028 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:028 --- [USER - UI_CONTROL] 43
+00:02:19:028 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:028 --- [USER - UI_CONTROL] 127
+00:02:19:028 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:028 --- [USER - UI_CONTROL] 85
+00:02:19:028 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:028 --- [USER - UI_CONTROL] 127
+00:02:19:028 --- [USER - UI_CONTROL] distanceSlider:
+00:02:19:028 --- [USER - UI_CONTROL] 28
+00:02:19:028 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:028 --- [USER - UI_CONTROL] 43
+00:02:19:028 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:028 --- [USER - UI_CONTROL] 127
+00:02:19:028 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:028 --- [USER - UI_CONTROL] 85
+00:02:19:028 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:028 --- [USER - UI_CONTROL] 127
+00:02:19:038 --- [USER - UI_CONTROL] distanceSlider:
+00:02:19:038 --- [USER - UI_CONTROL] 28
+00:02:19:038 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:038 --- [USER - UI_CONTROL] 71
+00:02:19:038 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:038 --- [USER - UI_CONTROL] 127
+00:02:19:038 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:038 --- [USER - UI_CONTROL] 99
+00:02:19:038 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:038 --- [USER - UI_CONTROL] 127
+00:02:19:092 --- [USER - UI_CONTROL] distanceSlider:
+00:02:19:092 --- [USER - UI_CONTROL] 34
+00:02:19:092 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:092 --- [USER - UI_CONTROL] 71
+00:02:19:092 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:092 --- [USER - UI_CONTROL] 127
+00:02:19:092 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:092 --- [USER - UI_CONTROL] 99
+00:02:19:092 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:092 --- [USER - UI_CONTROL] 127
+00:02:19:113 --- [USER - UI_CONTROL] distanceSlider:
+00:02:19:113 --- [USER - UI_CONTROL] 41
+00:02:19:113 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:113 --- [USER - UI_CONTROL] 86
+00:02:19:113 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:113 --- [USER - UI_CONTROL] 127
+00:02:19:113 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:113 --- [USER - UI_CONTROL] 107
+00:02:19:113 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:113 --- [USER - UI_CONTROL] 127
+00:02:19:113 --- [USER - UI_CONTROL] distanceSlider:
+00:02:19:113 --- [USER - UI_CONTROL] 41
+00:02:19:113 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:113 --- [USER - UI_CONTROL] 86
+00:02:19:113 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:113 --- [USER - UI_CONTROL] 127
+00:02:19:113 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:113 --- [USER - UI_CONTROL] 107
+00:02:19:113 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:113 --- [USER - UI_CONTROL] 127
+00:02:19:123 --- [USER - UI_CONTROL] distanceSlider:
+00:02:19:124 --- [USER - UI_CONTROL] 41
+00:02:19:124 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:124 --- [USER - UI_CONTROL] 104
+00:02:19:124 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:124 --- [USER - UI_CONTROL] 127
+00:02:19:124 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:124 --- [USER - UI_CONTROL] 116
+00:02:19:124 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:124 --- [USER - UI_CONTROL] 127
+00:02:19:209 --- [USER - UI_CONTROL] distanceSlider:
+00:02:19:209 --- [USER - UI_CONTROL] 50
+00:02:19:209 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:209 --- [USER - UI_CONTROL] 104
+00:02:19:209 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:209 --- [USER - UI_CONTROL] 127
+00:02:19:209 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:209 --- [USER - UI_CONTROL] 116
+00:02:19:209 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:209 --- [USER - UI_CONTROL] 127
+00:02:19:635 --- [USER - UI_CONTROL] distanceSlider:
+00:02:19:635 --- [USER - UI_CONTROL] 36
+00:02:19:636 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:636 --- [USER - UI_CONTROL] 127
+00:02:19:636 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:636 --- [USER - UI_CONTROL] 127
+00:02:19:636 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:636 --- [USER - UI_CONTROL] 127
+00:02:19:636 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:636 --- [USER - UI_CONTROL] 127
+00:02:19:636 --- [USER - UI_CONTROL] distanceSlider:
+00:02:19:636 --- [USER - UI_CONTROL] 36
+00:02:19:636 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:636 --- [USER - UI_CONTROL] 127
+00:02:19:636 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:636 --- [USER - UI_CONTROL] 127
+00:02:19:636 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:636 --- [USER - UI_CONTROL] 127
+00:02:19:636 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:636 --- [USER - UI_CONTROL] 127
+00:02:19:636 --- [USER - UI_CONTROL] distanceSlider:
+00:02:19:636 --- [USER - UI_CONTROL] 36
+00:02:19:636 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:636 --- [USER - UI_CONTROL] 127
+00:02:19:636 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:636 --- [USER - UI_CONTROL] 127
+00:02:19:636 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:636 --- [USER - UI_CONTROL] 127
+00:02:19:636 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:636 --- [USER - UI_CONTROL] 127
+00:02:19:646 --- [USER - UI_CONTROL] distanceSlider:
+00:02:19:646 --- [USER - UI_CONTROL] 36
+00:02:19:646 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:646 --- [USER - UI_CONTROL] 91
+00:02:19:646 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:646 --- [USER - UI_CONTROL] 127
+00:02:19:646 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:646 --- [USER - UI_CONTROL] 109
+00:02:19:646 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:646 --- [USER - UI_CONTROL] 127
+00:02:19:721 --- [USER - UI_CONTROL] distanceSlider:
+00:02:19:721 --- [USER - UI_CONTROL] 19
+00:02:19:721 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:721 --- [USER - UI_CONTROL] 91
+00:02:19:721 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:721 --- [USER - UI_CONTROL] 127
+00:02:19:721 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:721 --- [USER - UI_CONTROL] 109
+00:02:19:721 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:721 --- [USER - UI_CONTROL] 127
+00:02:19:721 --- [USER - UI_CONTROL] distanceSlider:
+00:02:19:721 --- [USER - UI_CONTROL] 19
+00:02:19:721 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:721 --- [USER - UI_CONTROL] 91
+00:02:19:721 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:721 --- [USER - UI_CONTROL] 127
+00:02:19:721 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:721 --- [USER - UI_CONTROL] 109
+00:02:19:721 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:721 --- [USER - UI_CONTROL] 127
+00:02:19:721 --- [USER - UI_CONTROL] distanceSlider:
+00:02:19:721 --- [USER - UI_CONTROL] 19
+00:02:19:721 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:721 --- [USER - UI_CONTROL] 91
+00:02:19:721 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:721 --- [USER - UI_CONTROL] 127
+00:02:19:721 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:721 --- [USER - UI_CONTROL] 109
+00:02:19:721 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:721 --- [USER - UI_CONTROL] 127
+00:02:19:732 --- [USER - UI_CONTROL] distanceSlider:
+00:02:19:732 --- [USER - UI_CONTROL] 19
+00:02:19:732 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:732 --- [USER - UI_CONTROL] 48
+00:02:19:732 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:732 --- [USER - UI_CONTROL] 127
+00:02:19:732 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:732 --- [USER - UI_CONTROL] 88
+00:02:19:732 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:732 --- [USER - UI_CONTROL] 127
+00:02:19:817 --- [USER - UI_CONTROL] distanceSlider:
+00:02:19:817 --- [USER - UI_CONTROL] -26
+00:02:19:817 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:817 --- [USER - UI_CONTROL] 48
+00:02:19:817 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:817 --- [USER - UI_CONTROL] 127
+00:02:19:817 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:817 --- [USER - UI_CONTROL] 88
+00:02:19:817 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:817 --- [USER - UI_CONTROL] 127
+00:02:19:817 --- [USER - UI_CONTROL] distanceSlider:
+00:02:19:817 --- [USER - UI_CONTROL] -26
+00:02:19:817 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:817 --- [USER - UI_CONTROL] 48
+00:02:19:817 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:817 --- [USER - UI_CONTROL] 127
+00:02:19:817 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:817 --- [USER - UI_CONTROL] 88
+00:02:19:817 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:817 --- [USER - UI_CONTROL] 127
+00:02:19:817 --- [USER - UI_CONTROL] distanceSlider:
+00:02:19:817 --- [USER - UI_CONTROL] -26
+00:02:19:817 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:817 --- [USER - UI_CONTROL] 48
+00:02:19:817 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:817 --- [USER - UI_CONTROL] 127
+00:02:19:817 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:817 --- [USER - UI_CONTROL] 88
+00:02:19:817 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:817 --- [USER - UI_CONTROL] 127
+00:02:19:827 --- [USER - UI_CONTROL] distanceSlider:
+00:02:19:828 --- [USER - UI_CONTROL] -26
+00:02:19:828 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:828 --- [USER - UI_CONTROL] 0
+00:02:19:828 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:828 --- [USER - UI_CONTROL] 61
+00:02:19:828 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:828 --- [USER - UI_CONTROL] 31
+00:02:19:828 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:828 --- [USER - UI_CONTROL] 61
+00:02:19:913 --- [USER - UI_CONTROL] distanceSlider:
+00:02:19:913 --- [USER - UI_CONTROL] -50
+00:02:19:913 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:913 --- [USER - UI_CONTROL] 0
+00:02:19:913 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:913 --- [USER - UI_CONTROL] 61
+00:02:19:913 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:913 --- [USER - UI_CONTROL] 31
+00:02:19:913 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:913 --- [USER - UI_CONTROL] 61
+00:02:19:913 --- [USER - UI_CONTROL] distanceSlider:
+00:02:19:913 --- [USER - UI_CONTROL] -50
+00:02:19:913 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:913 --- [USER - UI_CONTROL] 0
+00:02:19:913 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:913 --- [USER - UI_CONTROL] 61
+00:02:19:913 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:913 --- [USER - UI_CONTROL] 31
+00:02:19:913 --- [USER - UI_CONTROL] Current_CC:
+00:02:19:913 --- [USER - UI_CONTROL] 61
+00:02:20:414 --- [USER - UI_CONTROL] distanceSlider:
+00:02:20:414 --- [USER - UI_CONTROL] -23
+00:02:20:414 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:414 --- [USER - UI_CONTROL] 0
+00:02:20:414 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:414 --- [USER - UI_CONTROL] 0
+00:02:20:414 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:414 --- [USER - UI_CONTROL] 0
+00:02:20:414 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:414 --- [USER - UI_CONTROL] 0
+00:02:20:414 --- [USER - UI_CONTROL] distanceSlider:
+00:02:20:414 --- [USER - UI_CONTROL] -23
+00:02:20:414 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:414 --- [USER - UI_CONTROL] 0
+00:02:20:414 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:414 --- [USER - UI_CONTROL] 0
+00:02:20:414 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:414 --- [USER - UI_CONTROL] 0
+00:02:20:414 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:414 --- [USER - UI_CONTROL] 0
+00:02:20:425 --- [USER - UI_CONTROL] distanceSlider:
+00:02:20:425 --- [USER - UI_CONTROL] -23
+00:02:20:425 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:425 --- [USER - UI_CONTROL] 0
+00:02:20:425 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:425 --- [USER - UI_CONTROL] 69
+00:02:20:425 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:425 --- [USER - UI_CONTROL] 35
+00:02:20:425 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:425 --- [USER - UI_CONTROL] 69
+00:02:20:499 --- [USER - UI_CONTROL] distanceSlider:
+00:02:20:500 --- [USER - UI_CONTROL] 27
+00:02:20:500 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:500 --- [USER - UI_CONTROL] 0
+00:02:20:500 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:500 --- [USER - UI_CONTROL] 69
+00:02:20:500 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:500 --- [USER - UI_CONTROL] 35
+00:02:20:500 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:500 --- [USER - UI_CONTROL] 69
+00:02:20:500 --- [USER - UI_CONTROL] distanceSlider:
+00:02:20:500 --- [USER - UI_CONTROL] 27
+00:02:20:500 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:500 --- [USER - UI_CONTROL] 0
+00:02:20:500 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:500 --- [USER - UI_CONTROL] 69
+00:02:20:500 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:500 --- [USER - UI_CONTROL] 35
+00:02:20:500 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:500 --- [USER - UI_CONTROL] 69
+00:02:20:500 --- [USER - UI_CONTROL] distanceSlider:
+00:02:20:500 --- [USER - UI_CONTROL] 27
+00:02:20:500 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:500 --- [USER - UI_CONTROL] 0
+00:02:20:500 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:500 --- [USER - UI_CONTROL] 69
+00:02:20:500 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:500 --- [USER - UI_CONTROL] 35
+00:02:20:500 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:500 --- [USER - UI_CONTROL] 69
+00:02:20:510 --- [USER - UI_CONTROL] distanceSlider:
+00:02:20:510 --- [USER - UI_CONTROL] 27
+00:02:20:510 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:510 --- [USER - UI_CONTROL] 69
+00:02:20:510 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:510 --- [USER - UI_CONTROL] 127
+00:02:20:510 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:510 --- [USER - UI_CONTROL] 98
+00:02:20:510 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:510 --- [USER - UI_CONTROL] 127
+00:02:20:596 --- [USER - UI_CONTROL] distanceSlider:
+00:02:20:596 --- [USER - UI_CONTROL] 50
+00:02:20:596 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:596 --- [USER - UI_CONTROL] 69
+00:02:20:596 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:596 --- [USER - UI_CONTROL] 127
+00:02:20:596 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:596 --- [USER - UI_CONTROL] 98
+00:02:20:596 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:596 --- [USER - UI_CONTROL] 127
+00:02:20:916 --- [USER - UI_CONTROL] distanceSlider:
+00:02:20:916 --- [USER - UI_CONTROL] 36
+00:02:20:916 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:916 --- [USER - UI_CONTROL] 127
+00:02:20:916 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:916 --- [USER - UI_CONTROL] 127
+00:02:20:916 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:916 --- [USER - UI_CONTROL] 127
+00:02:20:916 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:916 --- [USER - UI_CONTROL] 127
+00:02:20:937 --- [USER - UI_CONTROL] distanceSlider:
+00:02:20:937 --- [USER - UI_CONTROL] 0
+00:02:20:937 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:937 --- [USER - UI_CONTROL] 91
+00:02:20:937 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:937 --- [USER - UI_CONTROL] 127
+00:02:20:937 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:937 --- [USER - UI_CONTROL] 109
+00:02:20:937 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:937 --- [USER - UI_CONTROL] 127
+00:02:20:937 --- [USER - UI_CONTROL] distanceSlider:
+00:02:20:937 --- [USER - UI_CONTROL] 0
+00:02:20:937 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:937 --- [USER - UI_CONTROL] 91
+00:02:20:937 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:937 --- [USER - UI_CONTROL] 127
+00:02:20:937 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:937 --- [USER - UI_CONTROL] 109
+00:02:20:937 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:937 --- [USER - UI_CONTROL] 127
+00:02:20:937 --- [USER - UI_CONTROL] distanceSlider:
+00:02:20:937 --- [USER - UI_CONTROL] 0
+00:02:20:937 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:937 --- [USER - UI_CONTROL] 91
+00:02:20:937 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:937 --- [USER - UI_CONTROL] 127
+00:02:20:937 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:937 --- [USER - UI_CONTROL] 109
+00:02:20:937 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:937 --- [USER - UI_CONTROL] 127
+00:02:20:947 --- [USER - UI_CONTROL] distanceSlider:
+00:02:20:947 --- [USER - UI_CONTROL] 0
+00:02:20:947 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:947 --- [USER - UI_CONTROL] 0
+00:02:20:947 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:948 --- [USER - UI_CONTROL] 127
+00:02:20:948 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:948 --- [USER - UI_CONTROL] 64
+00:02:20:948 --- [USER - UI_CONTROL] Current_CC:
+00:02:20:948 --- [USER - UI_CONTROL] 127
+00:02:21:011 --- [USER - UI_CONTROL] distanceSlider:
+00:02:21:012 --- [USER - UI_CONTROL] -25
+00:02:21:012 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:012 --- [USER - UI_CONTROL] 0
+00:02:21:012 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:012 --- [USER - UI_CONTROL] 127
+00:02:21:012 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:012 --- [USER - UI_CONTROL] 64
+00:02:21:012 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:012 --- [USER - UI_CONTROL] 127
+00:02:21:033 --- [USER - UI_CONTROL] distanceSlider:
+00:02:21:033 --- [USER - UI_CONTROL] -36
+00:02:21:033 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:033 --- [USER - UI_CONTROL] 0
+00:02:21:033 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:033 --- [USER - UI_CONTROL] 63
+00:02:21:033 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:033 --- [USER - UI_CONTROL] 32
+00:02:21:033 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:033 --- [USER - UI_CONTROL] 63
+00:02:21:033 --- [USER - UI_CONTROL] distanceSlider:
+00:02:21:033 --- [USER - UI_CONTROL] -36
+00:02:21:033 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:033 --- [USER - UI_CONTROL] 0
+00:02:21:033 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:033 --- [USER - UI_CONTROL] 63
+00:02:21:033 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:033 --- [USER - UI_CONTROL] 32
+00:02:21:033 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:033 --- [USER - UI_CONTROL] 63
+00:02:21:043 --- [USER - UI_CONTROL] distanceSlider:
+00:02:21:043 --- [USER - UI_CONTROL] -36
+00:02:21:043 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:043 --- [USER - UI_CONTROL] 0
+00:02:21:044 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:044 --- [USER - UI_CONTROL] 36
+00:02:21:044 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:044 --- [USER - UI_CONTROL] 18
+00:02:21:044 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:044 --- [USER - UI_CONTROL] 36
+00:02:21:044 --- [USER - UI_CONTROL] distanceSlider:
+00:02:21:044 --- [USER - UI_CONTROL] -36
+00:02:21:044 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:044 --- [USER - UI_CONTROL] 0
+00:02:21:044 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:044 --- [USER - UI_CONTROL] 36
+00:02:21:044 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:044 --- [USER - UI_CONTROL] 18
+00:02:21:044 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:044 --- [USER - UI_CONTROL] 36
+00:02:21:139 --- [USER - UI_CONTROL] distanceSlider:
+00:02:21:140 --- [USER - UI_CONTROL] -50
+00:02:21:140 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:140 --- [USER - UI_CONTROL] 0
+00:02:21:140 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:140 --- [USER - UI_CONTROL] 36
+00:02:21:140 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:140 --- [USER - UI_CONTROL] 18
+00:02:21:140 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:140 --- [USER - UI_CONTROL] 36
+00:02:21:342 --- [USER - UI_CONTROL] distanceSlider:
+00:02:21:342 --- [USER - UI_CONTROL] -43
+00:02:21:342 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:342 --- [USER - UI_CONTROL] 0
+00:02:21:342 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:342 --- [USER - UI_CONTROL] 0
+00:02:21:342 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:342 --- [USER - UI_CONTROL] 0
+00:02:21:342 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:342 --- [USER - UI_CONTROL] 0
+00:02:21:417 --- [USER - UI_CONTROL] distanceSlider:
+00:02:21:417 --- [USER - UI_CONTROL] 50
+00:02:21:417 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:417 --- [USER - UI_CONTROL] 0
+00:02:21:417 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:417 --- [USER - UI_CONTROL] 18
+00:02:21:417 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:417 --- [USER - UI_CONTROL] 9
+00:02:21:417 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:417 --- [USER - UI_CONTROL] 18
+00:02:21:417 --- [USER - UI_CONTROL] distanceSlider:
+00:02:21:417 --- [USER - UI_CONTROL] 50
+00:02:21:417 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:417 --- [USER - UI_CONTROL] 0
+00:02:21:417 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:417 --- [USER - UI_CONTROL] 18
+00:02:21:417 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:417 --- [USER - UI_CONTROL] 9
+00:02:21:417 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:417 --- [USER - UI_CONTROL] 18
+00:02:21:843 --- [USER - UI_CONTROL] distanceSlider:
+00:02:21:843 --- [USER - UI_CONTROL] 24
+00:02:21:843 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:844 --- [USER - UI_CONTROL] 127
+00:02:21:844 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:844 --- [USER - UI_CONTROL] 127
+00:02:21:844 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:844 --- [USER - UI_CONTROL] 127
+00:02:21:844 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:844 --- [USER - UI_CONTROL] 127
+00:02:21:844 --- [USER - UI_CONTROL] distanceSlider:
+00:02:21:844 --- [USER - UI_CONTROL] 24
+00:02:21:844 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:844 --- [USER - UI_CONTROL] 127
+00:02:21:844 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:844 --- [USER - UI_CONTROL] 127
+00:02:21:844 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:844 --- [USER - UI_CONTROL] 127
+00:02:21:844 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:844 --- [USER - UI_CONTROL] 127
+00:02:21:844 --- [USER - UI_CONTROL] distanceSlider:
+00:02:21:844 --- [USER - UI_CONTROL] 24
+00:02:21:844 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:844 --- [USER - UI_CONTROL] 127
+00:02:21:844 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:844 --- [USER - UI_CONTROL] 127
+00:02:21:844 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:844 --- [USER - UI_CONTROL] 127
+00:02:21:844 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:844 --- [USER - UI_CONTROL] 127
+00:02:21:854 --- [USER - UI_CONTROL] distanceSlider:
+00:02:21:854 --- [USER - UI_CONTROL] 24
+00:02:21:854 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:854 --- [USER - UI_CONTROL] 61
+00:02:21:854 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:854 --- [USER - UI_CONTROL] 127
+00:02:21:854 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:854 --- [USER - UI_CONTROL] 94
+00:02:21:854 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:854 --- [USER - UI_CONTROL] 127
+00:02:21:950 --- [USER - UI_CONTROL] distanceSlider:
+00:02:21:950 --- [USER - UI_CONTROL] -49
+00:02:21:950 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:950 --- [USER - UI_CONTROL] 61
+00:02:21:950 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:950 --- [USER - UI_CONTROL] 127
+00:02:21:950 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:950 --- [USER - UI_CONTROL] 94
+00:02:21:950 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:950 --- [USER - UI_CONTROL] 127
+00:02:21:950 --- [USER - UI_CONTROL] distanceSlider:
+00:02:21:950 --- [USER - UI_CONTROL] -49
+00:02:21:950 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:950 --- [USER - UI_CONTROL] 61
+00:02:21:950 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:950 --- [USER - UI_CONTROL] 127
+00:02:21:950 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:950 --- [USER - UI_CONTROL] 94
+00:02:21:950 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:950 --- [USER - UI_CONTROL] 127
+00:02:21:950 --- [USER - UI_CONTROL] distanceSlider:
+00:02:21:950 --- [USER - UI_CONTROL] -49
+00:02:21:950 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:950 --- [USER - UI_CONTROL] 61
+00:02:21:950 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:950 --- [USER - UI_CONTROL] 127
+00:02:21:950 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:950 --- [USER - UI_CONTROL] 94
+00:02:21:950 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:950 --- [USER - UI_CONTROL] 127
+00:02:21:961 --- [USER - UI_CONTROL] distanceSlider:
+00:02:21:961 --- [USER - UI_CONTROL] -49
+00:02:21:961 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:961 --- [USER - UI_CONTROL] 0
+00:02:21:961 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:961 --- [USER - UI_CONTROL] 3
+00:02:21:961 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:961 --- [USER - UI_CONTROL] 1
+00:02:21:961 --- [USER - UI_CONTROL] Current_CC:
+00:02:21:961 --- [USER - UI_CONTROL] 3
+00:02:22:057 --- [USER - UI_CONTROL] distanceSlider:
+00:02:22:057 --- [USER - UI_CONTROL] -50
+00:02:22:057 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:057 --- [USER - UI_CONTROL] 0
+00:02:22:057 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:057 --- [USER - UI_CONTROL] 3
+00:02:22:057 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:057 --- [USER - UI_CONTROL] 1
+00:02:22:057 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:057 --- [USER - UI_CONTROL] 3
+00:02:22:227 --- [USER - UI_CONTROL] distanceSlider:
+00:02:22:227 --- [USER - UI_CONTROL] -45
+00:02:22:227 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:227 --- [USER - UI_CONTROL] 0
+00:02:22:228 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:228 --- [USER - UI_CONTROL] 0
+00:02:22:228 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:228 --- [USER - UI_CONTROL] 0
+00:02:22:228 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:228 --- [USER - UI_CONTROL] 0
+00:02:22:249 --- [USER - UI_CONTROL] distanceSlider:
+00:02:22:249 --- [USER - UI_CONTROL] -4
+00:02:22:249 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:249 --- [USER - UI_CONTROL] 0
+00:02:22:249 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:249 --- [USER - UI_CONTROL] 13
+00:02:22:249 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:249 --- [USER - UI_CONTROL] 6
+00:02:22:249 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:249 --- [USER - UI_CONTROL] 13
+00:02:22:249 --- [USER - UI_CONTROL] distanceSlider:
+00:02:22:249 --- [USER - UI_CONTROL] -4
+00:02:22:249 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:249 --- [USER - UI_CONTROL] 0
+00:02:22:249 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:249 --- [USER - UI_CONTROL] 13
+00:02:22:249 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:249 --- [USER - UI_CONTROL] 6
+00:02:22:249 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:249 --- [USER - UI_CONTROL] 13
+00:02:22:259 --- [USER - UI_CONTROL] distanceSlider:
+00:02:22:259 --- [USER - UI_CONTROL] -4
+00:02:22:259 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:259 --- [USER - UI_CONTROL] 0
+00:02:22:259 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:259 --- [USER - UI_CONTROL] 117
+00:02:22:260 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:260 --- [USER - UI_CONTROL] 59
+00:02:22:260 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:260 --- [USER - UI_CONTROL] 117
+00:02:22:366 --- [USER - UI_CONTROL] distanceSlider:
+00:02:22:366 --- [USER - UI_CONTROL] 50
+00:02:22:366 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:366 --- [USER - UI_CONTROL] 0
+00:02:22:366 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:366 --- [USER - UI_CONTROL] 117
+00:02:22:366 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:366 --- [USER - UI_CONTROL] 59
+00:02:22:366 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:366 --- [USER - UI_CONTROL] 117
+00:02:22:611 --- [USER - UI_CONTROL] distanceSlider:
+00:02:22:611 --- [USER - UI_CONTROL] 21
+00:02:22:611 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:612 --- [USER - UI_CONTROL] 127
+00:02:22:612 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:612 --- [USER - UI_CONTROL] 127
+00:02:22:612 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:612 --- [USER - UI_CONTROL] 127
+00:02:22:612 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:612 --- [USER - UI_CONTROL] 127
+00:02:22:612 --- [USER - UI_CONTROL] distanceSlider:
+00:02:22:612 --- [USER - UI_CONTROL] 21
+00:02:22:612 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:612 --- [USER - UI_CONTROL] 127
+00:02:22:612 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:612 --- [USER - UI_CONTROL] 127
+00:02:22:612 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:612 --- [USER - UI_CONTROL] 127
+00:02:22:612 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:612 --- [USER - UI_CONTROL] 127
+00:02:22:633 --- [USER - UI_CONTROL] distanceSlider:
+00:02:22:633 --- [USER - UI_CONTROL] -16
+00:02:22:633 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:633 --- [USER - UI_CONTROL] 53
+00:02:22:633 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:633 --- [USER - UI_CONTROL] 127
+00:02:22:633 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:633 --- [USER - UI_CONTROL] 90
+00:02:22:633 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:633 --- [USER - UI_CONTROL] 127
+00:02:22:633 --- [USER - UI_CONTROL] distanceSlider:
+00:02:22:633 --- [USER - UI_CONTROL] -16
+00:02:22:633 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:633 --- [USER - UI_CONTROL] 53
+00:02:22:633 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:633 --- [USER - UI_CONTROL] 127
+00:02:22:633 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:633 --- [USER - UI_CONTROL] 90
+00:02:22:633 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:633 --- [USER - UI_CONTROL] 127
+00:02:22:643 --- [USER - UI_CONTROL] distanceSlider:
+00:02:22:643 --- [USER - UI_CONTROL] -24
+00:02:22:643 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:644 --- [USER - UI_CONTROL] 0
+00:02:22:644 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:644 --- [USER - UI_CONTROL] 86
+00:02:22:644 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:644 --- [USER - UI_CONTROL] 44
+00:02:22:644 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:644 --- [USER - UI_CONTROL] 86
+00:02:22:654 --- [USER - UI_CONTROL] distanceSlider:
+00:02:22:654 --- [USER - UI_CONTROL] -24
+00:02:22:654 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:654 --- [USER - UI_CONTROL] 0
+00:02:22:654 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:654 --- [USER - UI_CONTROL] 66
+00:02:22:654 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:654 --- [USER - UI_CONTROL] 33
+00:02:22:654 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:654 --- [USER - UI_CONTROL] 66
+00:02:22:750 --- [USER - UI_CONTROL] distanceSlider:
+00:02:22:750 --- [USER - UI_CONTROL] -50
+00:02:22:750 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:750 --- [USER - UI_CONTROL] 0
+00:02:22:750 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:750 --- [USER - UI_CONTROL] 66
+00:02:22:750 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:750 --- [USER - UI_CONTROL] 33
+00:02:22:750 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:750 --- [USER - UI_CONTROL] 66
+00:02:22:857 --- [USER - UI_CONTROL] distanceSlider:
+00:02:22:857 --- [USER - UI_CONTROL] -23
+00:02:22:857 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:857 --- [USER - UI_CONTROL] 0
+00:02:22:857 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:857 --- [USER - UI_CONTROL] 0
+00:02:22:857 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:857 --- [USER - UI_CONTROL] 0
+00:02:22:857 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:857 --- [USER - UI_CONTROL] 0
+00:02:22:857 --- [USER - UI_CONTROL] distanceSlider:
+00:02:22:857 --- [USER - UI_CONTROL] -23
+00:02:22:857 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:857 --- [USER - UI_CONTROL] 0
+00:02:22:857 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:857 --- [USER - UI_CONTROL] 0
+00:02:22:857 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:857 --- [USER - UI_CONTROL] 0
+00:02:22:857 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:857 --- [USER - UI_CONTROL] 0
+00:02:22:867 --- [USER - UI_CONTROL] distanceSlider:
+00:02:22:867 --- [USER - UI_CONTROL] -9
+00:02:22:867 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:867 --- [USER - UI_CONTROL] 0
+00:02:22:867 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:868 --- [USER - UI_CONTROL] 69
+00:02:22:868 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:868 --- [USER - UI_CONTROL] 35
+00:02:22:868 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:868 --- [USER - UI_CONTROL] 69
+00:02:22:878 --- [USER - UI_CONTROL] distanceSlider:
+00:02:22:878 --- [USER - UI_CONTROL] -9
+00:02:22:878 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:878 --- [USER - UI_CONTROL] 0
+00:02:22:878 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:878 --- [USER - UI_CONTROL] 104
+00:02:22:878 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:878 --- [USER - UI_CONTROL] 52
+00:02:22:878 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:878 --- [USER - UI_CONTROL] 104
+00:02:22:985 --- [USER - UI_CONTROL] distanceSlider:
+00:02:22:985 --- [USER - UI_CONTROL] 50
+00:02:22:985 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:985 --- [USER - UI_CONTROL] 0
+00:02:22:985 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:985 --- [USER - UI_CONTROL] 104
+00:02:22:985 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:985 --- [USER - UI_CONTROL] 52
+00:02:22:985 --- [USER - UI_CONTROL] Current_CC:
+00:02:22:985 --- [USER - UI_CONTROL] 104
+00:02:23:315 --- [USER - UI_CONTROL] distanceSlider:
+00:02:23:315 --- [USER - UI_CONTROL] 35
+00:02:23:315 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:315 --- [USER - UI_CONTROL] 127
+00:02:23:316 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:316 --- [USER - UI_CONTROL] 127
+00:02:23:316 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:316 --- [USER - UI_CONTROL] 127
+00:02:23:316 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:316 --- [USER - UI_CONTROL] 127
+00:02:23:337 --- [USER - UI_CONTROL] distanceSlider:
+00:02:23:337 --- [USER - UI_CONTROL] 21
+00:02:23:337 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:337 --- [USER - UI_CONTROL] 89
+00:02:23:337 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:337 --- [USER - UI_CONTROL] 127
+00:02:23:337 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:337 --- [USER - UI_CONTROL] 108
+00:02:23:337 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:337 --- [USER - UI_CONTROL] 127
+00:02:23:337 --- [USER - UI_CONTROL] distanceSlider:
+00:02:23:337 --- [USER - UI_CONTROL] 21
+00:02:23:337 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:337 --- [USER - UI_CONTROL] 89
+00:02:23:337 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:337 --- [USER - UI_CONTROL] 127
+00:02:23:337 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:337 --- [USER - UI_CONTROL] 108
+00:02:23:337 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:337 --- [USER - UI_CONTROL] 127
+00:02:23:347 --- [USER - UI_CONTROL] distanceSlider:
+00:02:23:347 --- [USER - UI_CONTROL] 21
+00:02:23:347 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:347 --- [USER - UI_CONTROL] 53
+00:02:23:347 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:347 --- [USER - UI_CONTROL] 127
+00:02:23:347 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:348 --- [USER - UI_CONTROL] 90
+00:02:23:348 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:348 --- [USER - UI_CONTROL] 127
+00:02:23:443 --- [USER - UI_CONTROL] distanceSlider:
+00:02:23:443 --- [USER - UI_CONTROL] 13
+00:02:23:443 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:443 --- [USER - UI_CONTROL] 53
+00:02:23:444 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:444 --- [USER - UI_CONTROL] 127
+00:02:23:444 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:444 --- [USER - UI_CONTROL] 90
+00:02:23:444 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:444 --- [USER - UI_CONTROL] 127
+00:02:23:444 --- [USER - UI_CONTROL] distanceSlider:
+00:02:23:444 --- [USER - UI_CONTROL] 13
+00:02:23:444 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:444 --- [USER - UI_CONTROL] 53
+00:02:23:444 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:444 --- [USER - UI_CONTROL] 127
+00:02:23:444 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:444 --- [USER - UI_CONTROL] 90
+00:02:23:444 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:444 --- [USER - UI_CONTROL] 127
+00:02:23:444 --- [USER - UI_CONTROL] distanceSlider:
+00:02:23:444 --- [USER - UI_CONTROL] 13
+00:02:23:444 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:444 --- [USER - UI_CONTROL] 53
+00:02:23:444 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:444 --- [USER - UI_CONTROL] 127
+00:02:23:444 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:444 --- [USER - UI_CONTROL] 90
+00:02:23:444 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:444 --- [USER - UI_CONTROL] 127
+00:02:23:454 --- [USER - UI_CONTROL] distanceSlider:
+00:02:23:454 --- [USER - UI_CONTROL] 10
+00:02:23:454 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:454 --- [USER - UI_CONTROL] 33
+00:02:23:454 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:454 --- [USER - UI_CONTROL] 127
+00:02:23:454 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:454 --- [USER - UI_CONTROL] 80
+00:02:23:454 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:454 --- [USER - UI_CONTROL] 127
+00:02:23:454 --- [USER - UI_CONTROL] distanceSlider:
+00:02:23:454 --- [USER - UI_CONTROL] 10
+00:02:23:454 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:454 --- [USER - UI_CONTROL] 33
+00:02:23:454 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:454 --- [USER - UI_CONTROL] 127
+00:02:23:454 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:454 --- [USER - UI_CONTROL] 80
+00:02:23:454 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:454 --- [USER - UI_CONTROL] 127
+00:02:23:539 --- [USER - UI_CONTROL] distanceSlider:
+00:02:23:540 --- [USER - UI_CONTROL] -47
+00:02:23:540 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:540 --- [USER - UI_CONTROL] 25
+00:02:23:540 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:540 --- [USER - UI_CONTROL] 127
+00:02:23:540 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:540 --- [USER - UI_CONTROL] 77
+00:02:23:540 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:540 --- [USER - UI_CONTROL] 127
+00:02:23:561 --- [USER - UI_CONTROL] distanceSlider:
+00:02:23:561 --- [USER - UI_CONTROL] -50
+00:02:23:561 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:561 --- [USER - UI_CONTROL] 0
+00:02:23:561 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:561 --- [USER - UI_CONTROL] 8
+00:02:23:561 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:561 --- [USER - UI_CONTROL] 4
+00:02:23:561 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:561 --- [USER - UI_CONTROL] 8
+00:02:23:838 --- [USER - UI_CONTROL] distanceSlider:
+00:02:23:838 --- [USER - UI_CONTROL] 35
+00:02:23:838 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:838 --- [USER - UI_CONTROL] 0
+00:02:23:838 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:838 --- [USER - UI_CONTROL] 0
+00:02:23:838 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:838 --- [USER - UI_CONTROL] 0
+00:02:23:838 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:838 --- [USER - UI_CONTROL] 0
+00:02:23:838 --- [USER - UI_CONTROL] distanceSlider:
+00:02:23:838 --- [USER - UI_CONTROL] 35
+00:02:23:838 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:838 --- [USER - UI_CONTROL] 0
+00:02:23:838 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:838 --- [USER - UI_CONTROL] 0
+00:02:23:838 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:838 --- [USER - UI_CONTROL] 0
+00:02:23:838 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:838 --- [USER - UI_CONTROL] 0
+00:02:23:838 --- [USER - UI_CONTROL] distanceSlider:
+00:02:23:838 --- [USER - UI_CONTROL] 35
+00:02:23:838 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:838 --- [USER - UI_CONTROL] 0
+00:02:23:838 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:838 --- [USER - UI_CONTROL] 0
+00:02:23:838 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:838 --- [USER - UI_CONTROL] 0
+00:02:23:838 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:838 --- [USER - UI_CONTROL] 0
+00:02:23:849 --- [USER - UI_CONTROL] distanceSlider:
+00:02:23:849 --- [USER - UI_CONTROL] 35
+00:02:23:849 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:849 --- [USER - UI_CONTROL] 89
+00:02:23:849 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:849 --- [USER - UI_CONTROL] 127
+00:02:23:849 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:849 --- [USER - UI_CONTROL] 108
+00:02:23:849 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:849 --- [USER - UI_CONTROL] 127
+00:02:23:934 --- [USER - UI_CONTROL] distanceSlider:
+00:02:23:934 --- [USER - UI_CONTROL] 50
+00:02:23:934 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:934 --- [USER - UI_CONTROL] 89
+00:02:23:934 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:934 --- [USER - UI_CONTROL] 127
+00:02:23:934 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:934 --- [USER - UI_CONTROL] 108
+00:02:23:934 --- [USER - UI_CONTROL] Current_CC:
+00:02:23:934 --- [USER - UI_CONTROL] 127
+00:02:24:137 --- [USER - UI_CONTROL] distanceSlider:
+00:02:24:137 --- [USER - UI_CONTROL] 50
+00:02:24:137 --- [USER - UI_CONTROL] Current_CC:
+00:02:24:137 --- [USER - UI_CONTROL] 127
+00:02:24:137 --- [USER - UI_CONTROL] Current_CC:
+00:02:24:137 --- [USER - UI_CONTROL] 127
+00:02:24:137 --- [USER - UI_CONTROL] Current_CC:
+00:02:24:137 --- [USER - UI_CONTROL] 127
+00:02:24:137 --- [USER - UI_CONTROL] Current_CC:
+00:02:24:137 --- [USER - UI_CONTROL] 127
+00:02:26:547 --- [USER - UI_CONTROL] distanceSlider:
+00:02:26:547 --- [USER - UI_CONTROL] 50
+00:02:26:547 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:547 --- [USER - UI_CONTROL] 127
+00:02:26:547 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:547 --- [USER - UI_CONTROL] 127
+00:02:26:547 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:547 --- [USER - UI_CONTROL] 127
+00:02:26:547 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:547 --- [USER - UI_CONTROL] 127
+00:02:26:643 --- [USER - UI_CONTROL] distanceSlider:
+00:02:26:643 --- [USER - UI_CONTROL] 43
+00:02:26:643 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:643 --- [USER - UI_CONTROL] 127
+00:02:26:643 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:643 --- [USER - UI_CONTROL] 127
+00:02:26:643 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:643 --- [USER - UI_CONTROL] 127
+00:02:26:643 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:643 --- [USER - UI_CONTROL] 127
+00:02:26:654 --- [USER - UI_CONTROL] distanceSlider:
+00:02:26:654 --- [USER - UI_CONTROL] 43
+00:02:26:654 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:654 --- [USER - UI_CONTROL] 109
+00:02:26:654 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:654 --- [USER - UI_CONTROL] 127
+00:02:26:654 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:654 --- [USER - UI_CONTROL] 118
+00:02:26:654 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:654 --- [USER - UI_CONTROL] 127
+00:02:26:654 --- [USER - UI_CONTROL] distanceSlider:
+00:02:26:654 --- [USER - UI_CONTROL] 43
+00:02:26:654 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:654 --- [USER - UI_CONTROL] 109
+00:02:26:654 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:654 --- [USER - UI_CONTROL] 127
+00:02:26:654 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:654 --- [USER - UI_CONTROL] 118
+00:02:26:654 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:654 --- [USER - UI_CONTROL] 127
+00:02:26:761 --- [USER - UI_CONTROL] distanceSlider:
+00:02:26:761 --- [USER - UI_CONTROL] 0
+00:02:26:761 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:761 --- [USER - UI_CONTROL] 109
+00:02:26:761 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:761 --- [USER - UI_CONTROL] 127
+00:02:26:761 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:761 --- [USER - UI_CONTROL] 118
+00:02:26:761 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:761 --- [USER - UI_CONTROL] 127
+00:02:26:761 --- [USER - UI_CONTROL] distanceSlider:
+00:02:26:761 --- [USER - UI_CONTROL] 0
+00:02:26:761 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:761 --- [USER - UI_CONTROL] 109
+00:02:26:761 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:761 --- [USER - UI_CONTROL] 127
+00:02:26:761 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:761 --- [USER - UI_CONTROL] 118
+00:02:26:761 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:761 --- [USER - UI_CONTROL] 127
+00:02:26:761 --- [USER - UI_CONTROL] distanceSlider:
+00:02:26:761 --- [USER - UI_CONTROL] 0
+00:02:26:761 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:761 --- [USER - UI_CONTROL] 109
+00:02:26:761 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:761 --- [USER - UI_CONTROL] 127
+00:02:26:761 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:761 --- [USER - UI_CONTROL] 118
+00:02:26:761 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:761 --- [USER - UI_CONTROL] 127
+00:02:26:771 --- [USER - UI_CONTROL] distanceSlider:
+00:02:26:771 --- [USER - UI_CONTROL] -3
+00:02:26:771 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:771 --- [USER - UI_CONTROL] 0
+00:02:26:771 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:771 --- [USER - UI_CONTROL] 127
+00:02:26:771 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:771 --- [USER - UI_CONTROL] 64
+00:02:26:771 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:771 --- [USER - UI_CONTROL] 127
+00:02:26:782 --- [USER - UI_CONTROL] distanceSlider:
+00:02:26:782 --- [USER - UI_CONTROL] -3
+00:02:26:782 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:782 --- [USER - UI_CONTROL] 0
+00:02:26:782 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:782 --- [USER - UI_CONTROL] 119
+00:02:26:782 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:782 --- [USER - UI_CONTROL] 60
+00:02:26:782 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:782 --- [USER - UI_CONTROL] 119
+00:02:26:899 --- [USER - UI_CONTROL] distanceSlider:
+00:02:26:899 --- [USER - UI_CONTROL] -50
+00:02:26:899 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:899 --- [USER - UI_CONTROL] 0
+00:02:26:899 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:899 --- [USER - UI_CONTROL] 119
+00:02:26:900 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:900 --- [USER - UI_CONTROL] 60
+00:02:26:900 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:900 --- [USER - UI_CONTROL] 119
+00:02:26:900 --- [USER - UI_CONTROL] distanceSlider:
+00:02:26:900 --- [USER - UI_CONTROL] -50
+00:02:26:900 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:900 --- [USER - UI_CONTROL] 0
+00:02:26:900 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:900 --- [USER - UI_CONTROL] 119
+00:02:26:900 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:900 --- [USER - UI_CONTROL] 60
+00:02:26:900 --- [USER - UI_CONTROL] Current_CC:
+00:02:26:900 --- [USER - UI_CONTROL] 119
+00:02:27:251 --- [USER - UI_CONTROL] distanceSlider:
+00:02:27:251 --- [USER - UI_CONTROL] -23
+00:02:27:251 --- [USER - UI_CONTROL] Current_CC:
+00:02:27:251 --- [USER - UI_CONTROL] 0
+00:02:27:251 --- [USER - UI_CONTROL] Current_CC:
+00:02:27:251 --- [USER - UI_CONTROL] 0
+00:02:27:252 --- [USER - UI_CONTROL] Current_CC:
+00:02:27:252 --- [USER - UI_CONTROL] 0
+00:02:27:252 --- [USER - UI_CONTROL] Current_CC:
+00:02:27:252 --- [USER - UI_CONTROL] 0
+00:02:27:262 --- [USER - UI_CONTROL] distanceSlider:
+00:02:27:262 --- [USER - UI_CONTROL] -23
+00:02:27:262 --- [USER - UI_CONTROL] Current_CC:
+00:02:27:262 --- [USER - UI_CONTROL] 0
+00:02:27:262 --- [USER - UI_CONTROL] Current_CC:
+00:02:27:262 --- [USER - UI_CONTROL] 69
+00:02:27:262 --- [USER - UI_CONTROL] Current_CC:
+00:02:27:262 --- [USER - UI_CONTROL] 35
+00:02:27:262 --- [USER - UI_CONTROL] Current_CC:
+00:02:27:262 --- [USER - UI_CONTROL] 69
+00:02:27:347 --- [USER - UI_CONTROL] distanceSlider:
+00:02:27:347 --- [USER - UI_CONTROL] 50
+00:02:27:348 --- [USER - UI_CONTROL] Current_CC:
+00:02:27:348 --- [USER - UI_CONTROL] 0
+00:02:27:348 --- [USER - UI_CONTROL] Current_CC:
+00:02:27:348 --- [USER - UI_CONTROL] 69
+00:02:27:348 --- [USER - UI_CONTROL] Current_CC:
+00:02:27:348 --- [USER - UI_CONTROL] 35
+00:02:27:348 --- [USER - UI_CONTROL] Current_CC:
+00:02:27:348 --- [USER - UI_CONTROL] 69
+00:02:27:646 --- [USER - UI_CONTROL] distanceSlider:
+00:02:27:646 --- [USER - UI_CONTROL] 33
+00:02:27:646 --- [USER - UI_CONTROL] Current_CC:
+00:02:27:646 --- [USER - UI_CONTROL] 127
+00:02:27:646 --- [USER - UI_CONTROL] Current_CC:
+00:02:27:646 --- [USER - UI_CONTROL] 127
+00:02:27:646 --- [USER - UI_CONTROL] Current_CC:
+00:02:27:646 --- [USER - UI_CONTROL] 127
+00:02:27:646 --- [USER - UI_CONTROL] Current_CC:
+00:02:27:646 --- [USER - UI_CONTROL] 127
+00:02:27:742 --- [USER - UI_CONTROL] distanceSlider:
+00:02:27:742 --- [USER - UI_CONTROL] -50
+00:02:27:742 --- [USER - UI_CONTROL] Current_CC:
+00:02:27:742 --- [USER - UI_CONTROL] 84
+00:02:27:742 --- [USER - UI_CONTROL] Current_CC:
+00:02:27:742 --- [USER - UI_CONTROL] 127
+00:02:27:742 --- [USER - UI_CONTROL] Current_CC:
+00:02:27:742 --- [USER - UI_CONTROL] 106
+00:02:27:742 --- [USER - UI_CONTROL] Current_CC:
+00:02:27:742 --- [USER - UI_CONTROL] 127
+00:02:28:009 --- [USER - UI_CONTROL] distanceSlider:
+00:02:28:009 --- [USER - UI_CONTROL] -24
+00:02:28:009 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:009 --- [USER - UI_CONTROL] 0
+00:02:28:009 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:009 --- [USER - UI_CONTROL] 0
+00:02:28:009 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:009 --- [USER - UI_CONTROL] 0
+00:02:28:009 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:009 --- [USER - UI_CONTROL] 0
+00:02:28:009 --- [USER - UI_CONTROL] distanceSlider:
+00:02:28:009 --- [USER - UI_CONTROL] -24
+00:02:28:009 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:009 --- [USER - UI_CONTROL] 0
+00:02:28:009 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:009 --- [USER - UI_CONTROL] 0
+00:02:28:009 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:009 --- [USER - UI_CONTROL] 0
+00:02:28:009 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:009 --- [USER - UI_CONTROL] 0
+00:02:28:030 --- [USER - UI_CONTROL] distanceSlider:
+00:02:28:030 --- [USER - UI_CONTROL] 50
+00:02:28:030 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:030 --- [USER - UI_CONTROL] 0
+00:02:28:030 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:030 --- [USER - UI_CONTROL] 66
+00:02:28:030 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:030 --- [USER - UI_CONTROL] 33
+00:02:28:030 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:030 --- [USER - UI_CONTROL] 66
+00:02:28:030 --- [USER - UI_CONTROL] distanceSlider:
+00:02:28:030 --- [USER - UI_CONTROL] 50
+00:02:28:030 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:030 --- [USER - UI_CONTROL] 0
+00:02:28:030 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:030 --- [USER - UI_CONTROL] 66
+00:02:28:030 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:030 --- [USER - UI_CONTROL] 33
+00:02:28:030 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:030 --- [USER - UI_CONTROL] 66
+00:02:28:041 --- [USER - UI_CONTROL] distanceSlider:
+00:02:28:041 --- [USER - UI_CONTROL] 50
+00:02:28:041 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:041 --- [USER - UI_CONTROL] 127
+00:02:28:041 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:041 --- [USER - UI_CONTROL] 127
+00:02:28:041 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:041 --- [USER - UI_CONTROL] 127
+00:02:28:041 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:041 --- [USER - UI_CONTROL] 127
+00:02:28:041 --- [USER - UI_CONTROL] distanceSlider:
+00:02:28:041 --- [USER - UI_CONTROL] 50
+00:02:28:041 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:041 --- [USER - UI_CONTROL] 127
+00:02:28:041 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:041 --- [USER - UI_CONTROL] 127
+00:02:28:041 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:041 --- [USER - UI_CONTROL] 127
+00:02:28:041 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:041 --- [USER - UI_CONTROL] 127
+00:02:28:318 --- [USER - UI_CONTROL] distanceSlider:
+00:02:28:318 --- [USER - UI_CONTROL] -50
+00:02:28:318 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:318 --- [USER - UI_CONTROL] 127
+00:02:28:318 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:318 --- [USER - UI_CONTROL] 127
+00:02:28:318 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:318 --- [USER - UI_CONTROL] 127
+00:02:28:318 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:318 --- [USER - UI_CONTROL] 127
+00:02:28:318 --- [USER - UI_CONTROL] distanceSlider:
+00:02:28:318 --- [USER - UI_CONTROL] -50
+00:02:28:318 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:318 --- [USER - UI_CONTROL] 127
+00:02:28:318 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:318 --- [USER - UI_CONTROL] 127
+00:02:28:318 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:318 --- [USER - UI_CONTROL] 127
+00:02:28:318 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:318 --- [USER - UI_CONTROL] 127
+00:02:28:585 --- [USER - UI_CONTROL] distanceSlider:
+00:02:28:585 --- [USER - UI_CONTROL] 50
+00:02:28:585 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:585 --- [USER - UI_CONTROL] 0
+00:02:28:585 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:585 --- [USER - UI_CONTROL] 0
+00:02:28:585 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:585 --- [USER - UI_CONTROL] 0
+00:02:28:585 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:585 --- [USER - UI_CONTROL] 0
+00:02:28:585 --- [USER - UI_CONTROL] distanceSlider:
+00:02:28:585 --- [USER - UI_CONTROL] 50
+00:02:28:585 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:585 --- [USER - UI_CONTROL] 0
+00:02:28:585 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:585 --- [USER - UI_CONTROL] 0
+00:02:28:585 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:585 --- [USER - UI_CONTROL] 0
+00:02:28:585 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:585 --- [USER - UI_CONTROL] 0
+00:02:28:777 --- [USER - UI_CONTROL] distanceSlider:
+00:02:28:777 --- [USER - UI_CONTROL] 6
+00:02:28:777 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:777 --- [USER - UI_CONTROL] 127
+00:02:28:777 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:777 --- [USER - UI_CONTROL] 127
+00:02:28:777 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:777 --- [USER - UI_CONTROL] 127
+00:02:28:777 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:777 --- [USER - UI_CONTROL] 127
+00:02:28:787 --- [USER - UI_CONTROL] distanceSlider:
+00:02:28:787 --- [USER - UI_CONTROL] 6
+00:02:28:787 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:787 --- [USER - UI_CONTROL] 15
+00:02:28:787 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:787 --- [USER - UI_CONTROL] 127
+00:02:28:787 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:787 --- [USER - UI_CONTROL] 72
+00:02:28:787 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:787 --- [USER - UI_CONTROL] 127
+00:02:28:883 --- [USER - UI_CONTROL] distanceSlider:
+00:02:28:883 --- [USER - UI_CONTROL] -50
+00:02:28:883 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:883 --- [USER - UI_CONTROL] 15
+00:02:28:883 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:883 --- [USER - UI_CONTROL] 127
+00:02:28:883 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:883 --- [USER - UI_CONTROL] 72
+00:02:28:883 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:883 --- [USER - UI_CONTROL] 127
+00:02:28:990 --- [USER - UI_CONTROL] distanceSlider:
+00:02:28:990 --- [USER - UI_CONTROL] 50
+00:02:28:990 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:990 --- [USER - UI_CONTROL] 0
+00:02:28:990 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:990 --- [USER - UI_CONTROL] 0
+00:02:28:990 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:990 --- [USER - UI_CONTROL] 0
+00:02:28:990 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:990 --- [USER - UI_CONTROL] 0
+00:02:28:990 --- [USER - UI_CONTROL] distanceSlider:
+00:02:28:990 --- [USER - UI_CONTROL] 50
+00:02:28:990 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:990 --- [USER - UI_CONTROL] 0
+00:02:28:990 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:990 --- [USER - UI_CONTROL] 0
+00:02:28:990 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:990 --- [USER - UI_CONTROL] 0
+00:02:28:990 --- [USER - UI_CONTROL] Current_CC:
+00:02:28:990 --- [USER - UI_CONTROL] 0
+00:02:29:150 --- [USER - UI_CONTROL] distanceSlider:
+00:02:29:150 --- [USER - UI_CONTROL] -50
+00:02:29:150 --- [USER - UI_CONTROL] Current_CC:
+00:02:29:150 --- [USER - UI_CONTROL] 127
+00:02:29:150 --- [USER - UI_CONTROL] Current_CC:
+00:02:29:150 --- [USER - UI_CONTROL] 127
+00:02:29:150 --- [USER - UI_CONTROL] Current_CC:
+00:02:29:150 --- [USER - UI_CONTROL] 127
+00:02:29:150 --- [USER - UI_CONTROL] Current_CC:
+00:02:29:150 --- [USER - UI_CONTROL] 127
+00:02:29:299 --- [USER - UI_CONTROL] distanceSlider:
+00:02:29:299 --- [USER - UI_CONTROL] 50
+00:02:29:299 --- [USER - UI_CONTROL] Current_CC:
+00:02:29:299 --- [USER - UI_CONTROL] 0
+00:02:29:299 --- [USER - UI_CONTROL] Current_CC:
+00:02:29:299 --- [USER - UI_CONTROL] 0
+00:02:29:299 --- [USER - UI_CONTROL] Current_CC:
+00:02:29:299 --- [USER - UI_CONTROL] 0
+00:02:29:300 --- [USER - UI_CONTROL] Current_CC:
+00:02:29:300 --- [USER - UI_CONTROL] 0
+00:02:29:406 --- [USER - UI_CONTROL] distanceSlider:
+00:02:29:406 --- [USER - UI_CONTROL] -50
+00:02:29:406 --- [USER - UI_CONTROL] Current_CC:
+00:02:29:406 --- [USER - UI_CONTROL] 127
+00:02:29:406 --- [USER - UI_CONTROL] Current_CC:
+00:02:29:406 --- [USER - UI_CONTROL] 127
+00:02:29:406 --- [USER - UI_CONTROL] Current_CC:
+00:02:29:406 --- [USER - UI_CONTROL] 127
+00:02:29:406 --- [USER - UI_CONTROL] Current_CC:
+00:02:29:406 --- [USER - UI_CONTROL] 127
+00:02:29:406 --- [USER - UI_CONTROL] distanceSlider:
+00:02:29:406 --- [USER - UI_CONTROL] -50
+00:02:29:406 --- [USER - UI_CONTROL] Current_CC:
+00:02:29:406 --- [USER - UI_CONTROL] 127
+00:02:29:406 --- [USER - UI_CONTROL] Current_CC:
+00:02:29:406 --- [USER - UI_CONTROL] 127
+00:02:29:406 --- [USER - UI_CONTROL] Current_CC:
+00:02:29:406 --- [USER - UI_CONTROL] 127
+00:02:29:406 --- [USER - UI_CONTROL] Current_CC:
+00:02:29:406 --- [USER - UI_CONTROL] 127
+00:02:29:513 --- [USER - UI_CONTROL] distanceSlider:
+00:02:29:513 --- [USER - UI_CONTROL] -50
+00:02:29:513 --- [USER - UI_CONTROL] Current_CC:
+00:02:29:513 --- [USER - UI_CONTROL] 0
+00:02:29:513 --- [USER - UI_CONTROL] Current_CC:
+00:02:29:513 --- [USER - UI_CONTROL] 0
+00:02:29:513 --- [USER - UI_CONTROL] Current_CC:
+00:02:29:513 --- [USER - UI_CONTROL] 0
+00:02:29:513 --- [USER - UI_CONTROL] Current_CC:
+00:02:29:513 --- [USER - UI_CONTROL] 0
 
 
 
